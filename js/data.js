@@ -44,7 +44,7 @@ const APP_DATA = {
       bgColor: "#FEF08A",
       textColor: "#854D0E",
       icon: "📏",
-      badge: "Página 4",
+      badge: "Tema 1",
       description: "Medir significa comparar algo con una unidad. Conoce el metro, gramo, litro y tiempo.",
       lesson: {
         intro: "Niños, medir significa comparar algo con una unidad conocida. Cuando medimos longitudes usamos milímetros, centímetros, metros y kilómetros.",
@@ -116,7 +116,7 @@ const APP_DATA = {
       bgColor: "#BBF7D0",
       textColor: "#166534",
       icon: "➕",
-      badge: "Páginas 5-6",
+      badge: "Tema 2",
       description: "Aprende los números naturales, suma, resta, multiplicación, división y orden de operaciones.",
       lesson: {
         intro: "Los números naturales (1, 2, 3, 4...) nos sirven para contar objetos de nuestro alrededor.",
@@ -188,7 +188,7 @@ const APP_DATA = {
       bgColor: "#E9D5FF",
       textColor: "#5B21B6",
       icon: "📐",
-      badge: "Páginas 7-8",
+      badge: "Tema 3",
       description: "Descubre figuras planas, perímetro, área, ángulos rectos y figuras en 3D.",
       lesson: {
         intro: "La geometría estudia las formas de nuestro entorno: lados, esquinas (vértices) y ángulos.",
@@ -260,7 +260,7 @@ const APP_DATA = {
       bgColor: "#FECDD3",
       textColor: "#9F1239",
       icon: "📊",
-      badge: "Páginas 4 y 10",
+      badge: "Tema 4",
       description: "Aprende a comparar cantidades con razones, regla de tres, porcentajes y gráficas.",
       lesson: {
         intro: "A veces las cantidades cambian manteniendo una relación. La proporcionalidad nos permite predecir resultados.",
@@ -332,7 +332,7 @@ const APP_DATA = {
       bgColor: "#BAE6FD",
       textColor: "#075985",
       icon: "🍕",
-      badge: "Páginas 6-7",
+      badge: "Tema 5",
       description: "Descubre las partes de un todo con fracciones propias, impropias, equivalentes y números decimales.",
       lesson: {
         intro: "Las fracciones representan partes iguales de un todo (como una pizza o un pastel).",
@@ -404,7 +404,7 @@ const APP_DATA = {
       bgColor: "#FFEDD5",
       textColor: "#9A3412",
       icon: "🧩",
-      badge: "Página 5",
+      badge: "Tema 6",
       description: "El álgebra usa letras como 'x' para representar cantidades secretas que debemos descubrir.",
       lesson: {
         intro: "El álgebra es como resolver un juego de detectives usando letras para representar números desconocidos.",
