@@ -30,6 +30,7 @@ class MathApp {
     this.updateUserHeader();
     this.setupEventListeners();
     this.checkFirstVisit();
+    this.checkCookieConsent();
   }
 
   // Cargar datos de usuario guardados
@@ -54,6 +55,36 @@ class MathApp {
     const hasVisited = localStorage.getItem("matematica_basica_visited");
     if (!hasVisited) {
       this.openModal("modal-user-welcome");
+    }
+  }
+
+  // Comprobar consentimiento de almacenamiento local / cookies
+  checkCookieConsent() {
+    const accepted = localStorage.getItem("matematica_basica_cookies_accepted");
+    if (!accepted) {
+      setTimeout(() => {
+        const banner = document.getElementById("cookie-banner");
+        if (banner) banner.classList.add("show");
+      }, 700);
+    }
+  }
+
+  acceptCookies() {
+    localStorage.setItem("matematica_basica_cookies_accepted", "true");
+    const banner = document.getElementById("cookie-banner");
+    if (banner) banner.classList.remove("show");
+    this.closeModal("modal-cookies");
+    sound.playCorrect();
+  }
+
+  clearAllData() {
+    if (confirm("¿Estás seguro de que deseas borrar todos tus avances, nivel y estrellitas? Esta acción reiniciará tu progreso escolar.")) {
+      localStorage.removeItem("matematica_basica_user");
+      localStorage.removeItem("matematica_basica_visited");
+      localStorage.removeItem("matematica_basica_cookies_accepted");
+      sound.playClick();
+      alert("Tus datos han sido reiniciados correctamente.");
+      location.reload();
     }
   }
 
@@ -709,6 +740,29 @@ class MathApp {
       const statusText = document.getElementById("sound-status-text");
       if (statusText) statusText.textContent = isEnabled ? "Sonido: Activado 🔊" : "Sonido: Silenciado 🔇";
       sound.playClick();
+    });
+
+    // Pestaña y Banner de Cookies
+    document.getElementById("btn-cookie-accept")?.addEventListener("click", () => {
+      this.acceptCookies();
+    });
+
+    document.getElementById("btn-cookie-info")?.addEventListener("click", () => {
+      sound.playClick();
+      this.openModal("modal-cookies");
+    });
+
+    document.getElementById("btn-open-cookies-menu")?.addEventListener("click", () => {
+      this.closeModal("modal-menu-credits");
+      this.openModal("modal-cookies");
+    });
+
+    document.getElementById("btn-cookies-accept-modal")?.addEventListener("click", () => {
+      this.acceptCookies();
+    });
+
+    document.getElementById("btn-cookies-clear-data")?.addEventListener("click", () => {
+      this.clearAllData();
     });
   }
 
