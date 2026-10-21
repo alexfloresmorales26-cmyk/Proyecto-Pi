@@ -1,6 +1,6 @@
 # Proyecto-Pi: Matemática Básica (Primaria)
 
-Este proyecto está enfocado en el desarrollo del aprendizaje de las matemáticas básicas para niños de educación primaria, basado en el documento y diseño del **Proyecto Integrador (Equipo Isma_1)**.
+Este proyecto está enfocado en el desarrollo del aprendizaje de las matemáticas básicas para niños de educación primaria,  **Proyecto Integrador (Equipo Isma_1)**.
 
 ---
 
