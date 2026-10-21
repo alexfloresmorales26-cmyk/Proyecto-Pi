@@ -78,3 +78,12 @@ La aplicación implementa con exactitud cada bifurcación del flujo:
 7. Cesar Augusto Jimenez Ramirez
 8. Sergio Guillermo Velasco
 9. Aymar Lilibeth Damian Lira
+
+---
+
+## 📄 Licencia y Derechos de Autor
+
+Este proyecto está bajo la **Licencia MIT**. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+
+**Copyright (c) 2026 Alejandro Flores Morales**. Todos los derechos reservados.
+
