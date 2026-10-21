@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matemática Básica - Primaria | Proyecto Integrador</title>
+  <!-- Fuentes redondeadas y amigables para niños -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Quicksand:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Canvas de Confeti para celebraciones -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- ==========================================================================
+       BARRA SUPERIOR (HEADER SEGÚN DISEÑO PÁG. 10)
+       ========================================================================== -->
+  <header class="top-header">
+    <div class="header-left">
+      <!-- Menú Hamburguesa -->
+      <button class="icon-btn" id="btn-hamburger-menu" title="Menú y Créditos" aria-label="Menú">
+        ☰
+      </button>
+
+      <!-- Insignia de Nivel y Barra de Progreso -->
+      <div class="level-badge">
+        <span class="level-star">⭐</span>
+        <span id="header-level-text">Nivel 1</span>
+        <div class="level-progress-bar">
+          <div class="level-progress-fill" id="header-xp-fill" style="width: 40%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buscador en tiempo real -->
+    <div class="header-center">
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="Search" autocomplete="off" aria-label="Buscar tema">
+        <span class="search-icon">🔍</span>
+      </div>
+    </div>
+
+    <!-- Perfil del Pequeño Matemático -->
+    <div class="header-right">
+      <button class="user-profile-btn" id="header-user-btn" title="Ver mi Perfil">
+        <span class="user-profile-avatar" id="header-avatar">🦕</span>
+        <span id="header-user-name" style="max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Matemático</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       CONTENEDOR PRINCIPAL
+       ========================================================================== -->
+  <main class="main-container">
+
+    <!-- ========================================================================
+         VISTA 1: DASHBOARD PRINCIPAL (MAQUETA DE DISEÑO PÁG. 10)
+         ======================================================================== -->
+    <section class="view-section active" id="view-dashboard">
+      <!-- Título Principal -->
+      <div class="main-title-section">
+        <h1 class="main-title">MATEMATICA BASICA</h1>
+      </div>
+
+      <!-- Cuadrícula Principal (Hero a la izquierda + Temas a la derecha) -->
+      <div class="dashboard-grid">
+        
+        <!-- TARJETA HERO (IZQUIERDA) -->
+        <article class="hero-card">
+          <div class="hero-content">
+            <!-- Mascota Dinosaurio Verde en SVG con globo "3+1" -->
+            <div class="dino-mascot-container">
+              <span class="thought-bubble">3+1</span>
+              <svg class="dino-svg" viewBox="0 0 120 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Cola -->
+                <path d="M25 95 C15 90 5 80 2 65 C12 70 20 80 30 85 Z" fill="#84CC16" />
+                <!-- Crestas en la espalda -->
+                <polygon points="35,45 28,38 38,36" fill="#FACC15" />
+                <polygon points="45,35 40,26 50,26" fill="#FACC15" />
+                <polygon points="60,26 58,16 68,18" fill="#FACC15" />
+                <polygon points="76,24 76,14 85,18" fill="#FACC15" />
+                <!-- Cuerpo y Cabeza del Dinosaurio -->
+                <path d="M40 85 C30 75 35 50 45 40 C55 30 70 25 85 28 C98 30 105 40 102 52 C100 60 90 62 82 62 C78 72 75 85 68 95 C60 102 48 100 40 85 Z" fill="#84CC16" />
+                <!-- Barriguita suave -->
+                <path d="M52 58 C52 50 62 45 72 48 C78 60 76 78 68 85 C58 85 52 75 52 58 Z" fill="#BEF264" />
+                <!-- Ojo grande amigable -->
+                <circle cx="86" cy="40" r="7" fill="white" />
+                <circle cx="88" cy="40" r="3.5" fill="#1E293B" />
+                <circle cx="89" cy="38" r="1.5" fill="white" />
+                <!-- Mejilla sonrojada -->
+                <ellipse cx="78" cy="50" rx="4" ry="2.5" fill="#F87171" opacity="0.8" />
+                <!-- Sonrisa contenta -->
+                <path d="M86 52 Q92 56 96 50" stroke="#1E293B" stroke-width="2" stroke-linecap="round" fill="none" />
+                <!-- Manitas tiernas -->
+                <path d="M68 62 C74 62 78 66 76 70 C74 72 70 70 68 66 Z" fill="#65A30D" />
+                <!-- Patitas -->
+                <path d="M42 92 C42 104 38 106 35 106 C32 106 34 94 42 92 Z" fill="#65A30D" />
+                <path d="M58 92 C60 104 64 106 67 106 C70 106 66 94 58 92 Z" fill="#65A30D" />
+              </svg>
+            </div>
+
+            <!-- Textos de Bienvenida -->
+            <div class="hero-text">
+              <h2>¡Hola,<br>pequeño<br>matematico!</h2>
+              <p>Aprende, practica<br>y avanza.</p>
+            </div>
+          </div>
+
+          <!-- Acciones del Hero -->
+          <div class="hero-actions">
+            <button class="btn-primary-blue" id="btn-hero-start">
+              Comenzar a aprender
+            </button>
+            <div class="grade-badge-selector" id="dashboard-grade-btn" title="Haz clic para cambiar de grado">
+              <span id="dashboard-grade-text">Grado escolar: 1º Primaria</span>
+              <span>✏️</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- SECCIÓN DE TEMAS (DERECHA) -->
+        <article class="topics-section" id="topics-section-container">
+          <div class="section-header">
+            <span style="font-size: 1.5rem; color: #f59e0b;">⭐</span>
+            <h3>Explora las matemáticas</h3>
+          </div>
+
+          <!-- Cuadrícula dinámica de temas (Pág. 10) -->
+          <div class="topics-grid" id="topics-grid">
+            <!-- Rellenado dinámicamente por app.js -->
+          </div>
+        </article>
+      </div>
+
+      <!-- TARJETA INFERIOR: "¿SABÍAS QUE...?" (PÁG. 10) -->
+      <aside class="did-you-know-card">
+        <div class="bulb-icon">💡</div>
+        <div class="did-you-know-content">
+          <h4>¿Sabias que...?</h4>
+          <p id="fun-fact-text">La suma de los primeros 10 numeros naturales (1+2+3+...+10) es igual a 55.</p>
+        </div>
+        <button class="btn-next-fact" id="btn-next-fact" title="Ver otra curiosidad">
+          Otra curiosidad 💡
+        </button>
+      </aside>
+    </section>
+
+    <!-- ========================================================================
+         VISTA 2: LECCIÓN INTERACTIVA CON ANIMACIONES (PASO 4 DEL DIAGRAMA)
+         ======================================================================== -->
+    <section class="view-section" id="view-lesson">
+      <div class="view-card">
+        <div class="view-header">
+          <button class="btn-back" id="btn-lesson-back">
+            ⬅️ Volver a Temas
+          </button>
+          <h2 id="lesson-topic-title" style="color: var(--text-navy); font-weight: 800;">
+            Lección de Matemáticas
+          </h2>
+          <button class="btn-primary-blue" id="btn-lesson-start-quiz" style="padding: 10px 22px; font-size: 1rem;">
+            ¡Hacer Cuestionario! 🎯
+          </button>
+        </div>
+
+        <div class="lesson-intro-box" id="lesson-intro-text">
+          <!-- Introducción pedagógica del PDF -->
+        </div>
+
+        <!-- Puntos Clave de la Guía -->
+        <div class="keypoints-grid" id="lesson-keypoints">
+          <!-- Rellenado dinámicamente -->
+        </div>
+
+        <!-- Laboratorio Interactivo / Animaciones del Tema -->
+        <div class="interactive-widget-box" id="lesson-interactive-widget">
+          <!-- Widget dinámico interactivo -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         VISTA 3: RETO PRÁCTICO / CUESTIONARIO (PASO 5 DEL DIAGRAMA)
+         ======================================================================== -->
+    <section class="view-section" id="view-quiz">
+      <div class="view-card">
+        <div class="view-header">
+          <div>
+            <h3 id="quiz-topic-title" style="color: var(--text-navy); font-weight: 800;">Reto Práctico</h3>
+            <span id="quiz-progress-text" style="color: #64748b; font-weight: 700; font-size: 0.9rem;">Pregunta 1 de 4</span>
+          </div>
+          <button class="btn-secondary" id="btn-quiz-abandon" style="padding: 6px 14px; font-size: 0.9rem;">
+            Salir del reto
+          </button>
+        </div>
+
+        <!-- Barra de progreso del cuestionario -->
+        <div class="quiz-progress-bar-container">
+          <div class="quiz-progress-bar-fill" id="quiz-progress-fill"></div>
+        </div>
+
+        <!-- Pregunta Actual -->
+        <div class="question-card">
+          <span class="question-badge">Pregunta Interactiva</span>
+          <h2 class="question-title" id="question-title-text">
+            ¿Cuántos centímetros hay en 1 metro?
+          </h2>
+
+          <!-- Opciones A, B, C, D -->
+          <div class="options-grid" id="options-grid">
+            <!-- Rellenado por app.js -->
+          </div>
+
+          <!-- Caja de Retroalimentación en vivo -->
+          <div class="quiz-feedback-box" id="quiz-feedback-box"></div>
+
+          <!-- Botón de siguiente pregunta -->
+          <div style="text-align: right; margin-top: 20px;">
+            <button class="btn-primary-blue" id="quiz-next-btn" style="display: none; padding: 12px 28px;">
+              Siguiente Pregunta ➡️
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         VISTA 4: RESULTADOS Y DECISIÓN ¿APROBÓ? (PASO 7 DEL DIAGRAMA)
+         ======================================================================== -->
+    <section class="view-section" id="view-results">
+      <div class="view-card results-card">
+        <div class="results-icon" id="results-status-icon">🏆</div>
+        <h2 class="results-title" id="results-status-title">¡Evaluación Final!</h2>
+        <div class="results-score" id="results-score-percent">100%</div>
+        <p class="results-message" id="results-status-message">
+          Mensaje de evaluación
+        </p>
+
+        <!-- ACCIONES SI APROBÓ (≥ 70%): ¿Desea iniciar otro tema? -->
+        <div class="results-actions" id="results-approved-actions" style="display: none;">
+          <button class="btn-primary-blue" id="btn-another-topic">
+            ¡Sí, elegir otro tema! 🚀
+          </button>
+          <button class="btn-secondary" id="btn-results-home">
+            Volver al Inicio 🏠
+          </button>
+        </div>
+
+        <!-- ACCIONES SI NO APROBÓ (< 70%): ¿Intentar de nuevo? -->
+        <div class="results-actions" id="results-failed-actions" style="display: none;">
+          <button class="btn-primary-blue" id="btn-retry-quiz">
+            🔄 Reintentar Cuestionario
+          </button>
+          <button class="btn-secondary" id="btn-study-lesson-again">
+            📖 Repasar Lección
+          </button>
+          <button class="btn-secondary" id="btn-save-attempt-home">
+            Guardar intento y volver 🏠
+          </button>
+        </div>
+
+        <!-- SECCIÓN: MOSTRAR ERRORES Y DAR SUGERENCIAS (DIAGRAMA DE FLUJO) -->
+        <div class="errors-breakdown-section" id="errors-breakdown-section" style="display: none;">
+          <h4>💡 Sugerencias y Explicación de tus respuestas:</h4>
+          <div id="errors-list-container">
+            <!-- Rellenado por app.js con sugerencias pedagógicas -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       MODAL 1: ¿YA ERES USUARIO? / CREAR PERFIL (DIAGRAMA DE FLUJO PÁG. 9)
+       ========================================================================== -->
+  <div class="modal-overlay" id="modal-user-welcome">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="app.closeModal('modal-user-welcome')">✕</button>
+      <h3 class="modal-title">👋 ¡Bienvenido a Matemática Básica!</h3>
+      <p class="modal-subtitle">¿Ya eres usuario o estás listo para crear tu perfil de estudiante?</p>
+
+      <!-- Selección de Avatar -->
+      <div class="form-group">
+        <label>Elige tu avatar favorito:</label>
+        <div class="avatar-selection-grid">
+          <button class="avatar-choice selected" data-avatar="🦕">🦕</button>
+          <button class="avatar-choice" data-avatar="🚀">🚀</button>
+          <button class="avatar-choice" data-avatar="🦉">🦉</button>
+          <button class="avatar-choice" data-avatar="🤖">🤖</button>
+          <button class="avatar-choice" data-avatar="⭐">⭐</button>
+        </div>
+      </div>
+
+      <!-- Nombre -->
+      <div class="form-group">
+        <label for="input-student-name">Tu nombre o apodo:</label>
+        <input type="text" id="input-student-name" class="form-input" placeholder="Ej. Mateo, Sofía, Alex..." value="Pequeño Matemático">
+      </div>
+
+      <!-- Grado escolar -->
+      <div class="form-group">
+        <label for="select-student-grade">Grado escolar de Primaria:</label>
+        <select id="select-student-grade" class="form-select">
+          <option value="1º Primaria" selected>1º de Primaria</option>
+          <option value="2º Primaria">2º de Primaria</option>
+          <option value="3º Primaria">3º de Primaria</option>
+          <option value="4º Primaria">4º de Primaria</option>
+          <option value="5º Primaria">5º de Primaria</option>
+          <option value="6º Primaria">6º de Primaria</option>
+        </select>
+      </div>
+
+      <div style="display: flex; gap: 12px; margin-top: 24px;">
+        <button class="btn-primary-blue" id="btn-save-profile" style="flex: 1;">
+          ¡Guardar y Empezar! 🎒
+        </button>
+        <button class="btn-secondary" id="btn-guest-mode">
+          Modo Invitado 👤
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: PERFIL DEL ESTUDIANTE Y AVANCES
+       ========================================================================== -->
+  <div class="modal-overlay" id="modal-user-profile">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="app.closeModal('modal-user-profile')">✕</button>
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="font-size: 3.5rem;" id="profile-display-avatar">🦕</div>
+        <h3 class="modal-title" id="profile-display-name">Pequeño Matemático</h3>
+        <span class="card-status-badge" id="profile-display-grade" style="font-size: 0.9rem; background: #e0f2fe; color: #0369a1;">1º Primaria</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+        <div style="background: #f8fafc; padding: 14px; border-radius: 12px; text-align: center;">
+          <div style="font-size: 0.85rem; color: #64748b;">Nivel Actual</div>
+          <strong style="font-size: 1.3rem; color: #f59e0b;" id="profile-display-level">Nivel 1</strong>
+        </div>
+        <div style="background: #f8fafc; padding: 14px; border-radius: 12px; text-align: center;">
+          <div style="font-size: 0.85rem; color: #64748b;">Puntos de Experiencia</div>
+          <strong style="font-size: 1.3rem; color: #0284c7;" id="profile-display-xp">40 XP</strong>
+        </div>
+        <div style="background: #f8fafc; padding: 14px; border-radius: 12px; text-align: center; grid-column: 1/-1;">
+          <div style="font-size: 0.85rem; color: #64748b;">Temas Completados</div>
+          <strong style="font-size: 1.3rem; color: #10b981;" id="profile-completed-count">0 de 6</strong>
+        </div>
+      </div>
+
+      <h4 style="font-size: 1.05rem; margin-bottom: 10px; color: var(--text-navy);">Últimos Intentos de Reto:</h4>
+      <div id="profile-history-list"></div>
+
+      <div style="margin-top: 20px; text-align: center;">
+        <button class="btn-secondary" onclick="app.closeModal('modal-user-profile'); app.openModal('modal-user-welcome');">
+          ✏️ Editar Perfil o Cambiar Usuario
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: MENÚ LATERAL Y CRÉDITOS OFICIALES (PÁG. 1 DEL DOCUMENTO)
+       ========================================================================== -->
+  <div class="modal-overlay" id="modal-menu-credits">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="app.closeModal('modal-menu-credits')">✕</button>
+      <h3 class="modal-title">Proyecto Integrador</h3>
+      <p class="modal-subtitle">Equipo <strong>Isma_1</strong> - Guía de Matemáticas para Primaria</p>
+
+      <div style="margin-bottom: 18px;">
+        <button class="btn-secondary" id="btn-toggle-sound" style="width: 100%; text-align: center; margin-bottom: 12px;">
+          <span id="sound-status-text">Sonido: Activado 🔊</span>
+        </button>
+      </div>
+
+      <h4 style="font-size: 1.05rem; margin-bottom: 8px; color: var(--text-navy);">Integrantes del Proyecto:</h4>
+      <ul class="credits-list">
+        <li class="credits-item">1. Milton Rodrigo Cahuich Avilez</li>
+        <li class="credits-item">2. Karla Ivette Guendulain Cruz</li>
+        <li class="credits-item">3. Alejandro Flores Morales</li>
+        <li class="credits-item">4. Axel Haziel Aranda Espinosa</li>
+        <li class="credits-item">5. Loreley Azul Curiel Arias</li>
+        <li class="credits-item">6. Roman Hilario Pool Chable</li>
+        <li class="credits-item">7. Cesar Augusto Jimenez Ramirez</li>
+        <li class="credits-item">8. Sergio Guillermo Velasco</li>
+        <li class="credits-item">9. Aymar Lilibeth Damian Lira</li>
+      </ul>
+
+      <p style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 14px;">
+        Desarrollado para el fortalecimiento de habilidades de razonamiento lógico y cálculo en estudiantes de primaria.
+      </p>
+    </div>
+  </div>
+
+  <!-- Scripts del Sistema -->
+  <script src="js/data.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
