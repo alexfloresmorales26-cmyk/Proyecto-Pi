@@ -26,7 +26,6 @@ Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 - **Barra Superior**:
   - Menú hamburguesa (☰) con acceso a los créditos de los 9 integrantes y ajustes de sonido.
   - Insignia de estrella con **Nivel 1** y barra de experiencia dinámica.
-  - Barra de búsqueda interactiva en tiempo real (*Search 🔍*).
   - Avatar del estudiante con acceso a sus estadísticas y logros.
 - **Título**: Letras grandes y amigables **"MATEMATICA BASICA"**.
 - **Hero Card (Izquierda)**:

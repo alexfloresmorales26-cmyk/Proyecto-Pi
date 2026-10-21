@@ -624,12 +624,6 @@ class MathApp {
       this.openTopicLesson(firstUncompleted.id);
     });
 
-    // Barra de búsqueda en tiempo real
-    const searchInput = document.getElementById("search-input");
-    searchInput?.addEventListener("input", (e) => {
-      this.renderTopics(e.target.value);
-    });
-
     // Botones de lección y cuestionario
     document.getElementById("btn-lesson-back")?.addEventListener("click", () => {
       sound.playClick();
