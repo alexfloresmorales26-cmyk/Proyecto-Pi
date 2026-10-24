@@ -9,7 +9,7 @@ Este proyecto está enfocado en el desarrollo del aprendizaje de las matemática
 La aplicación está construida con tecnologías web estándar (HTML5, CSS3 y JavaScript ES6) con **cero dependencias externas**, por lo que funciona al 100% de manera local y offline.
 
 ### Opción 1: Abrir directamente (Recomendado)
-- Simplemente haz doble clic en el archivo [`index.html`](file:///c:/Users/alexf/OneDrive/Desktop/Pi/index.html) para abrirlo en tu navegador favorito (Google Chrome, Microsoft Edge, Firefox, Safari) O Desde nuestra paguina wed.
+- Simplemente haz doble clic en el archivo [`index.html`](file:///c:/Users/alexf/OneDrive/Desktop/Pi/index.html) para abrirlo en tu navegador favorito (Google Chrome, Microsoft Edge, Firefox, Safari) O Desde nuestra paguina wed https://mi-proyecto-wheat-five.vercel.app/ 
 
 ### Opción 2: Usar un servidor local con Python
 Si prefieres servirla vía HTTP:
