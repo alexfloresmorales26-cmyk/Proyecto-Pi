@@ -10,7 +10,6 @@ const APP_DATA = {
     subtitle: "Guía Interactiva de Matemáticas de Primaria",
     group: "Isma_1",
     authorList: [
-      "Milton Rodrigo Cahuich Avilez",
       "Karla Ivette Guendulain Cruz",
       "Alejandro Flores Morales",
       "Axel Haziel Aranda Espinosa",
@@ -18,7 +17,8 @@ const APP_DATA = {
       "Roman Hilario Pool Chable",
       "Cesar Augusto Jimenez Ramirez",
       "Sergio Guillermo Velasco",
-      "Aymar Lilibeth Damian Lira"
+      "Aymar Lilibeth Damian Lira",
+      "Milton Rodrigo Cahuich Avilez"
     ]
   },
 
