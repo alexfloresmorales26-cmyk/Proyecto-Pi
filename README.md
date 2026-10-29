@@ -4,7 +4,7 @@ Este proyecto está enfocado en el desarrollo del aprendizaje de las matemática
 
 ---
 
-## 🚀 ¿Cómo abrir y usar la aplicación? Con la mano 
+## 🚀 ¿Cómo abrir y usar la aplicación?
 
 La aplicación está construida con tecnologías web estándar (HTML5, CSS3 y JavaScript ES6) con **cero dependencias externas**, por lo que funciona al 100% de manera local y offline.
 
