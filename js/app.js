@@ -535,45 +535,62 @@ class MathApp {
   }
 
   // Verificar respuesta (Paso 6 del diagrama)
+  // Mecánica: si se equivoca, no avanza hasta acertar. El puntaje usa el PRIMER intento
+  // de cada pregunta (quizAnswers guarda solo el primer intento por pregunta).
   selectAnswer(selectedIdx) {
     const q = this.currentTopic.quiz[this.currentQuestionIndex];
     const isCorrect = selectedIdx === q.correctIndex;
+    const isFirstAttempt = this.quizAnswers.length === this.currentQuestionIndex;
 
-    this.quizAnswers.push({
-      question: q.question,
-      selectedText: q.options[selectedIdx],
-      correctText: q.options[q.correctIndex],
-      hint: q.hint,
-      explanation: q.explanation,
-      isCorrect: isCorrect
-    });
+    if (isFirstAttempt) {
+      this.quizAnswers.push({
+        question: q.question,
+        selectedText: q.options[selectedIdx],
+        correctText: q.options[q.correctIndex],
+        hint: q.hint,
+        explanation: q.explanation,
+        isCorrect: isCorrect
+      });
+    }
 
     const buttons = document.querySelectorAll(".option-btn");
-    buttons.forEach((b, idx) => {
-      b.disabled = true;
-      if (idx === q.correctIndex) {
-        b.classList.add("correct");
-      } else if (idx === selectedIdx && !isCorrect) {
-        b.classList.add("incorrect");
-      }
-    });
-
     const feedbackBox = document.getElementById("quiz-feedback-box");
     const nextBtn = document.getElementById("quiz-next-btn");
 
     if (isCorrect) {
       sound.playCorrect();
-      feedbackBox.className = "quiz-feedback-box correct show";
-      feedbackBox.innerHTML = `<strong>¡Excelente trabajo! 🎉</strong> ${q.explanation}`;
-    } else {
-      sound.playIncorrect();
-      feedbackBox.className = "quiz-feedback-box incorrect show";
-      feedbackBox.innerHTML = `<strong>¡Casi lo logras! 💡</strong> Pista: ${q.hint}`;
-    }
+      buttons.forEach((b, idx) => {
+        b.disabled = true;
+        if (idx === q.correctIndex) {
+          b.classList.add("correct");
+        }
+      });
 
-    nextBtn.style.display = "inline-block";
-    const isLast = this.currentQuestionIndex === this.currentTopic.quiz.length - 1;
-    nextBtn.textContent = isLast ? "Ver Resultados Finales ⭐" : "Siguiente Pregunta ➡️";
+      feedbackBox.className = "quiz-feedback-box correct show";
+      feedbackBox.innerHTML = isFirstAttempt
+        ? `<strong>¡Excelente trabajo! 🎉</strong> ${q.explanation}`
+        : `<strong>¡Ahora sí lo logras! 🎉</strong> ${q.explanation}`;
+
+      nextBtn.style.display = "inline-block";
+      const isLast = this.currentQuestionIndex === this.currentTopic.quiz.length - 1;
+      nextBtn.textContent = isLast ? "Ver Resultados Finales ⭐" : "Siguiente Pregunta ➡️";
+    } else {
+      // Respuesta incorrecta: bloquea solo esa opción y permite reintentar
+      sound.playIncorrect();
+      buttons.forEach((b, idx) => {
+        if (idx === selectedIdx) {
+          b.disabled = true;
+          b.classList.add("incorrect");
+        } else if (!b.classList.contains("incorrect")) {
+          b.disabled = false;
+        }
+      });
+
+      feedbackBox.className = "quiz-feedback-box incorrect show";
+      feedbackBox.innerHTML = `<strong>¡Casi lo logras! 💡</strong> Pista: ${q.hint}<br><em> 🔁 Elige otra respuesta para continuar: no podrás avanzar hasta acertar.</em>`;
+
+      nextBtn.style.display = "none";
+    }
   }
 
   nextQuestion() {
