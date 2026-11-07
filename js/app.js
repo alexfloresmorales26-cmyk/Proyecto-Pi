@@ -587,7 +587,13 @@ class MathApp {
       });
 
       feedbackBox.className = "quiz-feedback-box incorrect show";
-      feedbackBox.innerHTML = `<strong>¡Casi lo logras! 💡</strong> Pista: ${q.hint}<br><em> 🔁 Elige otra respuesta para continuar: no podrás avanzar hasta acertar.</em>`;
+      feedbackBox.innerHTML = `<strong>¡Casi lo logras! 💡</strong> Pista: ${q.hint}<br><em> 🔁 Elige otra respuesta para continuar: no podrás avanzar hasta acertar.</em><button class="btn-retry-question" id="btn-retry-question">🔁 Reintentar pregunta</button>`;
+
+      const retryBtn = feedbackBox.querySelector("#btn-retry-question");
+      retryBtn?.addEventListener("click", () => {
+        sound.playClick();
+        this.renderCurrentQuestion();
+      });
 
       nextBtn.style.display = "none";
     }
