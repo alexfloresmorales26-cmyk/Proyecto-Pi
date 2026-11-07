@@ -8,11 +8,7 @@ const APP_DATA = {
   projectInfo: {
     title: "Matemática Básica",
     subtitle: "Guía Interactiva de Matemáticas de Primaria",
-    group: "Isma_1",
-    authorList: [
-      "Proyecto Integrador",
-      "Isma_1"
-    ]
+    group: "Isma_1"
   },
 
   // Datos curiosos para "¿Sabías que...?"

@@ -67,9 +67,8 @@ La aplicación implementa con exactitud cada bifurcación del flujo:
 ---
 
 ## 👥 Créditos del Proyecto Integrador (Página 1)
-**Grupo: Isma_1**
-1. Proyecto Integrador
-2. Isma_1
+
+**Proyecto Integrador** — Grupo: **Isma_1**
 
 ---
 
