@@ -1,6 +1,9 @@
 /**
  * AUDIO.JS - Efectos de sonido sintetizados con Web Audio API (100% offline, sin dependencias)
  * Diseñado especialmente para juegos educativos de niños de primaria.
+ *
+ * Uso: sound.playClick() | sound.playCorrect() | sound.playIncorrect() | sound.playVictory()
+ * El interruptor de sonido vive en el modal de créditos (se guarda en localStorage).
  */
 
 class SoundEffects {

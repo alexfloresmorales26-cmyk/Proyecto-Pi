@@ -43,6 +43,7 @@ Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 - 🎁 **Recompensas por nivel**: 7 insignias desbloqueables (desde 🥉 Medalla de Bronce hasta 🌟 Superestrella Matemática) con celebración de confeti y sonido.
 - 💡 **Consejos para aprender** en el inicio y **consejos de resolución** durante cada reto.
 - ℹ️ **Info extra en los apartados de la lección**: cada tarjeta (Longitud, Peso, Fracciones, etc.) revela un dato adicional al pasar el ratón (computadora) o al tocarla (celular). El texto vive en la propiedad `extra` de cada `keyPoint` en `js/data.js`.
+- 🎓 **Modo Práctica**: botón "Practicar sin puntuar" en cada lección. Repite el reto (incluso los ya superados) sin sumar XP, sin generar historial y sin enviar nada al ranking global.
 - 📊 **Estadísticas por grado**: porcentaje de aciertos por grado escolar en el Perfil.
 - 🔊 **Efectos de sonido** generados con Web Audio API (sin archivos de audio externos).
 - 🔥 **Racha de días**: cada día que practicas suma un día a tu racha 📅 (visible en el header, en tu Perfil y en el ranking). Si dejas de venir, la racha se reinicia.

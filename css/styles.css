@@ -1371,15 +1371,29 @@ body {
   margin-bottom: 24px;
 }
 
-.question-badge {
-  display: inline-block;
-  background: #e0f2fe;
-  color: #0369a1;
-  font-weight: 800;
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
-  font-size: 0.9rem;
-  margin-bottom: 12px;
+.question-badge {
+  display: inline-block;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+/* Insignia de Modo Practica (no cuenta para el ranking) */
+.practice-badge {
+  display: inline-block;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+  font-weight: 800;
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  margin-left: 8px;
+  margin-bottom: 12px;
 }
 
 .question-title {

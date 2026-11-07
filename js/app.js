@@ -1,6 +1,21 @@
 /**
  * APP.JS - Lógica principal de "Matemática Básica"
  * Implementación estricta del Diagrama de Flujo (Pág. 9) y Diseño (Pág. 10)
+ *
+ * ============================================================================
+ *  MAPA DEL CÓDIGO (lo más importante de este archivo)
+ * ============================================================================
+ *  1. PERSISTENCIA      -> loadUserData() / saveUserData()  (localStorage)
+ *  2. NAVEGACIÓN        -> showView()  (dashboard, lección, reto, resultados)
+ *  3. RACHAS            -> quizStreak (aciertos seguidos) + dailyStreak (días)
+ *  4. MOTOR DEL RETO    -> startQuiz() -> selectAnswer() -> nextQuestion()
+ *                         * Ronda 1: al fallar, la pregunta se salta sola
+ *                         * Repaso: solo las falladas, hasta acertarlas
+ *                         * Puntaje = aciertos ronda 1 + preguntas reparadas
+ *  5. RESULTADOS        -> evaluateQuizResults()  (XP, nivel, insignias)
+ *  6. RANKING GLOBAL    -> submitScoreToRanking() / renderRanking()  (nube)
+ *  7. MODO INVITADO     -> requireProfile()  (sin perfil no se juega)
+ * ============================================================================
  */
 
 class MathApp {
@@ -32,17 +47,13 @@ class MathApp {
     this.reviewPos = 0;               // posición actual dentro del repaso
     this.fixedInReview = new Set();   // índices de preguntas acertadas en el repaso
     this.autoAdvanceTimer = null;     // temporizador del salto automático tras fallar
-
-    // Mecánica nueva: ronda 1 (si falla, salta sola) + repaso final solo de las falladas
-    this.quizPhase = "round1";        // "round1" | "review"
-    this.reviewQueue = [];            // índices de preguntas falladas en la ronda 1
-    this.reviewPos = 0;               // posición actual dentro del repaso
-    this.fixedInReview = new Set();   // índices de preguntas acertadas en el repaso
-    this.autoAdvanceTimer = null;     // temporizador del salto automático tras fallar
+    this.practiceMode = false;        // Modo Práctica: no da XP ni cuenta en el ranking
 
     this.init();
   }
 
+  // Arranque de la app: carga el perfil, dibuja la pantalla y engancha los botones
+  // OJO: el orden importa (primero los datos, despues la UI y los listeners)
   init() {
     this.loadUserData();
     this.renderTopics();
@@ -130,6 +141,7 @@ class MathApp {
     }
   }
 
+  // GUARDAR EL PERFIL (localStorage) y refrescar el header al instante
   saveUserData() {
     localStorage.setItem("matematica_basica_user", JSON.stringify(this.user));
     this.updateUserHeader();
@@ -261,6 +273,7 @@ class MathApp {
     }
   }
 
+  // Guardar la aceptacion de cookies y cerrar el modal
   acceptCookies() {
     localStorage.setItem("matematica_basica_cookies_accepted", "true");
     const banner = document.getElementById("cookie-banner");
@@ -269,6 +282,7 @@ class MathApp {
     sound.playCorrect();
   }
 
+  // BORRAR TODO (boton del modal de cookies): perfil, visitas y cookie
   clearAllData() {
     if (confirm("¿Estás seguro de que deseas borrar todos tus avances, nivel y estrellitas? Esta acción reiniciará tu progreso escolar.")) {
       localStorage.removeItem("matematica_basica_user");
@@ -357,6 +371,7 @@ class MathApp {
     }
   }
 
+  // Cambiar al siguiente dato curioso
   nextFunFact() {
     sound.playClick();
     this.currentFactIndex = (this.currentFactIndex + 1) % APP_DATA.funFacts.length;
@@ -378,12 +393,14 @@ class MathApp {
     }
   }
 
+  // Rotar el consejo del hero (con sonido opcional)
   nextHeroTip(playSound = false) {
     if (playSound) sound.playClick();
     this.currentTipIndex = (this.currentTipIndex + 1) % APP_DATA.studyTips.length;
     this.renderHeroTip();
   }
 
+  // Rotación automática de los consejos del hero cada 9 segundos
   startTipsRotation() {
     setInterval(() => this.nextHeroTip(), 9000);
   }
@@ -403,6 +420,7 @@ class MathApp {
     }
   }
 
+  // Rotar los consejos de resolución del quiz
   nextQuizTip(playSound = false) {
     if (playSound) sound.playClick();
     this.currentQuizTipIndex = (this.currentQuizTipIndex + 1) % APP_DATA.quizTips.length;
@@ -446,6 +464,7 @@ class MathApp {
     }
   }
 
+  // Mostrar la insignia desbloqueada
   openRewardModal(reward) {
     document.getElementById("reward-level-title").textContent = `¡Nivel ${reward.level} alcanzado!`;
     document.getElementById("reward-icon").textContent = reward.icon;
@@ -644,6 +663,7 @@ class MathApp {
     }
   }
 
+  // Conectar los controles del widget interactivo segun el tema (regla, pizza, figuras...)
   attachWidgetListeners(topic) {
     if (topic.id === "medicion") {
       const slider = document.getElementById("ruler-slider");
@@ -708,6 +728,7 @@ class MathApp {
     }
   }
 
+  // Widget de fracciones: cambiar la equivalencia que se muestra
   setFractionDisplay(fraction, decimal, label) {
     sound.playClick();
     const text = document.getElementById("fraction-text");
@@ -727,12 +748,17 @@ class MathApp {
   }
 
   // Iniciar Cuestionario / Reto Práctico (Paso 5 del diagrama)
-  startQuiz() {
+  // practice = true -> Modo Práctica: no da XP, no cuenta en el ranking y permite
+  // repetir retos ya superados (ideal para entrenar sin presión).
+  startQuiz(practice = false) {
     if (!this.requireProfile()) return;
     if (!this.currentTopic) return;
 
+    this.practiceMode = !!practice;
+
     // Protección adicional: un reto ya superado no se puede repetir
-    if (this.user.completedTopics.includes(this.currentTopic.id)) {
+    // (en modo práctica sí se puede, para entrenar sin límite)
+    if (!this.practiceMode && this.user.completedTopics.includes(this.currentTopic.id)) {
       alert("✅ Ya superaste este reto. ¡Elige otro tema para seguir avanzando!");
       return;
     }
@@ -760,6 +786,10 @@ class MathApp {
     this.showView("view-quiz");
     this.renderCurrentQuestion();
     this.renderQuizStreak();
+
+    // Aviso visible del Modo Práctica
+    const practiceBadge = document.getElementById("practice-badge");
+    if (practiceBadge) practiceBadge.style.display = this.practiceMode ? "inline-block" : "none";
   }
 
   // Índice real de la pregunta que se está mostrando (ronda 1 o repaso)
@@ -1023,15 +1053,18 @@ class MathApp {
     const scorePercent = total > 0 ? Math.round((correctCount / total) * 100) : 0;
     const passed = scorePercent >= 70; // Criterio de aprobación del diagrama
 
-    // Guardar en el historial (con el grado escolar vigente al momento del intento)
-    this.user.history.push({
-      topicId: this.currentTopic.id,
-      topicTitle: this.currentTopic.title,
-      score: scorePercent,
-      date: new Date().toLocaleDateString(),
-      passed: passed,
-      grade: this.user.grade
-    });
+    // MODO PRÁCTICA: no cuenta para nada (ni historial, ni XP, ni ranking)
+    if (!this.practiceMode) {
+      // Guardar en el historial (con el grado escolar vigente al momento del intento)
+      this.user.history.push({
+        topicId: this.currentTopic.id,
+        topicTitle: this.currentTopic.title,
+        score: scorePercent,
+        date: new Date().toLocaleDateString(),
+        passed: passed,
+        grade: this.user.grade
+      });
+    }
 
     const iconEl = document.getElementById("results-status-icon");
     const titleEl = document.getElementById("results-status-title");
@@ -1048,40 +1081,52 @@ class MathApp {
       sound.playVictory();
       this.launchConfetti();
       iconEl.textContent = "🏆";
-      titleEl.textContent = "¡Felicidades, Aprobaste con Éxito!";
-      msgEl.textContent = `¡Excelente esfuerzo! Has demostrado que dominas el tema de ${this.currentTopic.title}.` +
-        (reviewedFixed > 0
-          ? ` Repasaste ${reviewedFixed} ${reviewedFixed === 1 ? "pregunta" : "preguntas"} y ahora las dominas todas.`
-          : " ¡Y todo a la primera!") +
-        ` Sumaste +100 XP a tu perfil.`;
+      titleEl.textContent = this.practiceMode
+        ? "¡Entrenamiento completado! 🎓"
+        : "¡Felicidades, Aprobaste con Éxito!";
+      msgEl.textContent = this.practiceMode
+        ? `¡Buen trabajo! Repasaste el tema de ${this.currentTopic.title} (${scorePercent}%). En Modo Práctica no suman XP ni Affects al ranking: ¡entrena con libertad!`
+        : `¡Excelente esfuerzo! Has demostrado que dominas el tema de ${this.currentTopic.title}.` +
+          (reviewedFixed > 0
+            ? ` Repasaste ${reviewedFixed} ${reviewedFixed === 1 ? "pregunta" : "preguntas"} y ahora las dominas todas.`
+            : " ¡Y todo a la primera!") +
+          ` Sumaste +100 XP a tu perfil.`;
 
-      // Otorgar recompensas: XP, nivel e insignias desbloqueadas
-      const previousLevel = this.user.level;
-      this.user.xp += 100;
-      this.user.level = Math.floor(this.user.xp / 100) + 1;
-      this.checkLevelUp(previousLevel);
-      if (!this.user.completedTopics.includes(this.currentTopic.id)) {
-        this.user.completedTopics.push(this.currentTopic.id);
-      }
-      this.saveUserData();
-      this.renderTopics();
-
-      // Mostrar en pantalla a qué nivel se llego tras subir
-      const levelBanner = document.getElementById("level-up-banner");
-      if (levelBanner) {
-        if (this.user.level > previousLevel) {
-          levelBanner.textContent = `🌟 ¡Subiste al Nivel ${this.user.level}! Súmale +100 XP y mira tu insignia de nivel arriba 🔥`;
-          levelBanner.style.display = "inline-block";
-        } else {
-          levelBanner.style.display = "none";
+      // En Modo Práctica NO se otorgan XP, nivel ni insignias (solo entrenamiento)
+      if (!this.practiceMode) {
+        // Otorgar recompensas: XP, nivel e insignias desbloqueadas
+        const previousLevel = this.user.level;
+        this.user.xp += 100;
+        this.user.level = Math.floor(this.user.xp / 100) + 1;
+        this.checkLevelUp(previousLevel);
+        if (!this.user.completedTopics.includes(this.currentTopic.id)) {
+          this.user.completedTopics.push(this.currentTopic.id);
         }
+        this.saveUserData();
+        this.renderTopics();
+
+        // Mostrar en pantalla a qué nivel se llego tras subir
+        const levelBanner = document.getElementById("level-up-banner");
+        if (levelBanner) {
+          if (this.user.level > previousLevel) {
+            levelBanner.textContent = `🌟 ¡Subiste al Nivel ${this.user.level}! Súmale +100 XP y mira tu insignia de nivel arriba 🔥`;
+            levelBanner.style.display = "inline-block";
+          } else {
+            levelBanner.style.display = "none";
+          }
+        }
+
+        // Refrescar la barra de nivel del header ahora mismo
+        this.updateUserHeader();
+
+        // Publicar puntaje en el ranking global (nube), si esta configurado
+        this.submitScoreToRanking(scorePercent);
+      } else {
+        // En práctica: ocultar banner de nivel y refrescar el header sin cambios
+        const levelBanner = document.getElementById("level-up-banner");
+        if (levelBanner) levelBanner.style.display = "none";
+        this.updateUserHeader();
       }
-
-      // Refrescar la barra de nivel del header ahora mismo
-      this.updateUserHeader();
-
-      // Publicar puntaje en el ranking global (Firebase), si esta configurado
-      this.submitScoreToRanking(scorePercent);
 
       approvedActions.style.display = "flex";
       failedActions.style.display = "none";
@@ -1098,7 +1143,9 @@ class MathApp {
       sound.playIncorrect();
       iconEl.textContent = "🌱";
       titleEl.textContent = "¡Buen intento! Cada error te ayuda a aprender";
-      msgEl.textContent = `Obtuviste ${scorePercent}%. Para aprobar necesitas al menos un 70%. Te sugerimos revisar los errores y consejos didácticos a continuación antes de reintentar.`;
+      msgEl.textContent = this.practiceMode
+        ? `Obtuviste ${scorePercent}% en este entrenamiento. Repasa los errores y vuelve a intentarlo cuando quieras: en Modo Práctica no pierdes nada.`
+        : `Obtuviste ${scorePercent}%. Para aprobar necesitas al menos un 70%. Te sugerimos revisar los errores y consejos didácticos a continuación antes de reintentar.`;
 
       // Si no aprobo, no hay subida de nivel: ocultar el banner
       const levelBanner = document.getElementById("level-up-banner");
@@ -1197,6 +1244,7 @@ class MathApp {
     if (modal) modal.classList.add("active");
   }
 
+  // Cerrar un modal
   closeModal(modalId) {
     sound.playClick();
     const modal = document.getElementById(modalId);
@@ -1243,7 +1291,12 @@ class MathApp {
     });
 
     document.getElementById("btn-lesson-start-quiz")?.addEventListener("click", () => {
-      this.startQuiz();
+      this.startQuiz(false);
+    });
+
+    // Modo Práctica: mismo reto pero sin XP, sin ranking y sin bloquearse
+    document.getElementById("btn-lesson-practice")?.addEventListener("click", () => {
+      this.startQuiz(true);
     });
 
     document.getElementById("quiz-next-btn")?.addEventListener("click", () => {
@@ -1271,7 +1324,8 @@ class MathApp {
 
     document.getElementById("btn-retry-quiz")?.addEventListener("click", () => {
       sound.playClick();
-      this.startQuiz();
+      // Mantiene el modo (práctica o reto real) en el que se terminó el intento
+      this.startQuiz(this.practiceMode);
     });
 
     document.getElementById("btn-study-lesson-again")?.addEventListener("click", () => {
@@ -1407,6 +1461,7 @@ class MathApp {
     });
   }
 
+  // MODAL PERFIL: datos del niño, racha, racha de dias e ultimos intentos
   renderProfileStats() {
     document.getElementById("profile-display-avatar").textContent = this.user.avatar;
     document.getElementById("profile-display-name").textContent = this.user.name;

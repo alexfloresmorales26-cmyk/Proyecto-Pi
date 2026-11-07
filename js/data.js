@@ -1,6 +1,22 @@
 /**
  * DATA.JS - Contenido educativo basado en el documento "Proyecto Integrador Isma_1"
  * Temas: Medición, Números y operaciones, Cálculo mental, Geometría, Álgebra y Proporcionalidad.
+ *
+ * ============================================================================
+ *  MAPA DEL ARCHIVO (todo el contenido de la app vive aquí, no en el HTML)
+ * ============================================================================
+ *  topics[]           -> 6 temas, cada uno con:
+ *                        lesson.keyPoints[]  -> tarjetas de la lección
+ *                                              (title, text, formula y "extra":
+ *                                               el dato curioso del tooltip)
+ *                        lesson.intro         -> introducción de la lección
+ *                        quiz[]               -> 10 preguntas (options, correctIndex,
+ *                                               hint y explanation)
+ *  quizTips[]         -> consejos de resolución que rotan durante el reto
+ *  funFacts[]         -> datos curiosos de la pantalla de inicio
+ *  studyTips[]        -> consejos de aprendizaje del hero
+ *  levelRewards[]     -> insignias que se desbloquean al subir de nivel
+ * ============================================================================
  */
 
 const APP_DATA = {
