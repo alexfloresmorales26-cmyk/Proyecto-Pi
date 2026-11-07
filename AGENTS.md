@@ -19,7 +19,7 @@ App educativa de matemáticas para primaria. **Sitio 100% estático**: HTML + CS
 - Todo el texto de UI va en español. Los `<h2>/<h3>` del HTML omiten acentos ("matematico", "Sabias que"); los textos en `data.js` sí suelen llevar acentos — imitar el estilo del archivo editado.
 - Mensajes de commit cortos y en español. El usuario también habla español.
 - Sesión del usuario en `localStorage` (si se agregan dimensiones de almacenamiento nuevo, documentarlo y ajustar el modal de Cookies):
-  - `matematica_basica_user` (perfil: name, avatar, grade, level, xp, completedTopics, history, rewards)
+  - `matematica_basica_user` (perfil: name, avatar, grade, level, xp, guest, completedTopics, history, rewards)
   - `matematica_basica_visited`
   - `matematica_basica_cookies_accepted`
 - Recompensas por nivel: tabla `APP_DATA.levelRewards` (nivel ≥ 2, `id`, `icon`, `name`). `user.rewards` guarda los `id`; `checkLevelUp()` desbloquea y muestra `modal-level-reward`. Cargar perfiles antiguos con `rewards = []` por defecto.

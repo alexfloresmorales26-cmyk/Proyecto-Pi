@@ -11,6 +11,7 @@ class MathApp {
       grade: "1º Primaria",
       level: 1,
       xp: 40,
+      guest: false,
       completedTopics: [],
       history: [],
       rewards: []
@@ -46,6 +47,9 @@ class MathApp {
         // Compatibilidad con perfiles creados antes del sistema de recompensas
         if (this.user && !Array.isArray(this.user.rewards)) {
           this.user.rewards = [];
+        }
+        if (this.user.guest === undefined) {
+          this.user.guest = false;
         }
       } catch (e) {
         console.error("Error al cargar usuario", e);
@@ -451,8 +455,19 @@ class MathApp {
     }
   }
 
+  // Bloqueo Modo Invitado: puede ver todas las opciones, pero jugar requiere perfil
+  requireProfile() {
+    if (this.user.guest) {
+      alert("👀 Estás en Modo Invitado: puedes ver todas las opciones, pero para jugar debes crear tu perfil.");
+      this.openModal("modal-user-welcome");
+      return false;
+    }
+    return true;
+  }
+
   // Iniciar Cuestionario / Reto Práctico (Paso 5 del diagrama)
   startQuiz() {
+    if (!this.requireProfile()) return;
     if (!this.currentTopic) return;
     sound.playClick();
     this.currentQuestionIndex = 0;
@@ -827,6 +842,7 @@ class MathApp {
         this.user.grade = gradeSelect.value;
       }
       this.user.avatar = chosenAvatar;
+      this.user.guest = false;
 
       this.saveUserData();
       localStorage.setItem("matematica_basica_visited", "true");
@@ -834,14 +850,16 @@ class MathApp {
       sound.playCorrect();
     });
 
-    // Continuar como invitado
+    // Continuar como invitado (solo navegación/visualización)
     document.getElementById("btn-guest-mode")?.addEventListener("click", () => {
       this.user.name = "Invitado Curioso";
       this.user.avatar = "⭐";
+      this.user.guest = true;
       this.saveUserData();
       localStorage.setItem("matematica_basica_visited", "true");
       this.closeModal("modal-user-welcome");
       sound.playClick();
+      alert("👋 Modo Invitado activado: puedes explorar todas las opciones, pero para jugar crea tu perfil.");
     });
 
     // Toggle de sonido
