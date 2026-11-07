@@ -231,6 +231,10 @@ class MathApp {
     if (!container) return;
 
     const streak = this.quizStreak || 0;
+
+    // Numero de racha junto a la llama
+    const countEl = document.getElementById("streak-count");
+    if (countEl) countEl.textContent = streak;
     const shown = Math.min(streak, 5);
 
     let html = Array.from({ length: shown }, () => `<span class="streak-star">⭐</span>`).join("");

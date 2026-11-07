@@ -457,6 +457,16 @@ body {
   z-index: 1;
 }
 
+.streak-count {
+  display: inline-block;
+  margin-left: 2px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #9a3412;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  transform: translateY(-2px);
+}
+
 .quiz-streak-bar-track {
   flex: 1;
   height: 20px;
