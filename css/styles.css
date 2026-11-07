@@ -354,6 +354,21 @@ body {
   animation: popStar 0.4s ease;
 }
 
+/* Banner de subida de nivel en la vista de resultados */
+.level-up-banner {
+  margin: 14px auto 4px;
+  max-width: 520px;
+  background: linear-gradient(135deg, #fef9c3 0%, #fde68a 100%);
+  border: 2px solid #f59e0b;
+  color: #92400e;
+  font-weight: 800;
+  font-size: 1rem;
+  padding: 12px 20px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.3);
+  animation: popStar 0.4s ease;
+}
+
 /* Recompensas por nivel */
 .reward-display {
   margin: 14px 0;

@@ -697,6 +697,20 @@ class MathApp {
       this.saveUserData();
       this.renderTopics();
 
+      // Mostrar en pantalla a qué nivel se llego tras subir
+      const levelBanner = document.getElementById("level-up-banner");
+      if (levelBanner) {
+        if (this.user.level > previousLevel) {
+          levelBanner.textContent = `🌟 ¡Subiste al Nivel ${this.user.level}! Súmale +100 XP y mira tu insignia de nivel arriba 🔥`;
+          levelBanner.style.display = "inline-block";
+        } else {
+          levelBanner.style.display = "none";
+        }
+      }
+
+      // Refrescar la barra de nivel del header ahora mismo
+      this.updateUserHeader();
+
       approvedActions.style.display = "flex";
       failedActions.style.display = "none";
       errorsSection.style.display = "none";
@@ -706,6 +720,10 @@ class MathApp {
       iconEl.textContent = "🌱";
       titleEl.textContent = "¡Buen intento! Cada error te ayuda a aprender";
       msgEl.textContent = `Obtuviste ${scorePercent}%. Para aprobar necesitas al menos un 70%. Te sugerimos revisar los errores y consejos didácticos a continuación antes de reintentar.`;
+
+      // Si no aprobo, no hay subida de nivel: ocultar el banner
+      const levelBanner = document.getElementById("level-up-banner");
+      if (levelBanner) levelBanner.style.display = "none";
 
       this.saveUserData();
 
