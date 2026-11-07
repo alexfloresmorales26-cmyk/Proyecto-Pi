@@ -44,6 +44,18 @@ Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 - 💡 **Consejos para aprender** en el inicio y **consejos de resolución** durante cada reto.
 - 📊 **Estadísticas por grado**: porcentaje de aciertos por grado escolar en el Perfil.
 - 🔊 **Efectos de sonido** generados con Web Audio API (sin archivos de audio externos).
+- 🏆 **Ranking global de jugadores**: los puntajes se guardan en una base de datos en la nube, así que todos los usuarios quedan registrados y compiten; mira el Top 10 en el menú ☰ (ver [Ranking global](#-ranking-global)).
+
+---
+
+## 🏆 Ranking global
+
+Al aprobar cualquier reto (≥ 70%), el perfil de la/el jugador se registra automáticamente en una base de datos en la nube compartida:
+
+- **Qué se guarda**: nombre, avatar, grado escolar, nivel, puntos de experiencia (XP), mejor racha de aciertos seguidos, retos superados y el puntaje del último intento.
+- **Dónde se ve**: barra del menú ☰ → "Proyecto Integrador" → botón **🏆 Ranking Global de Jugadores** (tabla Top 10 por XP con medallas 🥇🥈🥉 y tu fila resaltada).
+- **Modo Invitado**: no juega ni registra puntajes (solo explora).
+- La conexión a la base de datos vive en `js/firebase-config.js` (`CLOUD_DB`) y la lógica de envío/lectura en la sección "RANKING GLOBAL" de `js/app.js`.
 
 ---
 
