@@ -22,6 +22,18 @@ const APP_DATA = {
     "La palabra 'Álgebra' proviene del árabe 'al-ŷabr' que significa 'reconstrucción o equilibrio'."
   ],
 
+  // Consejos para aprender (hero, rotativos)
+  studyTips: [
+    "Practica un poco todos los días: ¡10 minutos constantes valen más que una sola sesión larga!",
+    "Cuenta con objetos reales: lápices, juguetes o frutas. Tocar y ver ayuda a entender mucho mejor.",
+    "No tengas miedo de equivocarte: cada error te enseña algo nuevo. ¡Así aprenden los matemáticos!",
+    "Lee los problemas dos veces antes de responder y descubre qué te están pidiendo.",
+    "Divide los problemas grandes en pasos pequeños: ¡todo se vuelve más fácil paso a paso!",
+    "Dibuja lo que piensas: una suma o una resta también puede verse como un dibujo divertido.",
+    "Explícale a alguien lo que aprendiste: repetir en voz alta ayuda a que no se te olvide.",
+    "Descansa y juega entre retos: tu cerebro aprende mejor cuando está feliz y relajado."
+  ],
+
   // Temas del currículo oficial del documento
   topics: [
     {

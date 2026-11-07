@@ -203,6 +203,66 @@ body {
   font-size: 0.84rem;
 }
 
+/* Consejos para aprender (hero) */
+.hero-tips {
+  margin-top: 16px;
+  background: #ffffff;
+  border: 1px dashed #bfdbfe;
+  border-radius: 12px;
+  padding: 10px 14px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.hero-tips:hover {
+  background: #f0f7ff;
+  transform: translateY(-1px);
+}
+
+.hero-tips:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+.hero-tip-badge {
+  display: inline-block;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.hero-tip-text {
+  margin-top: 6px;
+  font-size: 0.92rem;
+  color: var(--text-dark);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.hero-tip-dots {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.hero-tip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: #cbd5e1;
+  transition: background 0.2s ease, width 0.2s ease;
+}
+
+.hero-tip-dot.active {
+  background: var(--primary-blue);
+  width: 16px;
+}
+
 .header-center {
   flex: 1;
   max-width: 420px;

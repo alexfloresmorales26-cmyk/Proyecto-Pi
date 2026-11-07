@@ -19,6 +19,7 @@ class MathApp {
     this.currentQuestionIndex = 0;
     this.quizAnswers = []; // { questionId, selectedIndex, isCorrect }
     this.currentFactIndex = 0;
+    this.currentTipIndex = 0;
 
     this.init();
   }
@@ -27,6 +28,8 @@ class MathApp {
     this.loadUserData();
     this.renderTopics();
     this.renderFunFact();
+    this.renderHeroTip();
+    this.startTipsRotation();
     this.updateUserHeader();
     this.setupEventListeners();
     this.checkFirstVisit();
@@ -158,6 +161,31 @@ class MathApp {
     sound.playClick();
     this.currentFactIndex = (this.currentFactIndex + 1) % APP_DATA.funFacts.length;
     this.renderFunFact();
+  }
+
+  // Consejos para aprender del hero (clic para avanzar, rotación automática)
+  renderHeroTip() {
+    const tipText = document.getElementById("hero-tip-text");
+    if (!tipText) return;
+
+    tipText.textContent = APP_DATA.studyTips[this.currentTipIndex];
+
+    const dots = document.getElementById("hero-tip-dots");
+    if (dots) {
+      dots.innerHTML = APP_DATA.studyTips.map((_, i) =>
+        `<span class="hero-tip-dot${i === this.currentTipIndex ? " active" : ""}"></span>`
+      ).join("");
+    }
+  }
+
+  nextHeroTip(playSound = false) {
+    if (playSound) sound.playClick();
+    this.currentTipIndex = (this.currentTipIndex + 1) % APP_DATA.studyTips.length;
+    this.renderHeroTip();
+  }
+
+  startTipsRotation() {
+    setInterval(() => this.nextHeroTip(), 9000);
   }
 
   // Navegar entre vistas
@@ -616,6 +644,16 @@ class MathApp {
   setupEventListeners() {
     // Botón de siguiente curiosidad
     document.getElementById("btn-next-fact")?.addEventListener("click", () => this.nextFunFact());
+
+    // Consejo del hero: clic o teclado para avanzar
+    const heroTips = document.getElementById("hero-tips");
+    heroTips?.addEventListener("click", () => this.nextHeroTip(true));
+    heroTips?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        this.nextHeroTip(true);
+      }
+    });
 
     // Botón comenzar a aprender del Hero
     document.getElementById("btn-hero-start")?.addEventListener("click", () => {
