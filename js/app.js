@@ -680,6 +680,12 @@ class MathApp {
     this.reviewQueue = [];
     this.reviewPos = 0;
     this.fixedInReview = new Set();
+    // Asegurar que el aviso de repaso esté oculto al iniciar
+    const banner = document.getElementById("review-intro-banner");
+    const card = document.getElementById("quiz-question-card");
+    if (banner) banner.style.display = "none";
+    if (card) card.style.display = "block";
+
     this.showView("view-quiz");
     this.renderCurrentQuestion();
     this.renderQuizStreak();
@@ -692,7 +698,47 @@ class MathApp {
       : this.currentQuestionIndex;
   }
 
+  // Aviso antes de entrar al repaso de errores
+  showReviewIntro() {
+    const n = this.reviewQueue.length;
+    const banner = document.getElementById("review-intro-banner");
+    const text = document.getElementById("review-intro-text");
+    const card = document.getElementById("quiz-question-card");
+    if (text) {
+      text.textContent = `Fallaste ${n} ${n === 1 ? "pregunta" : "preguntas"} en la primera ronda. Vamos a repasarlas: si las aciertas ahora, contarán para tu puntaje final. ¡Tú puedes!`;
+    }
+    if (banner) banner.style.display = "block";
+    if (card) card.style.display = "none";
+    document.getElementById("quiz-topic-title").textContent = `📝 Repaso: ${this.currentTopic.title}`;
+    document.getElementById("quiz-progress-text").textContent = `Repaso de ${n} ${n === 1 ? "pregunta" : "preguntas"}`;
+    document.getElementById("quiz-progress-fill").style.width = "0%";
+    // Conectar el botón (se clona para evitar listeners duplicados)
+    const btn = document.getElementById("btn-start-review");
+    if (btn) {
+      const fresh = btn.cloneNode(true);
+      btn.parentNode.replaceChild(fresh, btn);
+      fresh.addEventListener("click", () => {
+        sound.playClick();
+        this.beginReview();
+      });
+    }
+  }
+
+  beginReview() {
+    const banner = document.getElementById("review-intro-banner");
+    const card = document.getElementById("quiz-question-card");
+    if (banner) banner.style.display = "none";
+    if (card) card.style.display = "block";
+    this.renderCurrentQuestion();
+  }
+
   renderCurrentQuestion() {
+    // Asegurar visibilidad correcta (por si venimos del aviso de repaso)
+    const banner = document.getElementById("review-intro-banner");
+    const card = document.getElementById("quiz-question-card");
+    if (banner) banner.style.display = "none";
+    if (card) card.style.display = "block";
+
     const topic = this.currentTopic;
     const qIndex = this.currentQuizQuestionIndex();
     const q = topic.quiz[qIndex];
@@ -879,10 +925,10 @@ class MathApp {
     if (this.currentQuestionIndex < this.currentTopic.quiz.length) {
       this.renderCurrentQuestion();
     } else if (this.reviewQueue.length > 0) {
-      // Terminó la ronda 1 y hubo fallos: pasar al repaso SOLO de esas preguntas
+      // Terminó la ronda 1 y hubo fallos: mostrar aviso y pasar al repaso
       this.quizPhase = "review";
       this.reviewPos = 0;
-      this.renderCurrentQuestion();
+      this.showReviewIntro();
     } else {
       this.evaluateQuizResults();
     }
@@ -893,6 +939,11 @@ class MathApp {
   evaluateQuizResults() {
     clearTimeout(this.autoAdvanceTimer);
     this.autoAdvanceTimer = null;
+    // Ocultar aviso de repaso si estuviera visible
+    const banner = document.getElementById("review-intro-banner");
+    const card = document.getElementById("quiz-question-card");
+    if (banner) banner.style.display = "none";
+    if (card) card.style.display = "block";
 
     const total = this.quizAnswers.length;
     const round1Correct = this.quizAnswers.filter(a => a.isCorrect).length;

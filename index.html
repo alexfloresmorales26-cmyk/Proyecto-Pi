@@ -179,8 +179,16 @@
           <div class="streak-stars" id="quiz-streak-stars" role="status" aria-label="Racha de respuestas correctas"></div>
         </div>
 
+        <!-- Aviso de entrada al repaso (se muestra solo al pasar a repasar errores) -->
+        <div class="review-intro-banner" id="review-intro-banner" style="display:none;">
+          <div class="review-intro-icon">📝</div>
+          <h3 class="review-intro-title">¡Hora del repaso!</h3>
+          <p class="review-intro-text" id="review-intro-text"></p>
+          <button class="btn-primary-blue" id="btn-start-review">Comenzar repaso ➡️</button>
+        </div>
+
         <!-- Pregunta Actual -->
-        <div class="question-card">
+        <div class="question-card" id="quiz-question-card">
           <span class="question-badge">Pregunta Interactiva</span>
           <h2 class="question-title" id="question-title-text">
             ¿Cuántos centímetros hay en 1 metro?
