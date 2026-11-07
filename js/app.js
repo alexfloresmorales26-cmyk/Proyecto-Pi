@@ -23,6 +23,7 @@ class MathApp {
     this.currentFactIndex = 0;
     this.currentTipIndex = 0;
     this.currentQuizTipIndex = 0;
+    this.quizStreak = 0; // Racha de respuestas correctas seguidas
 
     this.init();
   }
@@ -218,6 +219,25 @@ class MathApp {
     if (playSound) sound.playClick();
     this.currentQuizTipIndex = (this.currentQuizTipIndex + 1) % APP_DATA.quizTips.length;
     this.renderQuizTips();
+  }
+
+  // Estrellas de racha: una por cada respuesta correcta seguida (se rompe al fallar)
+  renderQuizStreak() {
+    const container = document.getElementById("quiz-streak-stars");
+    if (!container) return;
+
+    const streak = this.quizStreak || 0;
+    const shown = Math.min(streak, 5);
+
+    let html = Array.from({ length: shown }, () => `<span class="streak-star">⭐</span>`).join("");
+    if (streak > 5) {
+      html += `<span class="streak-star streak-star-more">+${streak - 5}</span>`;
+    }
+    container.innerHTML = html;
+
+    container.title = streak > 0
+      ? `Racha: ${streak} respuestas correctas seguidas`
+      : "Racha de respuestas correctas";
   }
 
   // Recompensas al subir de nivel: desbloquear insignias y celebrar
@@ -495,8 +515,10 @@ class MathApp {
     sound.playClick();
     this.currentQuestionIndex = 0;
     this.quizAnswers = [];
+    this.quizStreak = 0;
     this.showView("view-quiz");
     this.renderCurrentQuestion();
+    this.renderQuizStreak();
   }
 
   renderCurrentQuestion() {
@@ -559,6 +581,8 @@ class MathApp {
 
     if (isCorrect) {
       sound.playCorrect();
+      this.quizStreak++;
+      this.renderQuizStreak();
       buttons.forEach((b, idx) => {
         b.disabled = true;
         if (idx === q.correctIndex) {
@@ -577,6 +601,8 @@ class MathApp {
     } else {
       // Respuesta incorrecta: bloquea solo esa opción y permite reintentar
       sound.playIncorrect();
+      this.quizStreak = 0; // La racha se rompe con cualquier error
+      this.renderQuizStreak();
       buttons.forEach((b, idx) => {
         if (idx === selectedIdx) {
           b.disabled = true;

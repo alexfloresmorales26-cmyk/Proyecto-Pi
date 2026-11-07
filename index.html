@@ -171,9 +171,13 @@
           </button>
         </div>
 
-        <!-- Barra de progreso del cuestionario -->
-        <div class="quiz-progress-bar-container">
-          <div class="quiz-progress-bar-fill" id="quiz-progress-fill"></div>
+        <!-- Barra de progreso estilo racha (llama + relleno naranja + estrellas de racha) -->
+        <div class="quiz-streak-bar-container">
+          <span class="streak-flame" title="Progreso del reto">🔥</span>
+          <div class="quiz-streak-bar-track">
+            <div class="quiz-progress-bar-fill" id="quiz-progress-fill"></div>
+          </div>
+          <div class="streak-stars" id="quiz-streak-stars" role="status" aria-label="Racha de respuestas correctas"></div>
         </div>
 
         <!-- Pregunta Actual -->
