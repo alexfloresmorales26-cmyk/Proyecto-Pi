@@ -304,18 +304,29 @@ body {
 }
 
 /* Boton de reintentar pregunta (feedback incorrecto del quiz) */
+.quiz-feedback-box {
+  position: relative;
+}
+
+.quiz-feedback-box::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .btn-retry-question {
-  display: inline-block;
-  margin-top: 10px;
+  float: right;
+  clear: both;
   background: #ffffff;
   border: 2px solid #ef4444;
   color: #b91c1c;
   font-weight: 700;
-  font-size: 0.85rem;
-  padding: 7px 16px;
+  font-size: 1rem;
+  padding: 10px 24px;
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: background 0.2s ease, transform 0.15s ease;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);
 }
 
 .btn-retry-question:hover {
