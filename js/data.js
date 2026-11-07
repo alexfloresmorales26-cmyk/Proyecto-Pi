@@ -10,15 +10,8 @@ const APP_DATA = {
     subtitle: "Guía Interactiva de Matemáticas de Primaria",
     group: "Isma_1",
     authorList: [
-      "Karla Ivette Guendulain Cruz",
-      "Alejandro Flores Morales",
-      "Axel Haziel Aranda Espinosa",
-      "Loreley Azul Curiel Arias",
-      "Roman Hilario Pool Chable",
-      "Cesar Augusto Jimenez Ramirez",
-      "Sergio Guillermo Velasco",
-      "Aymar Lilibeth Damian Lira",
-      "Milton Rodrigo Cahuich Avilez"
+      "Proyecto Integrador",
+      "Isma_1"
     ]
   },
 

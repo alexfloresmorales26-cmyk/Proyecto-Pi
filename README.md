@@ -68,15 +68,8 @@ La aplicación implementa con exactitud cada bifurcación del flujo:
 
 ## 👥 Créditos del Proyecto Integrador (Página 1)
 **Grupo: Isma_1**
-1. Milton Rodrigo Cahuich Avilez
-2. Karla Ivette Guendulain Cruz
-3. Alejandro Flores Morales
-4. Axel Haziel Aranda Espinosa
-5. Loreley Azul Curiel Arias
-6. Roman Hilario Pool Chable
-7. Cesar Augusto Jimenez Ramirez
-8. Sergio Guillermo Velasco
-9. Aymar Lilibeth Damian Lira
+1. Proyecto Integrador
+2. Isma_1
 
 ---
 
@@ -84,5 +77,5 @@ La aplicación implementa con exactitud cada bifurcación del flujo:
 
 Este proyecto está bajo la **Licencia MIT**. Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
-**Copyright (c) 2026 Alejandro Flores Morales**. Todos los derechos reservados.
+**Copyright (c) 2026 Proyecto Integrador**. Todos los derechos reservados.
 
