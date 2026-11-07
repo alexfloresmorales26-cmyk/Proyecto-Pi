@@ -12,6 +12,7 @@ class MathApp {
       level: 1,
       xp: 40,
       guest: false,
+      bestStreak: 0,
       completedTopics: [],
       history: [],
       rewards: []
@@ -53,6 +54,9 @@ class MathApp {
         }
         if (this.user.guest === undefined) {
           this.user.guest = false;
+        }
+        if (this.user.bestStreak === undefined) {
+          this.user.bestStreak = 0;
         }
       } catch (e) {
         console.error("Error al cargar usuario", e);
@@ -590,10 +594,20 @@ class MathApp {
         }
       });
 
+      // Guardar la mejor racha historicamente en el perfil
+      const isNewRecord = this.quizStreak > (this.user.bestStreak || 0);
+      if (isNewRecord) {
+        this.user.bestStreak = this.quizStreak;
+        this.saveUserData();
+      }
+
       feedbackBox.className = "quiz-feedback-box correct show";
       feedbackBox.innerHTML = isFirstAttempt
         ? `<strong>¡Excelente trabajo! 🎉</strong> ${q.explanation}`
         : `<strong>¡Ahora sí lo logras! 🎉</strong> ${q.explanation}`;
+      if (isNewRecord) {
+        feedbackBox.insertAdjacentHTML("beforeend", `<div class="streak-record-note">🔥 ¡Nuevo récord de racha: ${this.quizStreak} aciertos seguidos!</div>`);
+      }
 
       nextBtn.style.display = "inline-block";
       const isLast = this.currentQuestionIndex === this.currentTopic.quiz.length - 1;
@@ -883,6 +897,7 @@ class MathApp {
       document.getElementById("level-stats-title").textContent = `Nivel ${this.user.level}`;
       document.getElementById("level-stats-xp").textContent = `${this.user.xp} XP`;
       document.getElementById("level-stats-topics").textContent = `${this.user.completedTopics.length} de ${APP_DATA.topics.length}`;
+      document.getElementById("level-stats-streak").textContent = `${this.user.bestStreak || 0} aciertos`;
       this.renderGradeStats("level-grade-stats");
       this.renderRewards();
       this.openModal("modal-level-stats");
@@ -983,6 +998,7 @@ class MathApp {
     document.getElementById("profile-display-level").textContent = `Nivel ${this.user.level}`;
     document.getElementById("profile-display-xp").textContent = `${this.user.xp} XP`;
     document.getElementById("profile-completed-count").textContent = `${this.user.completedTopics.length} de ${APP_DATA.topics.length}`;
+    document.getElementById("profile-best-streak").textContent = `${this.user.bestStreak || 0} aciertos`;
 
     const historyContainer = document.getElementById("profile-history-list");
     if (historyContainer) {

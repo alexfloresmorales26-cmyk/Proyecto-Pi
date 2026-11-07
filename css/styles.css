@@ -338,6 +338,19 @@ body {
   transform: scale(0.97);
 }
 
+/* Aviso de nuevo record de racha dentro del feedback correcto */
+.streak-record-note {
+  margin-top: 8px;
+  background: #fff7ed;
+  border: 2px dashed #fb923c;
+  color: #c2410c;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  animation: popStar 0.4s ease;
+}
+
 /* Recompensas por nivel */
 .reward-display {
   margin: 14px 0;

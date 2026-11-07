@@ -26,6 +26,7 @@ App educativa de matemáticas para primaria. **Sitio 100% estático**: HTML + CS
 - Historial de cuestionarios (`user.history[]`): guardar también `grade` del usuario en el momento del intento. Los intentos previos a esta convención no lo traen.
 - Reglas de barra de progreso: aprobar un cuestionario requiere **>= 70%** y otorga **+100 XP**; nivel = `floor(xp / 100) + 1`. Los retos tienen **10 preguntas por tema** (7 aciertos aprueban); el motor usa `topic.quiz.length`, así que agregar/editar preguntas solo cambia `js/data.js`. Consejos de resolución del quiz: array `quizTips` en `data.js`, renderizados en `#quiz-tips` (misma mecánica de los tips del hero).
 - Mecánica de reintento en el quiz: si el niño falla, esa opción queda bloqueada (roja) y NO avanza hasta acertar. El puntaje se calcula solo con el **primer intento** de cada pregunta (`quizAnswers` guarda un registro por pregunta, el primero).
+- Mejor racha: `user.bestStreak` (aciertos seguidos, se rompe al fallar) se guarda en `localStorage` en cuanto se rompe el récord; se muestra en el modal de Perfil y de Nivel (`profile-best-streak`, `level-stats-streak`).
 
 ## Despliegue (Git + Vercel)
 
