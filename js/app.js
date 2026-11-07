@@ -111,13 +111,11 @@ class MathApp {
   updateUserHeader() {
     const avatarEl = document.getElementById("header-avatar");
     const nameEl = document.getElementById("header-user-name");
-    const levelEl = document.getElementById("header-level-text");
     const xpFillEl = document.getElementById("header-xp-fill");
     const gradeBadge = document.getElementById("dashboard-grade-text");
 
     if (avatarEl) avatarEl.textContent = this.user.avatar;
     if (nameEl) nameEl.textContent = this.user.name;
-    if (levelEl) levelEl.textContent = this.user.level;
     if (xpFillEl) xpFillEl.style.width = `${Math.min(100, (this.user.xp % 100))}%`;
     if (gradeBadge) gradeBadge.textContent = `Grado escolar: ${this.user.grade}`;
   }

@@ -32,7 +32,9 @@ App educativa de matemáticas para primaria. **Sitio 100% estático**: HTML + CS
 
 - Remoto: `https://github.com/alexfloresmorales26-cmyk/Proyecto-Pi.git`, rama `main`.
 - **Cada push a `main` despliega automáticamente en Vercel** (proyecto "prende-jugando", cuenta `alejandro-0456`). Considerar los pushes como despliegues.
-- URL en vivo que usa el usuario: `https://mi-proyecto-wheat-five.vercel.app/` (ojo: `prende-jugando.vercel.app` da 404).
+- URL en vivo que usa el usuario: `https://mi-proyecto-wheat-five.vercel.app/` (el dominio `aprende-jugando.vercel.app` y el de dashboard dan 404 para el público).
+- Proyecto Vercel: **`aprende-jugando`** (equipo `alejandro-0456`); los despliegues traen "Deployment Protection" habilitado, así que las URLs de deployment directo exigen SSO.
+- ⚠️ Desdoblamiento en caliente observado (2026-11-07): ocasionalmente el dominio en vivo queda anclado a un despliegue anterior aunque el push a `main` complete; si tras ~10 min no refleja un cambio, pedir al usuario "Promote to Production" en `https://vercel.com/alejandro-0456/aprende-jugando/deployments` — no hay forma de arreglarlo desde el código.
 - `gh` CLI está en `~/.local/bin/gh` y autenticado como `alexfloresmorales26-cmyk`; el push HTTPS ya usa esas credenciales.
 - Verificar un despliegue así (esperar ~45s tras el push):
   1. `gh api repos/alexfloresmorales26-cmyk/Proyecto-Pi/commits/<sha>/status --jq '.state'`
