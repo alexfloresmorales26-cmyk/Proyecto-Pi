@@ -24,7 +24,7 @@ App educativa de matemáticas para primaria. **Sitio 100% estático**: HTML + CS
   - `matematica_basica_cookies_accepted`
 - Recompensas por nivel: tabla `APP_DATA.levelRewards` (nivel ≥ 2, `id`, `icon`, `name`). `user.rewards` guarda los `id`; `checkLevelUp()` desbloquea y muestra `modal-level-reward`. Cargar perfiles antiguos con `rewards = []` por defecto.
 - Historial de cuestionarios (`user.history[]`): guardar también `grade` del usuario en el momento del intento. Los intentos previos a esta convención no lo traen.
-- Reglas de barra de progreso: aprobar un cuestionario requiere **>= 70%** y otorga **+100 XP**; nivel = `floor(xp / 100) + 1`.
+- Reglas de barra de progreso: aprobar un cuestionario requiere **>= 70%** y otorga **+100 XP**; nivel = `floor(xp / 100) + 1`. Los retos tienen **10 preguntas por tema** (7 aciertos aprueban); el motor usa `topic.quiz.length`, así que agregar/editar preguntas solo cambia `js/data.js`. Consejos de resolución del quiz: array `quizTips` en `data.js`, renderizados en `#quiz-tips` (misma mecánica de los tips del hero).
 
 ## Despliegue (Git + Vercel)
 
