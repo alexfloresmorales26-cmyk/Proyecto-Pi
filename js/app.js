@@ -683,6 +683,22 @@ class MathApp {
       this.openModal("modal-user-profile");
     });
 
+    // Barra de Nivel (header) -> Estadísticas de conocimiento por grado
+    const openLevelStats = () => {
+      document.getElementById("level-stats-title").textContent = `Nivel ${this.user.level}`;
+      document.getElementById("level-stats-xp").textContent = `${this.user.xp} XP`;
+      document.getElementById("level-stats-topics").textContent = `${this.user.completedTopics.length} de ${APP_DATA.topics.length}`;
+      this.renderGradeStats("level-grade-stats");
+      this.openModal("modal-level-stats");
+    };
+    document.getElementById("level-badge")?.addEventListener("click", openLevelStats);
+    document.getElementById("level-badge")?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openLevelStats();
+      }
+    });
+
     // Selector de grado escolar
     document.getElementById("dashboard-grade-btn")?.addEventListener("click", () => {
       this.openModal("modal-user-welcome");
@@ -787,8 +803,9 @@ class MathApp {
   }
 
   // Estadísticas de conocimiento: promedio de aciertos por grado escolar
-  renderGradeStats() {
-    const container = document.getElementById("profile-grade-stats");
+  // containerId permite renderizar en el modal de Perfil o en el de Nivel
+  renderGradeStats(containerId = "profile-grade-stats") {
+    const container = document.getElementById(containerId);
     if (!container) return;
 
     const grades = ["1º Primaria", "2º Primaria", "3º Primaria", "4º Primaria", "5º Primaria", "6º Primaria"];

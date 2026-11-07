@@ -26,7 +26,7 @@
       </button>
 
       <!-- Insignia de Nivel y Barra de Progreso -->
-      <div class="level-badge">
+      <div class="level-badge" id="level-badge" title="Ver estadísticas de conocimiento" role="button" tabindex="0">
         <span class="level-star">⭐</span>
         <span id="header-level-text">Nivel 1</span>
         <div class="level-progress-bar">
@@ -330,6 +330,38 @@
           ✏️ Editar Perfil o Cambiar Usuario
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: ESTADÍSTICAS DE CONOCIMIENTO POR GRADO (acceso desde barra de Nivel)
+       ========================================================================== -->
+  <div class="modal-overlay" id="modal-level-stats">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="app.closeModal('modal-level-stats')">✕</button>
+      <div style="text-align: center; margin-bottom: 6px;">
+        <div style="font-size: 2.6rem;">⭐</div>
+        <h3 class="modal-title" id="level-stats-title">Nivel 1</h3>
+        <p class="modal-subtitle">Estadísticas de Conocimiento por Grado</p>
+      </div>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center;">
+        <div>
+          <div style="font-size: 0.8rem; color: #64748b;">Puntos de Experiencia</div>
+          <strong style="font-size: 1.15rem; color: #0284c7;" id="level-stats-xp">40 XP</strong>
+        </div>
+        <div>
+          <div style="font-size: 0.8rem; color: #64748b;">Temas Completados</div>
+          <strong style="font-size: 1.15rem; color: #10b981;" id="level-stats-topics">0 de 6</strong>
+        </div>
+      </div>
+
+      <h4 style="font-size: 1.05rem; margin-bottom: 10px; color: var(--text-navy);">📊 Conocimiento por Grado:</h4>
+      <div id="level-grade-stats"></div>
+
+      <p style="font-size: 0.8rem; color: #94a3b8; text-align: center; margin-top: 12px;">
+        Promedio de aciertos de tus cuestionarios en cada grado escolar.
+      </p>
     </div>
   </div>
 
