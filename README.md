@@ -6,19 +6,6 @@ Este proyecto está enfocado en el desarrollo del aprendizaje de las matemática
 
 ---
 
-## 📋 Índice
-
-1. [¿Cómo abrir y usar la aplicación?](#-cómo-abrir-y-usar-la-aplicación)
-2. [Características principales](#-características-principales)
-3. [Temas de estudio](#-temas-de-estudio)
-4. [Diseño de interfaz](#-diseño-de-interfaz-página-10-del-documento)
-5. [Diagrama de flujo del juego](#-diagrama-de-flujo-página-9-del-documento)
-6. [Estructura del proyecto](#-estructura-del-proyecto)
-7. [Créditos](#-créditos)
-8. [Licencia](#-licencia-y-derechos-de-autor)
-
----
-
 ## 🚀 ¿Cómo abrir y usar la aplicación?
 
 La aplicación está construida con tecnologías web estándar (HTML5, CSS3 y JavaScript ES6) con **cero dependencias externas**, por lo que funciona al 100% de manera local y offline.
