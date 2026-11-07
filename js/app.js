@@ -428,15 +428,26 @@ class MathApp {
     if (lessonTitle) lessonTitle.textContent = `${topic.icon} ${topic.title}`;
     if (lessonIntro) lessonIntro.textContent = topic.lesson.intro;
 
-    // Renderizar puntos clave
+    // Renderizar puntos clave (cada tarjeta revela un dato extra al hover o al tocar)
     if (keypointsContainer) {
       keypointsContainer.innerHTML = topic.lesson.keyPoints.map(kp => `
-        <div class="keypoint-item">
-          <h5>${kp.title}</h5>
+        <div class="keypoint-item" tabindex="0" role="button" aria-label="Toca o pasa el ratón para más información">
+          <h5>${kp.title}<span class="keypoint-info-badge">ℹ️ <span class="keypoint-info-label">info</span></span></h5>
           <p>${kp.text}</p>
           <div class="keypoint-formula">${kp.formula}</div>
+          <div class="keypoint-tip"><span class="keypoint-tip-icon">💡</span>${kp.extra || ""}</div>
         </div>
       `).join("");
+      // Escucha táctil/clic: en celular no hay hover, así que un toque alterna la info extra
+      keypointsContainer.querySelectorAll(".keypoint-item").forEach(card => {
+        card.addEventListener("click", e => {
+          e.stopPropagation();
+          const wasOpen = card.classList.contains("open");
+          keypointsContainer.querySelectorAll(".keypoint-item.open").forEach(c => c.classList.remove("open"));
+          if (!wasOpen) card.classList.add("open");
+          sound.playClick();
+        });
+      });
     }
 
     // Renderizar widget interactivo dinámico según el tema

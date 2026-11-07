@@ -42,6 +42,7 @@ Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 - 🏅 **Mejor racha guardada**: tu récord histórico de aciertos seguidos, visible en el Perfil y en el modal de Nivel.
 - 🎁 **Recompensas por nivel**: 7 insignias desbloqueables (desde 🥉 Medalla de Bronce hasta 🌟 Superestrella Matemática) con celebración de confeti y sonido.
 - 💡 **Consejos para aprender** en el inicio y **consejos de resolución** durante cada reto.
+- ℹ️ **Info extra en los apartados de la lección**: cada tarjeta (Longitud, Peso, Fracciones, etc.) revela un dato adicional al pasar el ratón (computadora) o al tocarla (celular). El texto vive en la propiedad `extra` de cada `keyPoint` en `js/data.js`.
 - 📊 **Estadísticas por grado**: porcentaje de aciertos por grado escolar en el Perfil.
 - 🔊 **Efectos de sonido** generados con Web Audio API (sin archivos de audio externos).
 - 🏆 **Ranking global de jugadores**: los puntajes se guardan en una base de datos en la nube, así que todos los usuarios quedan registrados y compiten; mira el Top 10 en el menú ☰ (ver [Ranking global](#-ranking-global)).

@@ -1127,15 +1127,80 @@ body {
   line-height: 1.4;
 }
 
-.keypoint-formula {
-  background: #ffffff;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-weight: 800;
-  color: #0369a1;
-  font-size: 0.88rem;
-  border: 1px dashed #7dd3fc;
-  display: inline-block;
+.keypoint-formula {
+  background: #ffffff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 800;
+  color: #0369a1;
+  font-size: 0.88rem;
+  border: 1px dashed #7dd3fc;
+  display: inline-block;
+}
+
+/* -----------------------------------------------------------------------
+   INFO EXTRA DE LOS APARTADOS (tooltips de lección)
+   En computadora: aparece al pasar el ratón. En celular: al tocar la
+   tarjeta se alterna la clase "open" (ver render de lesson en app.js).
+   ----------------------------------------------------------------------- */
+.keypoint-item {
+  cursor: help;
+  position: relative;
+}
+
+.keypoint-info-badge {
+  float: right;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #0284c7;
+  background: #e0f2fe;
+  border: 1px solid #bae6fd;
+  border-radius: 999px;
+  padding: 2px 8px;
+  transition: all 0.2s ease;
+}
+
+.keypoint-item:hover .keypoint-info-badge,
+.keypoint-item.open .keypoint-info-badge,
+.keypoint-item:focus .keypoint-info-badge {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+}
+
+.keypoint-tip {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-4px);
+  transition: max-height 0.25s ease, opacity 0.25s ease, transform 0.25s ease, margin 0.25s ease;
+  margin: 0;
+  background: #fefce8;
+  border: 1px solid #fde047;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #713f12;
+  text-align: left;
+}
+
+.keypoint-item:hover .keypoint-tip,
+.keypoint-item.open .keypoint-tip,
+.keypoint-item:focus .keypoint-tip {
+  max-height: 220px;
+  opacity: 1;
+  transform: translateY(0);
+  margin-top: 10px;
+  padding: 9px 12px;
+}
+
+.keypoint-tip-icon {
+  margin-right: 6px;
 }
 
 /* WIDGETS INTERACTIVOS DE LECCIÓN */

@@ -76,22 +76,26 @@ const APP_DATA = {
           {
             title: "📏 Longitud (Distancia)",
             text: "Los objetos pequeños se miden en centímetros (cm) y las distancias largas en kilómetros (km).",
-            formula: "1 metro (m) = 100 centímetros (cm) | 1 kilómetro (km) = 1,000 metros (m)"
+            formula: "1 metro (m) = 100 centímetros (cm) | 1 kilómetro (km) = 1,000 metros (m)",
+            extra: "La regla de tu cuaderno mide 30 cm y un pasillo de la escuela mide unos 10 metros. ¡Los milímetros (mm) son tan pequeños que 10 caben en 1 solo centímetro!"
           },
           {
             title: "⚖️ Peso (Masa)",
             text: "Para objetos ligeros usamos gramos (g) y para objetos pesados usamos kilogramos (kg).",
-            formula: "1 kilogramo (kg) = 1,000 gramos (g)"
+            formula: "1 kilogramo (kg) = 1,000 gramos (g)",
+            extra: "Una manzana pesa unos 200 gramos, así que 5 manzanas juntas pesan casi 1 kilo. ¡Y 1,000 gramos es lo mismo que llenar la balanza con 1,000 semillitas de igual peso!"
           },
           {
             title: "🥛 Capacidad (Líquidos)",
             text: "Para medir líquidos usamos mililitros (mL) y litros (L).",
-            formula: "1 litro (L) = 1,000 mililitros (mL)"
+            formula: "1 litro (L) = 1,000 mililitros (mL)",
+            extra: "Una cucharada tiene unos 5 mL y una botella de refresco suele traer 2 L. Si llenas una taza de 250 mL cuatro veces, ¡tienes un litro entero!"
           },
           {
             title: "⏱️ Tiempo",
             text: "Medimos el tiempo en segundos, minutos y horas.",
-            formula: "1 hora = 60 minutos | 1 minuto = 60 segundos"
+            formula: "1 hora = 60 minutos | 1 minuto = 60 segundos",
+            extra: "Un parpadeo dura cerca de 1 segundo; lavarte las manos, 1 minuto; y una película, unas 2 horas. ¡Un día completo tiene 24 horas!"
           }
         ],
         interactiveType: "measurement-tool"
@@ -196,22 +200,26 @@ const APP_DATA = {
           {
             title: "🔢 Conteo y Comparación",
             text: "Comparamos números usando los símbolos: > (mayor que), < (menor que) e = (igual). Ejemplo: 8 > 5.",
-            formula: "8 > 5 (Ocho es mayor que cinco)"
+            formula: "8 > 5 (Ocho es mayor que cinco)",
+            extra: "Truco del cocodrilo 🐊: siempre abre la boca hacia el número más grande. Así, 12 < 20 porque el cocodrilo prefiere comer 20."
           },
           {
             title: "➕ Suma y Resta",
             text: "La suma junta cantidades. La resta quita o halla la diferencia entre cantidades.",
-            formula: "8 + 5 = 13  |  13 - 5 = 8"
+            formula: "8 + 5 = 13  |  13 - 5 = 8",
+            extra: "Al sumar, el orden no importa: 5 + 3 es igual que 3 + 5. ¡Pero en la resta sí importa el orden, porque 5 - 3 y 3 - 5 dan resultados distintos!"
           },
           {
             title: "✖️ Multiplicación y División",
             text: "Multiplicar es sumar varias veces el mismo número. Dividir es repartir en partes iguales.",
-            formula: "4 × 3 = 12 (tres veces cuatro) | 12 ÷ 3 = 4"
+            formula: "4 × 3 = 12 (tres veces cuatro) | 12 ÷ 3 = 4",
+            extra: "Multiplicar es sumar en grupos: 3 × 4 son tres grupos de 4 cositas. División es lo contrario: repartir 12 entre 3 amigos y a cada uno le tocan 4."
           },
           {
             title: "🧠 Jerarquía de Operaciones",
             text: "En operaciones combinadas, el orden es: 1º Paréntesis, 2º Multiplicaciones y Divisiones, 3º Sumas y Restas.",
-            formula: "Ejemplo: 2 + (3 × 4) = 2 + 12 = 14"
+            formula: "Ejemplo: 2 + (3 × 4) = 2 + 12 = 14",
+            extra: "Memoriza la regla PEMA: Paréntesis primero, Exponentes (potencias), Multiplicación y División, y al final Adición (suma) y Sustracción (resta)."
           }
         ],
         interactiveType: "operations-tool"
@@ -316,22 +324,26 @@ const APP_DATA = {
           {
             title: "🟩 Figuras Geométricas Básicas",
             text: "Cuadrado (4 lados iguales), Rectángulo (lados opuestos iguales), Triángulo (3 lados) y Círculo (curva sin esquinas).",
-            formula: "Cuadrado = 4 lados | Triángulo = 3 lados"
+            formula: "Cuadrado = 4 lados | Triángulo = 3 lados",
+            extra: "El círculo no tiene lados ni esquinas: todo su borde es curva. ¿Y un hexágono? Tiene 6 lados, igual que los panales de las abejas 🐝."
           },
           {
             title: "📏 Perímetro",
             text: "Es la medida del contorno o la cerca de una figura. Se obtiene sumando todos sus lados.",
-            formula: "Perímetro = Lado + Lado + Lado + Lado"
+            formula: "Perímetro = Lado + Lado + Lado + Lado",
+            extra: "Si caminas pegadito al borde de una cancha vuelta completa, la distancia que recorriste es exactamente su perímetro."
           },
           {
             title: "🟦 Área",
             text: "Es la cantidad de espacio que ocupa una figura en una superficie.",
-            formula: "Área de un rectángulo = Largo × Ancho"
+            formula: "Área de un rectángulo = Largo × Ancho",
+            extra: "El área se mide en unidades cuadradas (cm², m²), como si contarás cuántas baldositas cuadradas caben dentro de la figura."
           },
           {
             title: "📐 Ángulos y Cuerpos 3D",
             text: "Ángulo recto (90°, forma una 'L'). Cuerpos 3D como cubo, esfera, cilindro, cono y prisma tienen largo, ancho y alto.",
-            formula: "Ángulo Agudo (<90°) | Recto (90°) | Obtuso (>90°)"
+            formula: "Ángulo Agudo (<90°) | Recto (90°) | Obtuso (>90°)",
+            extra: "La esquina de una hoja de papel es un ángulo recto perfecto de 90°. Las agujas del reloj también lo forman cuando marcan 3 en punto."
           }
         ],
         interactiveType: "geometry-tool"
@@ -436,22 +448,26 @@ const APP_DATA = {
           {
             title: "✏️ Razón y Proporción",
             text: "Una razón compara dos cantidades, por ejemplo: 2 lápices por cada 1 borrador. Una proporción indica que dos razones son equivalentes.",
-            formula: "2 lápices / 1 borrador = 4 lápices / 2 borradores"
+            formula: "2 lápices / 1 borrador = 4 lápices / 2 borradores",
+            extra: "Las recetas de cocina están llenas de proporciones: si 2 tazas de harina dan 8 galletas, con 4 tazas saldrán 16 galletas ricas, ricas."
           },
           {
             title: "💯 Porcentajes",
             text: "Un porcentaje nos indica partes de un total de 100. El 50% significa la mitad (50 de cada 100).",
-            formula: "50% = 50 / 100 = 1/2"
+            formula: "50% = 50 / 100 = 1/2",
+            extra: "El 100% es todo el pastel, el 50% es la mitad, el 25% un cuarto. Cuando tu videojuego dice 75% de vida, ¡ya casi estás al tope!"
           },
           {
             title: "✖️ Regla de Tres Simple",
             text: "Nos ayuda a encontrar un dato desconocido multiplicando en cruz y dividiendo.",
-            formula: "Si 1 cuaderno cuesta $10, ¿cuánto cuestan 3? (3 × 10) ÷ 1 = $30"
+            formula: "Si 1 cuaderno cuesta $10, ¿cuánto cuestan 3? (3 × 10) ÷ 1 = $30",
+            extra: "La regla de tres se usa para todo: precios de dulces, distancia del papel de la bici ¡y hasta para trío de recetas! Multiplica en cruz y divide."
           },
           {
             title: "📊 Gráficas de Barras",
             text: "Representan información con barras para ver rápidamente cuál opción tiene más o menos votos.",
-            formula: "Visualizar datos facilita comparar resultados."
+            formula: "Visualizar datos facilita comparar resultados.",
+            extra: "En una gráfica de barras, la barra más alta siempre gana. La gráfica circular (de pastel 🥧) sirve para mostrar porcentajes."
           }
         ],
         interactiveType: "stats-tool"
@@ -556,22 +572,26 @@ const APP_DATA = {
           {
             title: "🍕 Fracción y Decimal",
             text: "Una fracción indica cuántas partes tomamos (numerador arriba) de un total (denominador abajo).",
-            formula: "1/2 = 0.5 (la mitad) | 1/4 = 0.25 (un cuarto)"
+            formula: "1/2 = 0.5 (la mitad) | 1/4 = 0.25 (un cuarto)",
+            extra: "Las fracciones viven en el dinero: 50 centavos son la mitad de un peso (1/2 = 0.5) y 25 centavos son un cuarto (1/4 = 0.25)."
           },
           {
             title: "🍰 Fracción Propia e Impropia",
             text: "Propia: el numerador es menor (ej. 2/5). Impropia: el numerador es mayor o igual que el denominador (ej. 7/4).",
-            formula: "2/5 es Propia | 7/4 es Impropia"
+            formula: "2/5 es Propia | 7/4 es Impropia",
+            extra: "7/4 vale más que una pizza entera: equivale a 1 pizza y 3/4. Se dice ¡una y tres cuartos! 🍕"
           },
           {
             title: "🤝 Fracciones Equivalentes",
             text: "Son fracciones diferentes que valen exactamente lo mismo. Ejemplo: 1/2 es igual a 2/4.",
-            formula: "1/2 = 2/4 = 4/8"
+            formula: "1/2 = 2/4 = 4/8",
+            extra: "Si cortas una pizza en 4 y te comes 2 pedazos, comiste la mitad. Lo mismo que si la cortas en 8 y te comes 4. ¡Dos caminos, mismo resultado!"
           },
           {
             title: "🔢 Suma con mismo denominador",
             text: "Si los denominadores son iguales, se suman directamente los numeradores.",
-            formula: "1/4 + 2/4 = 3/4"
+            formula: "1/4 + 2/4 = 3/4",
+            extra: "Es como juntar pedazos del mismo tamaño: si tienes 2 octavos y te dan 3 octavos más, en total tienes 5 octavos de la merienda."
           }
         ],
         interactiveType: "fraction-tool"
@@ -676,22 +696,26 @@ const APP_DATA = {
           {
             title: "🔍 Patrones y Sucesiones",
             text: "Una secuencia de números que sigue una regla. Por ejemplo: 2, 4, 6, 8... (suma 2 cada vez).",
-            formula: "Patrón: +2 en cada salto"
+            formula: "Patrón: +2 en cada salto",
+            extra: "Los patrones también viven en la naturaleza: 2, 4, 8, 16 (duplicando cada salto) y hasta en los pétalos de muchas flores."
           },
           {
             title: "❓ La Letra x (La Incógnita)",
             text: "Usamos letras como 'x' para representar un número secreto que aún no conocemos.",
-            formula: "x = número secreto"
+            formula: "x = número secreto",
+            extra: "En los videojuegos las incógnitas están en todos lados: si te faltan corazones para llegar a 10, esa cantidad desconocida es la x. ❤️ + ¿? = 10"
           },
           {
             title: "⚖️ La Igualdad es una Balanza",
             text: "El signo '=' indica que ambos lados de la balanza tienen el mismo valor exacto.",
-            formula: "x + 5 = 12"
+            formula: "x + 5 = 12",
+            extra: "La igualdad es una balanza ⚖️: si quitas peso de un plato, debes quitar exactamente lo mismo del otro para que siga balanceada."
           },
           {
             title: "🎯 Resolver la Ecuación",
             text: "Para encontrar 'x', despejamos restando 5 a ambos lados: x = 12 - 5, entonces x = 7.",
-            formula: "7 + 5 = 12 ✔️"
+            formula: "7 + 5 = 12 ✔️",
+            extra: "Truco de detectives: al final, sustituye tu respuesta en la ecuación original. Si la balanza queda pareja, ¡resolviste el caso!"
           }
         ],
         interactiveType: "algebra-tool"
