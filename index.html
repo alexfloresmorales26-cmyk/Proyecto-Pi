@@ -448,6 +448,19 @@
         </button>
       </div>
 
+      <!-- TABLA DE RANKING GLOBAL (Firebase Realtime Database) -->
+      <div class="ranking-section">
+        <button class="btn-primary-blue" id="btn-refresh-ranking" style="width: 100%; padding: 9px 14px; font-size: 0.95rem;">
+          🏆 Ranking Global de Jugadores
+        </button>
+        <p style="font-size: 0.78rem; color: #64748b; text-align: center; margin: 6px 0 10px;">
+          Los mejores 10 por experiencia (XP). Haz clic para actualizar.
+        </p>
+        <div id="ranking-content">
+          <p style="font-size: 0.85rem; color: #64748b; text-align: center; padding: 8px 0;">Cargando ranking...</p>
+        </div>
+      </div>
+
       <p style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 14px;">
         Desarrollado para el fortalecimiento de habilidades de razonamiento lógico y cálculo en estudiantes de primaria.
       </p>
@@ -541,6 +554,7 @@
 
 
   <!-- Scripts del Sistema -->
+  <script src="js/firebase-config.js"></script>
   <script src="js/data.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/app.js"></script>

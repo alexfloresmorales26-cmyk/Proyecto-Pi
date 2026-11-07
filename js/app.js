@@ -69,6 +69,106 @@ class MathApp {
     this.updateUserHeader();
   }
 
+  // ==========================================================================
+  //  RANKING GLOBAL (Firebase Realtime Database via REST)
+  // ==========================================================================
+
+  // Identificador estable del jugador en este dispositivo (para su fila en la nube)
+  rankingUserId() {
+    let id = localStorage.getItem("matematica_basica_ranking_id");
+    if (!id) {
+      id = "u" + Date.now() + Math.random().toString(36).slice(2, 7);
+      localStorage.setItem("matematica_basica_ranking_id", id);
+    }
+    return id;
+  }
+
+  // Enviar el perfil y los puntos al ranking en Firebase (se llama al aprobar un reto)
+  async submitScoreToRanking(scorePercent) {
+    if (!window.firebaseConfigured || !this.user || this.user.guest) return;
+    if (String(FIREBASE_CONFIG.databaseURL).includes("PEGA_AQUI")) return;
+
+    const base = String(FIREBASE_CONFIG.databaseURL).replace(/\/$/, "");
+    const payload = {
+      name: this.user.name,
+      avatar: this.user.avatar,
+      grade: this.user.grade,
+      level: this.user.level,
+      xp: this.user.xp,
+      bestStreak: this.user.bestStreak || 0,
+      quizzesPassed: (this.user.completedTopics || []).length,
+      lastScore: scorePercent,
+      updatedAt: Date.now()
+    };
+
+    try {
+      await fetch(`${base}/ranking/${this.rankingUserId()}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    } catch (e) {
+      console.warn("No se pudo enviar al ranking:", e);
+    }
+  }
+
+  // Tabla de los mejores 10 jugadores por XP (Firebase REST)
+  async renderRanking() {
+    const container = document.getElementById("ranking-content");
+    if (!container) return;
+
+    if (!window.firebaseConfigured) {
+      container.innerHTML = `
+        <p style="font-size: 0.85rem; color: #64748b; text-align: center; padding: 8px 0;">
+          🛠️ Ranking aún no conectado: falta pegar la configuración de Firebase en <code>js/firebase-config.js</code>.
+        </p>`;
+      return;
+    }
+
+    try {
+      const base = String(FIREBASE_CONFIG.databaseURL).replace(/\/$/, "");
+      const res = await fetch(`${base}/ranking.json`);
+      const data = await res.json();
+
+      const players = Object.entries(data || {})
+        .map(([id, p]) => ({ id, ...p }))
+        .sort((a, b) => (b.xp || 0) - (a.xp || 0) || (b.lastScore || 0) - (a.lastScore || 0))
+        .slice(0, 10);
+
+      if (players.length === 0) {
+        container.innerHTML = `
+          <p style="font-size: 0.85rem; color: #64748b; text-align: center; padding: 8px 0;">
+            Aún no hay jugadores en el ranking. ¡Aprueba un reto para ser el primero! 🚀
+          </p>`;
+        return;
+      }
+
+      const myId = this.rankingUserId();
+      const medals = ["🥇", "🥈", "🥉"];
+
+      container.innerHTML = `
+        <table class="ranking-table">
+          <thead>
+            <tr><th>#</th><th>Jugador</th><th>Nivel</th><th>XP</th></tr>
+          </thead>
+          <tbody>
+            ${players.map((p, i) => `
+              <tr class="${p.id === myId ? "me" : ""}">
+                <td>${medals[i] || (i + 1)}</td>
+                <td>${p.avatar || "🦕"} ${p.name || "Anónimo"}</td>
+                <td>${p.level || 1}</td>
+                <td><strong>${p.xp || 0}</strong></td>
+              </tr>`).join("")}
+          </tbody>
+        </table>`;
+    } catch (e) {
+      container.innerHTML = `
+        <p style="font-size: 0.85rem; color: #b91c1c; text-align: center; padding: 8px 0;">
+          ⚠️ No se pudo cargar el ranking. Revisa la configuración de Firebase.
+        </p>`;
+    }
+  }
+
   // Verifica si ya es usuario o es la primera vez
   checkFirstVisit() {
     const hasVisited = localStorage.getItem("matematica_basica_visited");
@@ -733,6 +833,9 @@ class MathApp {
       // Refrescar la barra de nivel del header ahora mismo
       this.updateUserHeader();
 
+      // Publicar puntaje en el ranking global (Firebase), si esta configurado
+      this.submitScoreToRanking(scorePercent);
+
       approvedActions.style.display = "flex";
       failedActions.style.display = "none";
       errorsSection.style.display = "none";
@@ -927,6 +1030,13 @@ class MathApp {
     // Header buttons (Menu hamburguesa, Perfil)
     document.getElementById("btn-hamburger-menu")?.addEventListener("click", () => {
       this.openModal("modal-menu-credits");
+      this.renderRanking();
+    });
+
+    // Boton de actualizar el ranking global
+    document.getElementById("btn-refresh-ranking")?.addEventListener("click", () => {
+      sound.playClick();
+      this.renderRanking();
     });
 
     document.getElementById("header-user-btn")?.addEventListener("click", () => {
