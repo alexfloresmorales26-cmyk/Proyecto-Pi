@@ -29,6 +29,7 @@ App educativa de matemáticas para primaria. **Sitio 100% estático**: HTML + CS
 - Info extra de apartados: cada `keyPoint` puede tener la propiedad `extra` (dato curioso). Se muestra en un tooltip `.keypoint-tip` al hover (escritorio) o al tocar la tarjeta (celular alterna la clase `open`; el listener se agrega al re-render de la lección). Al agregar apartados nuevos, incluir `extra` para no dejar la tarjeta sin tooltip.
 - Mecánica de reintento en el quiz: si el niño falla, esa opción queda bloqueada (roja) y NO avanza hasta acertar. El puntaje se calcula solo con el **primer intento** de cada pregunta (`quizAnswers` guarda un registro por pregunta, el primero).
 - Mejor racha: `user.bestStreak` (aciertos seguidos, se rompe al fallar) se guarda en `localStorage` en cuanto se rompe el récord; se muestra en el modal de Perfil y de Nivel (`profile-best-streak`, `level-stats-streak`).
+- Racha de días: `user.dailyStreak` + `user.lastPracticed` (fecha local `YYYY-MM-DD`). Se marca al empezar un reto (`markPracticedToday()`): si se practica el día siguiente al último, la racha sube; si se dejan de pasar 1+ días, `refreshDailyStreak()` (se ejecuta en `init()`) la reinicia a 0. Se muestra en el header (`#header-day-streak`), en el Perfil (`profile-day-streak`), en Nivel (`level-stats-day-streak`) y se envía al ranking como `dayStreak` (columna 📅).
 
 ## Despliegue (Git + Vercel)
 

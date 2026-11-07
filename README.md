@@ -37,7 +37,7 @@ Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 - 👀 **Modo Invitado**: solo visualización; para jugar se necesita crear un perfil.
 - 🏫 **Selector de grado escolar** (1º a 6º de Primaria): ajusta el contexto de las estadísticas.
 - 🎯 **10 retos por tema**: preguntas interactivas con sonido y retroalimentación inmediata.
-- 🔒 **No avanzar hasta acertar**: al fallar, la opción se bloquea con una pista y puedes reintentar con el botón **🔁 Reintentar**. El puntaje se calcula con el primer intento de cada pregunta (aprobar requiere ≥ 70%).
+- 📝 **Repaso automático de errores**: si fallas una pregunta, el reto salta solo a la siguiente (sin quedarte atascado) y al terminar te pide repasar **solo las que fallaste**; si las aciertas en el repaso, cuentan para tu puntaje final.
 - 🔥 **Barra de racha estilo arcade**: estrellas ⭐ que marcan tus aciertos seguidos durante el reto.
 - 🏅 **Mejor racha guardada**: tu récord histórico de aciertos seguidos, visible en el Perfil y en el modal de Nivel.
 - 🎁 **Recompensas por nivel**: 7 insignias desbloqueables (desde 🥉 Medalla de Bronce hasta 🌟 Superestrella Matemática) con celebración de confeti y sonido.
@@ -45,6 +45,7 @@ Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 - ℹ️ **Info extra en los apartados de la lección**: cada tarjeta (Longitud, Peso, Fracciones, etc.) revela un dato adicional al pasar el ratón (computadora) o al tocarla (celular). El texto vive en la propiedad `extra` de cada `keyPoint` en `js/data.js`.
 - 📊 **Estadísticas por grado**: porcentaje de aciertos por grado escolar en el Perfil.
 - 🔊 **Efectos de sonido** generados con Web Audio API (sin archivos de audio externos).
+- 🔥 **Racha de días**: cada día que practicas suma un día a tu racha 📅 (visible en el header, en tu Perfil y en el ranking). Si dejas de venir, la racha se reinicia.
 - 🏆 **Ranking global de jugadores**: los puntajes se guardan en una base de datos en la nube, así que todos los usuarios quedan registrados y compiten; mira el Top 10 en el menú ☰ (ver [Ranking global](#-ranking-global)).
 
 ---

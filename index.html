@@ -32,6 +32,11 @@
           <div class="level-progress-fill" id="header-xp-fill" style="width: 40%;"></div>
         </div>
       </div>
+
+      <!-- Racha de días practicando -->
+      <span class="day-streak-badge" id="header-day-streak" style="display: none;">
+        📅<span class="day-streak-count">0</span>
+      </span>
     </div>
 
     <!-- Perfil del Pequeño Matemático -->
@@ -356,6 +361,10 @@
           <div style="font-size: 0.85rem; color: #64748b;">Temas Completados</div>
           <strong style="font-size: 1.3rem; color: #10b981;" id="profile-completed-count">0 de 6</strong>
         </div>
+        <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1px solid #93c5fd; padding: 14px; border-radius: 12px; text-align: center;">
+          <div style="font-size: 0.85rem; color: #1e40af;">📅 Racha de Días</div>
+          <strong style="font-size: 1.3rem; color: #1d4ed8;" id="profile-day-streak">0 días</strong>
+        </div>
       </div>
 
       <h4 style="font-size: 1.05rem; margin-bottom: 10px; color: var(--text-navy);">📊 Conocimiento por Grado:</h4>
@@ -396,6 +405,10 @@
         <div style="grid-column: 1/-1; background: linear-gradient(135deg, #fff7ed, #ffedd5); border: 1px solid #fdba74; border-radius: 10px; padding: 10px 14px; text-align: center;">
           <div style="font-size: 0.8rem; color: #9a3412;">🔥 Mejor Racha (aciertos seguidos)</div>
           <strong style="font-size: 1.15rem; color: #ea580c;" id="level-stats-streak">0 aciertos</strong>
+        </div>
+        <div style="grid-column: 1/-1; background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1px solid #93c5fd; border-radius: 10px; padding: 10px 14px; text-align: center;">
+          <div style="font-size: 0.8rem; color: #1e40af;">📅 Racha de Días (practicando seguido)</div>
+          <strong style="font-size: 1.15rem; color: #1d4ed8;" id="level-stats-day-streak">0 días</strong>
         </div>
       </div>
 
@@ -462,7 +475,7 @@
           🏆 Ranking Global de Jugadores
         </button>
         <p style="font-size: 0.78rem; color: #64748b; text-align: center; margin: 6px 0 10px;">
-          Los mejores 10 por experiencia (XP). Haz clic para actualizar.
+          Los mejores 10 por experiencia (XP). La columna 📅 muestra los días seguidos practicando. Haz clic para actualizar.
         </p>
         <div id="ranking-content">
           <p style="font-size: 0.85rem; color: #64748b; text-align: center; padding: 8px 0;">Cargando ranking...</p>

@@ -54,6 +54,55 @@ class MathApp {
     this.setupEventListeners();
     this.checkFirstVisit();
     this.checkCookieConsent();
+    this.refreshDailyStreak();
+  }
+
+  // ==========================================================================
+  //  RACHA DE DIAS: dias consecutivos de practica (se reinicia si dejas de venir)
+  // ==========================================================================
+
+  // Fecha local "YYYY-MM-DD" (sin horas, para comparar solo dias)
+  todayKey() {
+    const d = new Date();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${d.getFullYear()}-${m}-${day}`;
+  }
+
+  // Diferencia en dias entre fecha guardada (YYYY-MM-DD) y hoy
+  daysBetween(prevKey) {
+    const prev = new Date(`${prevKey}T00:00:00`);
+    const now = new Date(`${this.todayKey()}T00:00:00`);
+    return Math.round((now - prev) / 86400000);
+  }
+
+  // Marcar que el niño practico hoy: sube o mantiene la racha de dias
+  markPracticedToday() {
+    const today = this.todayKey();
+    if (this.user.lastPracticed === today) return; // ya sumo hoy
+
+    const gap = this.user.lastPracticed ? this.daysBetween(this.user.lastPracticed) : null;
+    if (gap === 1) {
+      // Vino ayer y hoy: la racha crece
+      this.user.dailyStreak = (this.user.dailyStreak || 0) + 1;
+    } else {
+      // Primer dia o dejo de venir 1+ dias: la racha se reinicia
+      this.user.dailyStreak = 1;
+    }
+    this.user.lastPracticed = today;
+    this.saveUserData();
+  }
+
+  // Al abrir la app: si la racha esta activa se conserva; si dejo de venir, se rompe
+  refreshDailyStreak() {
+    if (!this.user || this.user.guest) return;
+    if (!this.user.lastPracticed) return; // nunca ha practicado: racha empieza al practicar
+    const gap = this.daysBetween(this.user.lastPracticed);
+    if (gap > 1) {
+      this.user.dailyStreak = 0; // se rompio la racha de dias
+      this.user.lastPracticed = null;
+      this.saveUserData();
+    }
   }
 
   // Cargar datos de usuario guardados
@@ -72,6 +121,9 @@ class MathApp {
         if (this.user.bestStreak === undefined) {
           this.user.bestStreak = 0;
         }
+        // Compatibilidad con perfiles anteriores a la racha de días
+        if (this.user.dailyStreak === undefined) this.user.dailyStreak = 0;
+        if (this.user.lastPracticed === undefined) this.user.lastPracticed = null;
       } catch (e) {
         console.error("Error al cargar usuario", e);
       }
@@ -118,6 +170,7 @@ class MathApp {
         level: this.user.level,
         xp: this.user.xp,
         bestStreak: this.user.bestStreak || 0,
+        dayStreak: this.user.dailyStreak || 0,
         quizzesPassed: (this.user.completedTopics || []).length,
         lastScore: scorePercent,
         updatedAt: Date.now()
@@ -167,7 +220,7 @@ class MathApp {
       container.innerHTML = `
         <table class="ranking-table">
           <thead>
-            <tr><th>#</th><th>Jugador</th><th>Nivel</th><th>XP</th></tr>
+            <tr><th>#</th><th>Jugador</th><th>Nivel</th><th>XP</th><th>📅</th></tr>
           </thead>
           <tbody>
             ${players.map((p, i) => `
@@ -176,6 +229,7 @@ class MathApp {
                 <td>${p.avatar || "🦕"} ${p.name || "Anónimo"}</td>
                 <td>${p.level || 1}</td>
                 <td><strong>${p.xp || 0}</strong></td>
+                <td>${p.dayStreak ? `📅 ${p.dayStreak}` : "—"}</td>
               </tr>`).join("")}
           </tbody>
         </table>`;
@@ -237,6 +291,19 @@ class MathApp {
     if (nameEl) nameEl.textContent = this.user.name;
     if (xpFillEl) xpFillEl.style.width = `${Math.min(100, (this.user.xp % 100))}%`;
     if (gradeBadge) gradeBadge.textContent = `Grado escolar: ${this.user.grade}`;
+
+    // Racha de días en el header (solo si ya hay racha)
+    const dayStreakEl = document.getElementById("header-day-streak");
+    if (dayStreakEl) {
+      const days = this.user?.dailyStreak || 0;
+      if (days > 0) {
+        dayStreakEl.style.display = "inline-flex";
+        dayStreakEl.querySelector(".day-streak-count").textContent = days;
+        dayStreakEl.title = `Practicaste ${days} ${days === 1 ? "día" : "días"} seguidos`;
+      } else {
+        dayStreakEl.style.display = "none";
+      }
+    }
   }
 
   // Renderizar las tarjetas de temas del documento
@@ -680,6 +747,10 @@ class MathApp {
     this.reviewQueue = [];
     this.reviewPos = 0;
     this.fixedInReview = new Set();
+
+    // La racha de dias se marca al empezar a practicar (no en resultados,
+    // para premiar aunque abandone) 
+    this.markPracticedToday();
     // Asegurar que el aviso de repaso esté oculto al iniciar
     const banner = document.getElementById("review-intro-banner");
     const card = document.getElementById("quiz-question-card");
@@ -1236,6 +1307,13 @@ class MathApp {
       document.getElementById("level-stats-xp").textContent = `${this.user.xp} XP`;
       document.getElementById("level-stats-topics").textContent = `${this.user.completedTopics.length} de ${APP_DATA.topics.length}`;
       document.getElementById("level-stats-streak").textContent = `${this.user.bestStreak || 0} aciertos`;
+      const days = this.user.dailyStreak || 0;
+      const dayStreakEl = document.getElementById("level-stats-day-streak");
+      if (dayStreakEl) {
+        dayStreakEl.textContent = days > 0
+          ? `${days} ${days === 1 ? "día" : "días"} seguidos`
+          : "Aún no hay racha: practica hoy";
+      }
       this.renderGradeStats("level-grade-stats");
       this.renderRewards();
       this.openModal("modal-level-stats");
@@ -1337,6 +1415,14 @@ class MathApp {
     document.getElementById("profile-display-xp").textContent = `${this.user.xp} XP`;
     document.getElementById("profile-completed-count").textContent = `${this.user.completedTopics.length} de ${APP_DATA.topics.length}`;
     document.getElementById("profile-best-streak").textContent = `${this.user.bestStreak || 0} aciertos`;
+
+    const dayStreak = this.user.dailyStreak || 0;
+    const profileDayStreak = document.getElementById("profile-day-streak");
+    if (profileDayStreak) {
+      profileDayStreak.textContent = dayStreak > 0
+        ? `${dayStreak} ${dayStreak === 1 ? "día" : "días"} seguidos`
+        : "Practica hoy para empezar";
+    }
 
     const historyContainer = document.getElementById("profile-history-list");
     if (historyContainer) {
