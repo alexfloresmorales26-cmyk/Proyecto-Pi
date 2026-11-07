@@ -134,10 +134,16 @@ body {
   transform: scale(0.97);
 }
 
-.level-star {
-  color: #facc15;
-  font-size: 1.25rem;
-  animation: pulseStar 2s infinite ease-in-out;
+.level-star {
+  color: #facc15;
+  font-size: 1.25rem;
+  animation: pulseStar 2s infinite ease-in-out;
+}
+
+.level-flame {
+  font-size: 1rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 3px rgba(234, 88, 12, 0.45));
 }
 
 @keyframes pulseStar {
@@ -145,19 +151,22 @@ body {
   50% { transform: scale(1.2); }
 }
 
-.level-progress-bar {
-  width: 90px;
-  height: 10px;
-  background: rgba(255, 255, 255, 0.35);
-  border-radius: var(--radius-pill);
-  overflow: hidden;
-}
-
+.level-progress-bar {
+  width: 80px;
+  height: 14px;
+  background: linear-gradient(180deg, #a855f7 0%, #7c3aed 100%);
+  border: 2px solid #6d28d9;
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
 .level-progress-fill {
   height: 100%;
-  background: #f59e0b;
+  background: linear-gradient(180deg, #fde047 0%, #f97316 100%);
   width: 35%;
   border-radius: var(--radius-pill);
+  box-shadow: 0 0 8px rgba(253, 224, 71, 0.65);
   transition: width 0.4s ease;
 }
 
