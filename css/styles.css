@@ -1670,14 +1670,151 @@ body {
   flex-shrink: 0;
 }
 
-@media (max-width: 640px) {
-  .cookie-banner {
-    flex-direction: column;
-    align-items: stretch;
-    bottom: 12px;
-    padding: 14px 16px;
-  }
-  .cookie-banner-actions {
-    justify-content: flex-end;
-  }
+@media (max-width: 640px) {
+  .cookie-banner {
+    flex-direction: column;
+    align-items: stretch;
+    bottom: 12px;
+    padding: 14px 16px;
+  }
+  .cookie-banner-actions {
+    justify-content: flex-end;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVO PARA CELULAR (VISTA MANUAL DEL USUARIO EN SU TELEFONO)
+   ========================================================================== */
+@media (max-width: 640px) {
+  /* Header compacto: nada se corta ni genera desplazamiento lateral */
+  .top-header {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .header-left {
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .level-badge {
+    padding: 5px 10px;
+    gap: 6px;
+    font-size: 0.8rem;
+    min-width: 0;
+  }
+
+  .level-flame {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .level-progress-bar {
+    width: 58px;
+    height: 12px;
+  }
+
+  .header-right {
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .user-profile-btn {
+    padding: 4px 8px;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .user-profile-avatar {
+    font-size: 1.1rem;
+  }
+
+  /* Contenido general: mas aire en pantalla chica */
+  .main-container {
+    padding: 16px 12px 32px;
+  }
+
+  .main-title {
+    font-size: 1.55rem;
+  }
+
+  .hero-card {
+    padding: 20px 16px;
+  }
+
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .dino-mascot-container {
+    width: 100px;
+    height: 110px;
+  }
+
+  .hero-actions .btn-primary-blue {
+    width: 100%;
+  }
+
+  .grade-badge-selector {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .quiz-tips-card,
+  .hero-tips {
+    font-size: 0.9rem;
+  }
+
+  .did-you-know-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  /* Resultados y modales llenan el ancho util del celular */
+  .results-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .results-actions .btn-primary-blue,
+  .results-actions .btn-secondary {
+    width: 100%;
+  }
+
+  .modal-box {
+    padding: 22px 16px;
+    max-height: 92vh;
+  }
+}
+
+@media (max-width: 420px) {
+  /* En telefonos angostos ocultamos el nombre: queda solo el avatar */
+  #header-user-name {
+    display: none;
+  }
+
+  .user-profile-btn {
+    padding: 4px;
+    border-radius: 50%;
+  }
+
+  .level-progress-bar {
+    width: 48px;
+  }
+
+  .main-title {
+    font-size: 1.35rem;
+  }
 }
