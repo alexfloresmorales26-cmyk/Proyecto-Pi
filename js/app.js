@@ -117,7 +117,7 @@ class MathApp {
 
     if (avatarEl) avatarEl.textContent = this.user.avatar;
     if (nameEl) nameEl.textContent = this.user.name;
-    if (levelEl) levelEl.textContent = `Nivel ${this.user.level}`;
+    if (levelEl) levelEl.textContent = this.user.level;
     if (xpFillEl) xpFillEl.style.width = `${Math.min(100, (this.user.xp % 100))}%`;
     if (gradeBadge) gradeBadge.textContent = `Grado escolar: ${this.user.grade}`;
   }
