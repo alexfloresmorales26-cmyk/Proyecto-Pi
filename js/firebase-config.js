@@ -1,27 +1,21 @@
 /* ==========================================================================
-   CONFIGURACION DE FIREBASE - RANKING GLOBAL (Realtime Database)
+   BASE DE DATOS EN LA NUBE - RANKING GLOBAL
    ==========================================================================
+   Almacenamiento compartido en la nube via API publica de restful-api.dev
+   (sin cuentas ni claves). Guarda el registro de todos los jugadores en un
+   solo objeto JSON ("data.players").
 
-   PASOS PARA ACTIVAR EL RANKING (gratis):
-   1) Entra a https://console.firebase.google.com con tu cuenta de Google y
-      crea un proyecto (por ejemplo: "matematica-basica-ranking").
-   2) En el panel izquierdo: Build -> Realtime Database -> "Create Database"
-      -> elige una region cercana (ej. us-central1) -> modo "Start in test
-      mode" (permite lectura y escritura publica) -> Enable.
-   3) Copia la "databaseURL" que te muestra (ejemplo:
-      https://matematica-basica-ranking-default-rtdb.firebaseio.com/)
-   4) (Opcional) En Project settings -> "Your apps" -> agrega una app Web </>
-      para copiar los demas valores (apiKey, projectId...).
-   5) Pega los valores abajo y recarga la pagina. Mientras queden los textos
-      "PEGA_AQUI", el ranking queda desactivado y no molesta en la app.
+   NOTA: esta API es de practica, por lo que los datos podrian limpiarse
+   en cupos largos de tiempo. Si algun dia hay que migrar (ej. a Firebase
+   Realtime Database), solo cambia `endpoint`, `objectId` y las llamadas de
+   app.js en la seccion RANKING GLOBAL.
    ========================================================================== */
 
-const FIREBASE_CONFIG = {
-  apiKey: "PEGA_AQUI_TU_API_KEY",
-  authDomain: "PEGA_AQUI_TU_AUTH_DOMAIN",
-  databaseURL: "PEGA_AQUI_TU_DATABASE_URL",
-  projectId: "PEGA_AQUI_TU_PROJECT_ID"
+const CLOUD_DB = {
+  endpoint: "https://api.restful-api.dev",
+  objectId: "ff808181a09d98f701a1b7ab2c0a5f2c",
+  prefix: "mb-rank-"
 };
 
-// Bandera global: true solo cuando ya pegaste los valores reales de Firebase
-window.firebaseConfigured = !String(FIREBASE_CONFIG.databaseURL).includes("PEGA_AQUI");
+// Bandera global para que la app sepa que hay almacenamiento en la nube
+window.cloudConfigured = !!(CLOUD_DB && CLOUD_DB.endpoint && CLOUD_DB.objectId);

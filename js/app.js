@@ -70,67 +70,71 @@ class MathApp {
   }
 
   // ==========================================================================
-  //  RANKING GLOBAL (Firebase Realtime Database via REST)
+  //  RANKING GLOBAL (base de datos en la nube via REST)
   // ==========================================================================
 
-  // Identificador estable del jugador en este dispositivo (para su fila en la nube)
+  // Identificador estable del jugador en este dispositivo (su fila en la nube)
   rankingUserId() {
     let id = localStorage.getItem("matematica_basica_ranking_id");
     if (!id) {
-      id = "u" + Date.now() + Math.random().toString(36).slice(2, 7);
+      id = "p" + Date.now() + Math.random().toString(36).slice(2, 7);
       localStorage.setItem("matematica_basica_ranking_id", id);
     }
     return id;
   }
 
-  // Enviar el perfil y los puntos al ranking en Firebase (se llama al aprobar un reto)
-  async submitScoreToRanking(scorePercent) {
-    if (!window.firebaseConfigured || !this.user || this.user.guest) return;
-    if (String(FIREBASE_CONFIG.databaseURL).includes("PEGA_AQUI")) return;
+  // Leer el registro de jugadores del objeto en la nube
+  async cloudGet() {
+    const res = await fetch(`${CLOUD_DB.endpoint}/objects/${CLOUD_DB.objectId}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const obj = await res.json();
+    return { players: (obj && obj.data && obj.data.players) || {} };
+  }
 
-    const base = String(FIREBASE_CONFIG.databaseURL).replace(/\/$/, "");
-    const payload = {
-      name: this.user.name,
-      avatar: this.user.avatar,
-      grade: this.user.grade,
-      level: this.user.level,
-      xp: this.user.xp,
-      bestStreak: this.user.bestStreak || 0,
-      quizzesPassed: (this.user.completedTopics || []).length,
-      lastScore: scorePercent,
-      updatedAt: Date.now()
-    };
+  // Enviar el perfil y los puntos al ranking en la nube (se llama al aprobar un reto)
+  async submitScoreToRanking(scorePercent) {
+    if (!window.cloudConfigured || !this.user || this.user.guest) return;
 
     try {
-      await fetch(`${base}/ranking/${this.rankingUserId()}.json`, {
-        method: "PUT",
+      const registry = await this.cloudGet();
+      registry.players[this.rankingUserId()] = {
+        name: this.user.name,
+        avatar: this.user.avatar,
+        grade: this.user.grade,
+        level: this.user.level,
+        xp: this.user.xp,
+        bestStreak: this.user.bestStreak || 0,
+        quizzesPassed: (this.user.completedTopics || []).length,
+        lastScore: scorePercent,
+        updatedAt: Date.now()
+      };
+
+      await fetch(`${CLOUD_DB.endpoint}/objects/${CLOUD_DB.objectId}`, {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ data: registry })
       });
     } catch (e) {
       console.warn("No se pudo enviar al ranking:", e);
     }
   }
 
-  // Tabla de los mejores 10 jugadores por XP (Firebase REST)
+  // Tabla de los mejores 10 jugadores por XP (lectura de la nube)
   async renderRanking() {
     const container = document.getElementById("ranking-content");
     if (!container) return;
 
-    if (!window.firebaseConfigured) {
+    if (!window.cloudConfigured) {
       container.innerHTML = `
         <p style="font-size: 0.85rem; color: #64748b; text-align: center; padding: 8px 0;">
-          🛠️ Ranking aún no conectado: falta pegar la configuración de Firebase en <code>js/firebase-config.js</code>.
+          🛠️ Ranking no disponible: falta la configuración de la base de datos en la nube.
         </p>`;
       return;
     }
 
     try {
-      const base = String(FIREBASE_CONFIG.databaseURL).replace(/\/$/, "");
-      const res = await fetch(`${base}/ranking.json`);
-      const data = await res.json();
-
-      const players = Object.entries(data || {})
+      const registry = await this.cloudGet();
+      const players = Object.entries(registry.players)
         .map(([id, p]) => ({ id, ...p }))
         .sort((a, b) => (b.xp || 0) - (a.xp || 0) || (b.lastScore || 0) - (a.lastScore || 0))
         .slice(0, 10);
@@ -164,8 +168,9 @@ class MathApp {
     } catch (e) {
       container.innerHTML = `
         <p style="font-size: 0.85rem; color: #b91c1c; text-align: center; padding: 8px 0;">
-          ⚠️ No se pudo cargar el ranking. Revisa la configuración de Firebase.
+          ⚠️ No se pudo cargar el ranking. Intenta de nuevo más tarde.
         </p>`;
+      console.warn("Error al leer el ranking:", e);
     }
   }
 
