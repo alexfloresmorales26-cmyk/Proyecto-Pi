@@ -366,9 +366,39 @@
       <h4 style="font-size: 1.05rem; margin-bottom: 10px; color: var(--text-navy);">📊 Conocimiento por Grado:</h4>
       <div id="level-grade-stats"></div>
 
+      <h4 style="font-size: 1.05rem; margin: 18px 0 10px; color: var(--text-navy);">🎁 Recompensas por Nivel:</h4>
+      <div id="level-rewards-list"></div>
+
       <p style="font-size: 0.8rem; color: #94a3b8; text-align: center; margin-top: 12px;">
-        Promedio de aciertos de tus cuestionarios en cada grado escolar.
+        Promedio de aciertos por grado. Las recompensas se desbloquean al subir de nivel.
       </p>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: CELEBRACIÓN DE NUEVO NIVEL (recompensa desbloqueada)
+       ========================================================================== -->
+  <div class="modal-overlay" id="modal-level-reward">
+    <div class="modal-box" style="text-align: center;">
+      <button class="modal-close-btn" onclick="app.closeModal('modal-level-reward')">✕</button>
+
+      <p style="font-weight: 700; color: #b45309; letter-spacing: 0.04em;">🎉 ¡Subiste de nivel!</p>
+      <h3 class="modal-title" id="reward-level-title">¡Nivel 2 alcanzado!</h3>
+      <p class="modal-subtitle">Recompensa desbloqueada</p>
+
+      <div class="reward-display">
+        <div class="reward-icon" id="reward-icon">🥉</div>
+        <h4 id="reward-name">Medalla de Bronce</h4>
+        <p id="reward-description">Recompensa por tu constancia.</p>
+      </div>
+
+      <p id="reward-next-hint" style="font-size: 0.85rem; color: #64748b; margin-bottom: 14px;">
+        Sigue jugando para desbloquear más recompensas.
+      </p>
+
+      <button class="btn-primary-blue" style="width: 100%;" onclick="app.closeModal('modal-level-reward')">
+        ¡Continuar aprendiendo! 🚀
+      </button>
     </div>
   </div>
 

@@ -34,6 +34,17 @@ const APP_DATA = {
     "Descansa y juega entre retos: tu cerebro aprende mejor cuando está feliz y relajado."
   ],
 
+  // Recompensas desbloqueables al subir de nivel
+  levelRewards: [
+    { level: 2, id: "medalla-bronce", icon: "🥉", name: "Medalla de Bronce", description: "¡Subiste de nivel por primera vez! La constancia es tu superpoder." },
+    { level: 3, id: "mago-numeros", icon: "🧙", name: "Mago de los Numeros", description: "Sumas y restas obedecen a tu cerebro mágico." },
+    { level: 4, id: "cohete-matematico", icon: "🚀", name: "Cohete Matemático", description: "Tu mente despega hacia problemas más grandes." },
+    { level: 5, id: "medalla-oro", icon: "🥇", name: "Medalla de Oro", description: "¡Nivel 5! Tu dominio de la lógica crece sin parar." },
+    { level: 6, id: "corona-real", icon: "👑", name: "Corona Real", description: "La corona brilla para quien nunca se rinde." },
+    { level: 8, id: "trofeo-maestro", icon: "🏆", name: "Trofeo Maestro", description: "Ya resuelves como un verdadero maestro de la lógica." },
+    { level: 10, id: "superestrella", icon: "🌟", name: "Superestrella Matemática", description: "¡Nivel 10! Brillas en cada reto que intentas." }
+  ],
+
   // Temas del currículo oficial del documento
   topics: [
     {

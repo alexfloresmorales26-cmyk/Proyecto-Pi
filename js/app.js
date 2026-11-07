@@ -12,7 +12,8 @@ class MathApp {
       level: 1,
       xp: 40,
       completedTopics: [],
-      history: []
+      history: [],
+      rewards: []
     };
 
     this.currentTopic = null;
@@ -42,6 +43,10 @@ class MathApp {
     if (saved) {
       try {
         this.user = JSON.parse(saved);
+        // Compatibilidad con perfiles creados antes del sistema de recompensas
+        if (this.user && !Array.isArray(this.user.rewards)) {
+          this.user.rewards = [];
+        }
       } catch (e) {
         console.error("Error al cargar usuario", e);
       }
@@ -186,6 +191,59 @@ class MathApp {
 
   startTipsRotation() {
     setInterval(() => this.nextHeroTip(), 9000);
+  }
+
+  // Recompensas al subir de nivel: desbloquear insignias y celebrar
+  checkLevelUp(previousLevel) {
+    const unlocks = APP_DATA.levelRewards.filter(r => r.level > previousLevel && r.level <= this.user.level);
+
+    unlocks.forEach(r => {
+      if (!this.user.rewards.includes(r.id)) this.user.rewards.push(r.id);
+    });
+
+    if (unlocks.length > 0) {
+      // Celebrar después de ver los resultados del cuestionario
+      setTimeout(() => this.openRewardModal(unlocks[unlocks.length - 1]), 2600);
+    }
+  }
+
+  openRewardModal(reward) {
+    document.getElementById("reward-level-title").textContent = `¡Nivel ${reward.level} alcanzado!`;
+    document.getElementById("reward-icon").textContent = reward.icon;
+    document.getElementById("reward-name").textContent = reward.name;
+    document.getElementById("reward-description").textContent = reward.description;
+
+    const nextReward = APP_DATA.levelRewards.find(r => r.level > this.user.level);
+    const hint = document.getElementById("reward-next-hint");
+    if (hint) {
+      hint.textContent = nextReward
+        ? `Tu próxima recompensa: ${nextReward.icon} ${nextReward.name} en el Nivel ${nextReward.level}.`
+        : "¡Ya tienes todas las recompensas disponibles! ¡Brillas de verdad!";
+    }
+
+    this.launchConfetti();
+    sound.playVictory();
+    this.openModal("modal-level-reward");
+  }
+
+  // Colección de recompensas por nivel (modal de Nivel)
+  renderRewards() {
+    const container = document.getElementById("level-rewards-list");
+    if (!container) return;
+
+    container.innerHTML = APP_DATA.levelRewards.slice().reverse().map(r => {
+      const unlocked = this.user.rewards.includes(r.id);
+
+      return `
+        <div class="reward-item ${unlocked ? "unlocked" : "locked"}">
+          <span class="reward-item-icon">${unlocked ? r.icon : "🔒"}</span>
+          <div class="reward-item-info">
+            <strong>Nivel ${r.level} · ${r.name}</strong>
+            <p>${r.description}</p>
+          </div>
+          <span class="reward-item-state">${unlocked ? "✔ Ganada" : `Nivel ${r.level}`}</span>
+        </div>`;
+    }).join("");
   }
 
   // Navegar entre vistas
@@ -525,9 +583,11 @@ class MathApp {
       titleEl.textContent = "¡Felicidades, Aprobaste con Éxito!";
       msgEl.textContent = `¡Excelente esfuerzo! Has demostrado que dominas el tema de ${this.currentTopic.title}. Sumaste +100 XP a tu perfil.`;
 
-      // Otorgar recompensas
+      // Otorgar recompensas: XP, nivel e insignias desbloqueadas
+      const previousLevel = this.user.level;
       this.user.xp += 100;
       this.user.level = Math.floor(this.user.xp / 100) + 1;
+      this.checkLevelUp(previousLevel);
       if (!this.user.completedTopics.includes(this.currentTopic.id)) {
         this.user.completedTopics.push(this.currentTopic.id);
       }
@@ -727,6 +787,7 @@ class MathApp {
       document.getElementById("level-stats-xp").textContent = `${this.user.xp} XP`;
       document.getElementById("level-stats-topics").textContent = `${this.user.completedTopics.length} de ${APP_DATA.topics.length}`;
       this.renderGradeStats("level-grade-stats");
+      this.renderRewards();
       this.openModal("modal-level-stats");
     };
     document.getElementById("level-badge")?.addEventListener("click", openLevelStats);
