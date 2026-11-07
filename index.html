@@ -164,7 +164,7 @@
         <div class="view-header">
           <div>
             <h3 id="quiz-topic-title" style="color: var(--text-navy); font-weight: 800;">Reto Práctico</h3>
-            <span id="quiz-progress-text" style="color: #64748b; font-weight: 700; font-size: 0.9rem;">Pregunta 1 de 4</span>
+            <span id="quiz-progress-text" style="color: #64748b; font-weight: 700; font-size: 0.9rem;">Pregunta 1 de 10</span>
           </div>
           <button class="btn-secondary" id="btn-quiz-abandon" style="padding: 6px 14px; font-size: 0.9rem;">
             Salir del reto
@@ -197,6 +197,13 @@
               Siguiente Pregunta ➡️
             </button>
           </div>
+        </div>
+
+        <!-- CONSEJOS DE RESOLUCIÓN (rotativos, clic para avanzar) -->
+        <div class="quiz-tips-card" id="quiz-tips" title="Haz clic para ver otro consejo" role="button" tabindex="0" aria-label="Consejo para resolver el reto">
+          <span class="quiz-tip-badge">💡 Consejo para resolver</span>
+          <p class="quiz-tip-text" id="quiz-tip-text"></p>
+          <div class="hero-tip-dots" id="quiz-tip-dots"></div>
         </div>
       </div>
     </section>

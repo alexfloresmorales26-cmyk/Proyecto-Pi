@@ -45,6 +45,18 @@ const APP_DATA = {
     { level: 10, id: "superestrella", icon: "🌟", name: "Superestrella Matemática", description: "¡Nivel 10! Brillas en cada reto que intentas." }
   ],
 
+  // Consejos de resolución para la vista de quiz
+  quizTips: [
+    "Lee la pregunta completa dos veces antes de ver las opciones: a veces la respuesta está en la misma pregunta.",
+    "Descarta primero las respuestas que sabes que son imposibles. ¡Las opciones falsas se quedan solas!",
+    "Si puedes, haz un dibujo o cuento con los dedos: pensar con imágenes hace todo más fácil.",
+    "Cuida las preguntas de palabras clave: 'cuántos más' pide una resta, 'repartir' pide una división.",
+    "En operaciones combinadas, recuerda el orden: primero paréntesis, luego × y ÷, y al final + y -.",
+    "Si la respuesta no es la que esperabas, revisa si se te fue una unidad de medida: cm, m, kg o mL.",
+    "No respondas corriendo: respira, piensa y elige con calma. ¡La prisa es enemiga de la precisión!",
+    "Equivocarse es parte del juego: después del reto puedes leer la explicación de cada respuesta."
+  ],
+
   // Temas del currículo oficial del documento
   topics: [
     {
@@ -116,6 +128,54 @@ const APP_DATA = {
           correctIndex: 2,
           hint: "La palabra 'mili' viene de mil.",
           explanation: "¡Correcto! 1 litro (L) equivale a 1,000 mililitros (mL)."
+        },
+        {
+          id: "m5",
+          question: "¿Qué herramienta usarías para medir la longitud de tu mesa?",
+          options: ["Un vaso medidor", "Una regla o cinta de medir", "Una báscula", "Un reloj"],
+          correctIndex: 1,
+          hint: "Para medir longitudes (qué tan largo o corto algo) usamos instrumentos con marcas de cm y m.",
+          explanation: "¡Muy bien! La regla o la cinta de medir son los instrumentos correctos para longitudes."
+        },
+        {
+          id: "m6",
+          question: "¿Cuántos metros (m) hay en 3 kilómetros (km)?",
+          options: ["30 metros", "300 metros", "3,000 metros", "300 gramos"],
+          correctIndex: 2,
+          hint: "Cada kilómetro tiene 1,000 metros. Multiplica 3 x 1,000.",
+          explanation: "¡Correcto! 3 km = 3 x 1,000 m = 3,000 metros."
+        },
+        {
+          id: "m7",
+          question: "¿Cuál unidad es la más adecuada para pesar un elefante?",
+          options: ["Gramos", "Kilogramos", "Mililitros", "Centímetros"],
+          correctIndex: 1,
+          hint: "Un elefante es muy pesado. Necesitamos la unidad de peso más grande de las opciones.",
+          explanation: "¡Excelente! Los animales grandes se pesan en kilogramos (kg); los gramos serían muy pequeños."
+        },
+        {
+          id: "m8",
+          question: "Si bebes medio litro (1/2 L) de jugo, ¿cuántos mililitros (mL) tomaste?",
+          options: ["50 mL", "250 mL", "500 mL", "1,000 mL"],
+          correctIndex: 2,
+          hint: "1 litro tiene 1,000 mL. La mitad de 1,000 es... ¡la mitad!",
+          explanation: "¡Correcto! Medio litro = 500 mL, porque 1,000 ÷ 2 = 500."
+        },
+        {
+          id: "m9",
+          question: "¿Cuántas horas (h) tiene un día completo?",
+          options: ["12 horas", "24 horas", "60 horas", "100 horas"],
+          correctIndex: 1,
+          hint: "El día y la noche juntos forman un ciclo que se repite cada 24 horas.",
+          explanation: "¡Muy bien! Un día completo tiene 24 horas (12 de día y 12 de noche)."
+        },
+        {
+          id: "m10",
+          question: "Un lápiz nuevo mide aproximadamente:",
+          options: ["17 centímetros", "17 metros", "17 kilómetros", "17 litros"],
+          correctIndex: 0,
+          hint: "Piensa en tu regla escolar: un lápiz cabe dentro de ella casi totalmente.",
+          explanation: "¡Exacto! Un lápiz mide alrededor de 17 cm. Los metros y kilómetros son demasiado grandes."
         }
       ]
     },
@@ -188,6 +248,54 @@ const APP_DATA = {
           correctIndex: 1,
           hint: "Primero resuelve lo que está dentro del paréntesis (2 × 5), y luego súmalo a 10.",
           explanation: "¡Perfecto! Primero hacemos el paréntesis: 2 × 5 = 10. Luego sumamos: 10 + 10 = 20."
+        },
+        {
+          id: "op5",
+          question: "¿Cuál es el resultado de 47 + 28?",
+          options: ["65", "70", "75", "85"],
+          correctIndex: 2,
+          hint: "Suma las unidades primero: 7 + 8 = 15. Anota 5 y lleva 1. Luego 4 + 2 + 1.",
+          explanation: "¡Correcto! 47 + 28 = 75. Las unidades dan 15 (escribes 5 y llevas 1) y 4 + 2 + 1 = 7."
+        },
+        {
+          id: "op6",
+          question: "¿Cuál es el resultado de 52 - 17?",
+          options: ["35", "45", "34", "42"],
+          correctIndex: 0,
+          hint: "Como no puedes quitar 7 a 2, pide prestada una decena: 12 - 7 = 5, y 4 - 1 = 3.",
+          explanation: "¡Muy bien! 52 - 17 = 35. Pides prestada una decena para hacer 12 - 7 = 5."
+        },
+        {
+          id: "op7",
+          question: "¿Cuál es el resultado de 6 × 7?",
+          options: ["36", "42", "48", "13"],
+          correctIndex: 1,
+          hint: "Recuerda la tabla del 7: 7, 14, 21, 28, 35, 42...",
+          explanation: "¡Excelente! 6 × 7 = 42. Puedes verlo como seis veces siete o siete veces seis."
+        },
+        {
+          id: "op8",
+          question: "Si 24 dulces se reparten entre 4 niños en partes iguales, ¿cuántos dulces le tocan a cada uno?",
+          options: ["4 dulces", "6 dulces", "8 dulces", "12 dulces"],
+          correctIndex: 1,
+          hint: "Divide 24 entre 4: ¿cuántas veces cabe el 4 en el 24?",
+          explanation: "¡Correcto! 24 ÷ 4 = 6 dulces para cada niño."
+        },
+        {
+          id: "op9",
+          question: "¿Cuál es el resultado de 3 × 2 + 4?",
+          options: ["14", "10", "20", "24"],
+          correctIndex: 1,
+          hint: "Sin paréntesis, primero va la multiplicación: 3 × 2 = 6. Después suma el 4.",
+          explanation: "¡Perfecto! Por la jerarquía: 3 × 2 = 6, y luego 6 + 4 = 10."
+        },
+        {
+          id: "op10",
+          question: "Tienes 35 estampas y regalas 12 a tu mejor amigo. ¿Cuántas te quedan?",
+          options: ["23 estampas", "27 estampas", "22 estampas", "33 estampas"],
+          correctIndex: 0,
+          hint: "La palabra 'regalas' significa que debes restar: 35 - 12.",
+          explanation: "¡Muy bien! 35 - 12 = 23 estampas en tu colección."
         }
       ]
     },
@@ -260,6 +368,54 @@ const APP_DATA = {
           correctIndex: 2,
           hint: "Piensa en el planeta Tierra o un balón de fútbol.",
           explanation: "¡Excelente! La esfera es un cuerpo geométrico perfectamente redondo en 3D."
+        },
+        {
+          id: "g5",
+          question: "¿Cuántos grados (°) mide un ángulo recto?",
+          options: ["45°", "60°", "90°", "180°"],
+          correctIndex: 2,
+          hint: "El ángulo recto tiene forma de 'L', como la esquina de una hoja de papel.",
+          explanation: "¡Correcto! Un ángulo recto mide exactamente 90°, como las esquinas de una hoja."
+        },
+        {
+          id: "g6",
+          question: "Un cuadrado tiene lados de 5 cm. ¿Cuál es su perímetro?",
+          options: ["10 cm", "20 cm", "25 cm", "15 cm"],
+          correctIndex: 1,
+          hint: "El perímetro es la cerca completa: suma sus 4 lados iguales (5 + 5 + 5 + 5).",
+          explanation: "¡Muy bien! Perímetro = 5 + 5 + 5 + 5 = 20 cm."
+        },
+        {
+          id: "g7",
+          question: "¿Qué figura tiene exactamente 3 lados y 3 vértices (esquinas)?",
+          options: ["Cuadrado", "Rectángulo", "Triángulo", "Círculo"],
+          correctIndex: 2,
+          hint: "Su nombre empieza con 'tri', que significa tres.",
+          explanation: "¡Exacto! El triángulo tiene 3 lados y 3 esquinas. 'Tri' significa tres."
+        },
+        {
+          id: "g8",
+          question: "¿Cómo se llama el ángulo que mide más de 90°?",
+          options: ["Ángulo agudo", "Ángulo recto", "Ángulo obtuso", "Ángulo plano"],
+          correctIndex: 2,
+          hint: "Es más abierto y ancho que la esquina de una hoja (90°).",
+          explanation: "¡Correcto! El ángulo obtuso es más abierto que 90°, como una puerta que abre mucho."
+        },
+        {
+          id: "g9",
+          question: "¿Cuántas caras tiene un cubo, como un dado de juego?",
+          options: ["4 caras", "6 caras", "8 caras", "12 caras"],
+          correctIndex: 1,
+          hint: "Piensa en un dado: cuenta cuántas superficies planas tiene (donde puede apoyarse).",
+          explanation: "¡Excelente! El cubo tiene 6 caras cuadradas iguales, como un dado."
+        },
+        {
+          id: "g10",
+          question: "Un cuadrado tiene lados de 3 cm. ¿Cuál es su área?",
+          options: ["6 cm²", "9 cm²", "12 cm²", "3 cm²"],
+          correctIndex: 1,
+          hint: "Área = largo × ancho. Como todos los lados miden 3: 3 × 3.",
+          explanation: "¡Muy bien! Área = 3 cm × 3 cm = 9 cm²."
         }
       ]
     },
@@ -332,6 +488,54 @@ const APP_DATA = {
           correctIndex: 1,
           hint: "Las barras permiten ver a simple vista qué opción ganó o tiene más frecuencia.",
           explanation: "¡Exacto! Las gráficas de barras nos ayudan a interpretar datos y comparar cantidades rápidamente."
+        },
+        {
+          id: "st5",
+          question: "¿Qué parte de una pizza representa el 25%?",
+          options: ["Todo el pastel", "La mitad", "Un cuarto (1/4)", "Casi nada"],
+          correctIndex: 2,
+          hint: "25 de cada 100. Si divides el total en 4 partes iguales, cada parte es 25%.",
+          explanation: "¡Correcto! 25% = 25/100 = 1/4, es decir, un cuarto del total."
+        },
+        {
+          id: "st6",
+          question: "Si 2 lápices cuestan $8 pesos, ¿cuánto costarán 6 lápices?",
+          options: ["$16 pesos", "$20 pesos", "$24 pesos", "$48 pesos"],
+          correctIndex: 2,
+          hint: "Con 2 lápices cuesta $8. Para llegar a 6 necesitas 3 grupos de 2. Multiplica $8 × 3.",
+          explanation: "¡Muy bien! 6 lápices son 3 grupos de 2, entonces $8 × 3 = $24 pesos."
+        },
+        {
+          id: "st7",
+          question: "El 75% de un pastel es lo mismo que:",
+          options: ["La mitad (1/2)", "Tres cuartas partes (3/4)", "Un cuarto (1/4)", "Todo el pastel"],
+          correctIndex: 1,
+          hint: "75 es 50 + 25. O piensa: ¿cuántas veces cabe 25% en 75%?",
+          explanation: "¡Exacto! 75% = 75/100 = 3/4, tres cuartas partes del pastel."
+        },
+        {
+          id: "st8",
+          question: "En una gráfica de barras sobre frutas favoritas, ¿qué significa que la barra de manzana sea la más alta?",
+          options: ["Que nadie la eligió", "Que es la fruta más votada", "Que es la más barata", "Que se acabó en la tienda"],
+          correctIndex: 1,
+          hint: "En una gráfica de barras, más altura significa más veces elegida (más frecuencia).",
+          explanation: "¡Correcto! La barra más alta muestra la opción con más votos o frecuencia."
+        },
+        {
+          id: "st9",
+          question: "Si una docena de huevos cuesta $30 pesos, ¿cuánto costarán 2 docenas?",
+          options: ["$45 pesos", "$60 pesos", "$55 pesos", "$90 pesos"],
+          correctIndex: 1,
+          hint: "Es una proporción: si duplicas la cantidad, duplicas el precio ($30 × 2).",
+          explanation: "¡Excelente! 2 docenas cuestan el doble: $30 × 2 = $60 pesos."
+        },
+        {
+          id: "st10",
+          question: "En una encuesta, 10 niños eligieron perro y solo 4 eligieron gato. ¿Cuántos más votaron por perro que por gato?",
+          options: ["6 más", "5 más", "14 más", "4 más"],
+          correctIndex: 0,
+          hint: "La palabra 'cuántos más' indica una resta: 10 - 4.",
+          explanation: "¡Muy bien! 10 - 4 = 6 niños más votaron por el perro."
         }
       ]
     },
@@ -404,6 +608,54 @@ const APP_DATA = {
           correctIndex: 1,
           hint: "Observa: el número de arriba (7) es mayor que el de abajo (4).",
           explanation: "¡Correcto! Es impropia porque el numerador (7) es mayor que el denominador (4)."
+        },
+        {
+          id: "cm5",
+          question: "¿A qué número decimal equivale la fracción 1/4?",
+          options: ["0.4", "0.25", "0.75", "0.14"],
+          correctIndex: 1,
+          hint: "Divide 1 entre 4 con calculadora mental: la mitad de la mitad de 1 (0.5 ÷ 2).",
+          explanation: "¡Correcto! 1 ÷ 4 = 0.25 (un cuarto de entero)."
+        },
+        {
+          id: "cm6",
+          question: "¿Cuál de estas fracciones es propia (el de arriba es menor que el de abajo)?",
+          options: ["7/4", "5/3", "2/5", "9/8"],
+          correctIndex: 2,
+          hint: "Busca la fracción donde el numerador (arriba) es más pequeño que el denominador (abajo).",
+          explanation: "¡Muy bien! En 2/5 el numerador (2) es menor que el denominador (5): es una fracción propia."
+        },
+        {
+          id: "cm7",
+          question: "¿Cuál es el resultado de 3/4 + 1/4?",
+          options: ["4/8", "1 entero (4/4)", "3/8", "4/16"],
+          correctIndex: 1,
+          hint: "Suma los numeradores: 3 + 1 = 4. ¿Qué fracción con denominador 4 vale 4/4?",
+          explanation: "¡Excelente! 3/4 + 1/4 = 4/4, que es exactamente 1 entero (o sea la pizza completa)."
+        },
+        {
+          id: "cm8",
+          question: "Si tienes 10 galletas y te comes la mitad (1/2), ¿cuántas te quedan?",
+          options: ["2 galletas", "5 galletas", "8 galletas", "10 galletas"],
+          correctIndex: 1,
+          hint: "La mitad significa dividir en 2 partes iguales: 10 ÷ 2.",
+          explanation: "¡Correcto! La mitad de 10 es 5; te comiste 5 y te quedan 5 galletas."
+        },
+        {
+          id: "cm9",
+          question: "¿Cuál fracción representa una porción más grande de pastel: 1/2 o 1/4?",
+          options: ["1/4", "1/2", "Valen lo mismo", "Ninguna se puede comer"],
+          correctIndex: 1,
+          hint: "Imagina una pizza: en cuántos trozos la divides. ¿Es más trozo una de 2 partes o una de 4?",
+          explanation: "¡Exacto! 1/2 es más grande que 1/4, porque entre menos partes, cada parte es mayor."
+        },
+        {
+          id: "cm10",
+          question: "¿Cuál es el resultado de 0.5 + 0.5?",
+          options: ["0.10", "2.5", "1 entero", "0.55"],
+          correctIndex: 2,
+          hint: "0.5 es la mitad de un entero. Dos mitades juntas forman...",
+          explanation: "¡Correcto! 0.5 + 0.5 = 1. Dos mitades hacen un entero completo."
         }
       ]
     },
@@ -476,6 +728,54 @@ const APP_DATA = {
           correctIndex: 1,
           hint: "Representan un valor numérico que queremos descubrir.",
           explanation: "¡Exacto! Las letras representan cantidades desconocidas que descubrimos resolviendo la ecuación."
+        },
+        {
+          id: "alg5",
+          question: "En la sucesión: 5, 10, 15, 20... ¿qué número sigue?",
+          options: ["22", "25", "24", "30"],
+          correctIndex: 1,
+          hint: "Observa los saltos: cada número suma 5 (de 5 en 5).",
+          explanation: "¡Correcto! La regla es contar de 5 en 5: 20 + 5 = 25."
+        },
+        {
+          id: "alg6",
+          question: "Si x - 4 = 6, ¿cuál es el valor secreto de x?",
+          options: ["2", "8", "10", "24"],
+          correctIndex: 2,
+          hint: "Para despejar x, suma 4 a ambos lados: x = 6 + 4.",
+          explanation: "¡Muy bien! x = 6 + 4 = 10. Comprobamos: 10 - 4 = 6."
+        },
+        {
+          id: "alg7",
+          question: "Si 2 × x = 8 (dos veces x da 8), ¿cuánto vale x?",
+          options: ["2", "4", "6", "16"],
+          correctIndex: 1,
+          hint: "¿Qué número multiplicado por 2 da como resultado 8?",
+          explanation: "¡Excelente! 2 × 4 = 8, por lo tanto x = 4."
+        },
+        {
+          id: "alg8",
+          question: "En la sucesión: 1, 2, 4, 8... cada número se duplica. ¿Qué número sigue?",
+          options: ["10", "12", "14", "16"],
+          correctIndex: 3,
+          hint: "La regla secreta es 'por 2': 8 × 2 = ?",
+          explanation: "¡Correcto! Cada término se duplica: 8 × 2 = 16."
+        },
+        {
+          id: "alg9",
+          question: "Si sabemos que x = 5, ¿cuánto vale la expresión x + 3?",
+          options: ["3", "8", "15", "53"],
+          correctIndex: 1,
+          hint: "Reemplaza la x por su valor: 5 + 3.",
+          explanation: "¡Exacto! Si x = 5, entonces x + 3 = 5 + 3 = 8."
+        },
+        {
+          id: "alg10",
+          question: "Si 3 × x = 15, ¿cuál es el valor de x?",
+          options: ["5", "3", "12", "18"],
+          correctIndex: 0,
+          hint: "Piensa en la tabla del 3: ¿por cuál número multiplicas 3 para obtener 15?",
+          explanation: "¡Muy bien! 3 × 5 = 15, entonces x = 5."
         }
       ]
     }

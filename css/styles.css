@@ -263,6 +263,46 @@ body {
   width: 16px;
 }
 
+/* Consejos de resolución (vista de quiz) */
+.quiz-tips-card {
+  margin-top: 14px;
+  background: #fffbeb;
+  border: 1px dashed #fcd34d;
+  border-radius: 12px;
+  padding: 10px 14px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.quiz-tips-card:hover {
+  background: #fefce8;
+  transform: translateY(-1px);
+}
+
+.quiz-tips-card:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+.quiz-tip-badge {
+  display: inline-block;
+  background: #fde68a;
+  color: #92400e;
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.quiz-tip-text {
+  margin-top: 6px;
+  font-size: 0.92rem;
+  color: var(--text-dark);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
 /* Recompensas por nivel */
 .reward-display {
   margin: 14px 0;

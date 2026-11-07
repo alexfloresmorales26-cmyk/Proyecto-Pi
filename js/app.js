@@ -22,6 +22,7 @@ class MathApp {
     this.quizAnswers = []; // { questionId, selectedIndex, isCorrect }
     this.currentFactIndex = 0;
     this.currentTipIndex = 0;
+    this.currentQuizTipIndex = 0;
 
     this.init();
   }
@@ -31,6 +32,7 @@ class MathApp {
     this.renderTopics();
     this.renderFunFact();
     this.renderHeroTip();
+    this.renderQuizTips();
     this.startTipsRotation();
     this.updateUserHeader();
     this.setupEventListeners();
@@ -195,6 +197,27 @@ class MathApp {
 
   startTipsRotation() {
     setInterval(() => this.nextHeroTip(), 9000);
+  }
+
+  // Consejos de resolución en la vista de quiz
+  renderQuizTips() {
+    const tipText = document.getElementById("quiz-tip-text");
+    if (!tipText || !APP_DATA.quizTips) return;
+
+    tipText.textContent = APP_DATA.quizTips[this.currentQuizTipIndex];
+
+    const dots = document.getElementById("quiz-tip-dots");
+    if (dots) {
+      dots.innerHTML = APP_DATA.quizTips.map((_, i) =>
+        `<span class="hero-tip-dot${i === this.currentQuizTipIndex ? " active" : ""}"></span>`
+      ).join("");
+    }
+  }
+
+  nextQuizTip(playSound = false) {
+    if (playSound) sound.playClick();
+    this.currentQuizTipIndex = (this.currentQuizTipIndex + 1) % APP_DATA.quizTips.length;
+    this.renderQuizTips();
   }
 
   // Recompensas al subir de nivel: desbloquear insignias y celebrar
@@ -727,6 +750,16 @@ class MathApp {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         this.nextHeroTip(true);
+      }
+    });
+
+    // Consejo de resolución del quiz: clic o teclado para avanzar
+    const quizTips = document.getElementById("quiz-tips");
+    quizTips?.addEventListener("click", () => this.nextQuizTip(true));
+    quizTips?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        this.nextQuizTip(true);
       }
     });
 
