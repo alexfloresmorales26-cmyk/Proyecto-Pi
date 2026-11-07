@@ -26,6 +26,20 @@ class MathApp {
     this.currentQuizTipIndex = 0;
     this.quizStreak = 0; // Racha de respuestas correctas seguidas
 
+    // Mecánica nueva: ronda 1 (si falla, salta sola) + repaso final solo de las falladas
+    this.quizPhase = "round1";        // "round1" | "review"
+    this.reviewQueue = [];            // índices de preguntas falladas en la ronda 1
+    this.reviewPos = 0;               // posición actual dentro del repaso
+    this.fixedInReview = new Set();   // índices de preguntas acertadas en el repaso
+    this.autoAdvanceTimer = null;     // temporizador del salto automático tras fallar
+
+    // Mecánica nueva: ronda 1 (si falla, salta sola) + repaso final solo de las falladas
+    this.quizPhase = "round1";        // "round1" | "review"
+    this.reviewQueue = [];            // índices de preguntas falladas en la ronda 1
+    this.reviewPos = 0;               // posición actual dentro del repaso
+    this.fixedInReview = new Set();   // índices de preguntas acertadas en el repaso
+    this.autoAdvanceTimer = null;     // temporizador del salto automático tras fallar
+
     this.init();
   }
 
@@ -657,22 +671,50 @@ class MathApp {
     }
 
     sound.playClick();
+    clearTimeout(this.autoAdvanceTimer);
+    this.autoAdvanceTimer = null;
     this.currentQuestionIndex = 0;
     this.quizAnswers = [];
     this.quizStreak = 0;
+    this.quizPhase = "round1";
+    this.reviewQueue = [];
+    this.reviewPos = 0;
+    this.fixedInReview = new Set();
     this.showView("view-quiz");
     this.renderCurrentQuestion();
     this.renderQuizStreak();
   }
 
+  // Índice real de la pregunta que se está mostrando (ronda 1 o repaso)
+  currentQuizQuestionIndex() {
+    return this.quizPhase === "review"
+      ? this.reviewQueue[this.reviewPos]
+      : this.currentQuestionIndex;
+  }
+
   renderCurrentQuestion() {
     const topic = this.currentTopic;
-    const q = topic.quiz[this.currentQuestionIndex];
+    const qIndex = this.currentQuizQuestionIndex();
+    const q = topic.quiz[qIndex];
     const totalQ = topic.quiz.length;
+    const isReview = this.quizPhase === "review";
 
-    document.getElementById("quiz-topic-title").textContent = `${topic.icon} Reto: ${topic.title}`;
-    document.getElementById("quiz-progress-text").textContent = `Pregunta ${this.currentQuestionIndex + 1} de ${totalQ}`;
-    document.getElementById("quiz-progress-fill").style.width = `${((this.currentQuestionIndex + 1) / totalQ) * 100}%`;
+    document.getElementById("quiz-topic-title").textContent = isReview
+      ? `${topic.icon} Repaso: ${topic.title}`
+      : `${topic.icon} Reto: ${topic.title}`;
+
+    if (isReview) {
+      document.getElementById("quiz-progress-text").textContent = `📝 Repaso ${this.reviewPos + 1} de ${this.reviewQueue.length} (solo las que fallaste)`;
+      document.getElementById("quiz-progress-fill").style.width = `${((this.reviewPos + 1) / this.reviewQueue.length) * 100}%`;
+    } else {
+      document.getElementById("quiz-progress-text").textContent = `Pregunta ${this.currentQuestionIndex + 1} de ${totalQ}`;
+      document.getElementById("quiz-progress-fill").style.width = `${((this.currentQuestionIndex + 1) / totalQ) * 100}%`;
+    }
+
+    const badgeEl = document.querySelector("#view-quiz .question-badge");
+    if (badgeEl) {
+      badgeEl.textContent = isReview ? "📝 Repaso de errores" : "Pregunta Interactiva";
+    }
 
     document.getElementById("question-title-text").textContent = q.question;
 
@@ -700,16 +742,19 @@ class MathApp {
     });
   }
 
-  // Verificar respuesta (Paso 6 del diagrama)
-  // Mecánica: si se equivoca, no avanza hasta acertar. El puntaje usa el PRIMER intento
-  // de cada pregunta (quizAnswers guarda solo el primer intento por pregunta).
+  // Verificar respuesta.
+  // Ronda 1: si falla, la pregunta se anota y SALTA SOLA a la siguiente.
+  // Repaso final: solo las preguntas falladas, con reintento hasta acertar.
   selectAnswer(selectedIdx) {
-    const q = this.currentTopic.quiz[this.currentQuestionIndex];
+    const qIndex = this.currentQuizQuestionIndex();
+    const q = this.currentTopic.quiz[qIndex];
     const isCorrect = selectedIdx === q.correctIndex;
-    const isFirstAttempt = this.quizAnswers.length === this.currentQuestionIndex;
+    const isReview = this.quizPhase === "review";
+    const isFirstAttempt = !isReview && this.quizAnswers.length === this.currentQuestionIndex;
 
     if (isFirstAttempt) {
       this.quizAnswers.push({
+        index: qIndex,
         question: q.question,
         selectedText: q.options[selectedIdx],
         correctText: q.options[q.correctIndex],
@@ -741,48 +786,102 @@ class MathApp {
         this.saveUserData();
       }
 
+      // En el repaso, la pregunta reparada cuenta para el puntaje final
+      if (isReview) this.fixedInReview.add(qIndex);
+
       feedbackBox.className = "quiz-feedback-box correct show";
-      feedbackBox.innerHTML = isFirstAttempt
-        ? `<strong>¡Excelente trabajo! 🎉</strong> ${q.explanation}`
-        : `<strong>¡Ahora sí lo logras! 🎉</strong> ${q.explanation}`;
+      if (isReview) {
+        feedbackBox.innerHTML = `<strong>¡Reparado! ✅</strong> ${q.explanation} <em>Ya la dominas: cuenta para tu puntaje final.</em>`;
+      } else {
+        feedbackBox.innerHTML = isFirstAttempt
+          ? `<strong>¡Excelente trabajo! 🎉</strong> ${q.explanation}`
+          : `<strong>¡Ahora sí lo logras! 🎉</strong> ${q.explanation}`;
+      }
       if (isNewRecord) {
         feedbackBox.insertAdjacentHTML("beforeend", `<div class="streak-record-note">🔥 ¡Nuevo récord de racha: ${this.quizStreak} aciertos seguidos!</div>`);
       }
 
       nextBtn.style.display = "inline-block";
-      const isLast = this.currentQuestionIndex === this.currentTopic.quiz.length - 1;
-      nextBtn.textContent = isLast ? "Ver Resultados Finales ⭐" : "Siguiente Pregunta ➡️";
+      const isLast = isReview
+        ? this.reviewPos === this.reviewQueue.length - 1
+        : this.currentQuestionIndex === this.currentTopic.quiz.length - 1;
+      nextBtn.textContent = isLast
+        ? "Ver Resultados Finales ⭐"
+        : (isReview ? "Siguiente del repaso ➡️" : "Siguiente Pregunta ➡️");
     } else {
-      // Respuesta incorrecta: bloquea solo esa opción y permite reintentar
       sound.playIncorrect();
       this.quizStreak = 0; // La racha se rompe con cualquier error
       this.renderQuizStreak();
-      buttons.forEach((b, idx) => {
-        if (idx === selectedIdx) {
-          b.disabled = true;
-          b.classList.add("incorrect");
-        } else if (!b.classList.contains("incorrect")) {
-          b.disabled = false;
-        }
-      });
+
+      if (isReview) {
+        // Repaso: se queda en la pregunta con pista y botón de reintentar
+        buttons.forEach((b, idx) => {
+          if (idx === selectedIdx) {
+            b.disabled = true;
+            b.classList.add("incorrect");
+          }
+        });
+
+        feedbackBox.className = "quiz-feedback-box incorrect show";
+        feedbackBox.innerHTML = `<strong>¡Casi lo logras! 💡</strong> Pista: ${q.hint}<br><em> 🔁 Elige otra respuesta para continuar: no podrás avanzar hasta acertar.</em><button class="btn-retry-question" id="btn-retry-question">🔁 Reintentar pregunta</button>`;
+
+        const retryBtn = feedbackBox.querySelector("#btn-retry-question");
+        retryBtn?.addEventListener("click", () => {
+          sound.playClick();
+          this.renderCurrentQuestion();
+        });
+
+        nextBtn.style.display = "none";
+        return;
+      }
+
+      // Ronda 1: se anota como fallada y salta automáticamente (sin atascarse)
+      this.reviewQueue.push(qIndex);
+      buttons.forEach(b => { b.disabled = true; });
+      buttons[selectedIdx]?.classList.add("incorrect");
 
       feedbackBox.className = "quiz-feedback-box incorrect show";
-      feedbackBox.innerHTML = `<strong>¡Casi lo logras! 💡</strong> Pista: ${q.hint}<br><em> 🔁 Elige otra respuesta para continuar: no podrás avanzar hasta acertar.</em><button class="btn-retry-question" id="btn-retry-question">🔁 Reintentar pregunta</button>`;
-
-      const retryBtn = feedbackBox.querySelector("#btn-retry-question");
-      retryBtn?.addEventListener("click", () => {
-        sound.playClick();
-        this.renderCurrentQuestion();
-      });
+      feedbackBox.innerHTML = `<strong>¡Casi lo logras! 💡</strong> Pista: ${q.hint}<br><em>📝 Quedó anotada: la volverás a ver en el repaso final. ¡Seguimos con la siguiente!</em>`;
 
       nextBtn.style.display = "none";
+
+      // Salto automático: espera un momento para leer la pista y avanza
+      clearTimeout(this.autoAdvanceTimer);
+      const expectedIndex = this.currentQuestionIndex;
+      this.autoAdvanceTimer = setTimeout(() => {
+        this.autoAdvanceTimer = null;
+        const quizView = document.getElementById("view-quiz");
+        if (this.quizPhase === "round1" &&
+            this.currentQuestionIndex === expectedIndex &&
+            quizView?.classList.contains("active")) {
+          this.nextQuestion();
+        }
+      }, 2200);
     }
   }
 
   nextQuestion() {
     sound.playClick();
+    clearTimeout(this.autoAdvanceTimer);
+    this.autoAdvanceTimer = null;
+
+    if (this.quizPhase === "review") {
+      this.reviewPos++;
+      if (this.reviewPos >= this.reviewQueue.length) {
+        this.evaluateQuizResults();
+      } else {
+        this.renderCurrentQuestion();
+      }
+      return;
+    }
+
     this.currentQuestionIndex++;
     if (this.currentQuestionIndex < this.currentTopic.quiz.length) {
+      this.renderCurrentQuestion();
+    } else if (this.reviewQueue.length > 0) {
+      // Terminó la ronda 1 y hubo fallos: pasar al repaso SOLO de esas preguntas
+      this.quizPhase = "review";
+      this.reviewPos = 0;
       this.renderCurrentQuestion();
     } else {
       this.evaluateQuizResults();
@@ -790,10 +889,16 @@ class MathApp {
   }
 
   // ¿Aprobó? Evaluación y Ramas del Diagrama de Flujo
+  // Puntaje final: aciertos de la ronda 1 + preguntas reparadas en el repaso.
   evaluateQuizResults() {
+    clearTimeout(this.autoAdvanceTimer);
+    this.autoAdvanceTimer = null;
+
     const total = this.quizAnswers.length;
-    const correctCount = this.quizAnswers.filter(a => a.isCorrect).length;
-    const scorePercent = Math.round((correctCount / total) * 100);
+    const round1Correct = this.quizAnswers.filter(a => a.isCorrect).length;
+    const reviewedFixed = this.fixedInReview.size;
+    const correctCount = Math.min(round1Correct + reviewedFixed, total);
+    const scorePercent = total > 0 ? Math.round((correctCount / total) * 100) : 0;
     const passed = scorePercent >= 70; // Criterio de aprobación del diagrama
 
     // Guardar en el historial (con el grado escolar vigente al momento del intento)
@@ -822,7 +927,11 @@ class MathApp {
       this.launchConfetti();
       iconEl.textContent = "🏆";
       titleEl.textContent = "¡Felicidades, Aprobaste con Éxito!";
-      msgEl.textContent = `¡Excelente esfuerzo! Has demostrado que dominas el tema de ${this.currentTopic.title}. Sumaste +100 XP a tu perfil.`;
+      msgEl.textContent = `¡Excelente esfuerzo! Has demostrado que dominas el tema de ${this.currentTopic.title}.` +
+        (reviewedFixed > 0
+          ? ` Repasaste ${reviewedFixed} ${reviewedFixed === 1 ? "pregunta" : "preguntas"} y ahora las dominas todas.`
+          : " ¡Y todo a la primera!") +
+        ` Sumaste +100 XP a tu perfil.`;
 
       // Otorgar recompensas: XP, nivel e insignias desbloqueadas
       const previousLevel = this.user.level;
@@ -854,7 +963,14 @@ class MathApp {
 
       approvedActions.style.display = "flex";
       failedActions.style.display = "none";
-      errorsSection.style.display = "none";
+
+      // Si hubo fallos en la ronda 1, mostrar el resumen (ya reparados en el repaso)
+      if (this.quizAnswers.some(a => !a.isCorrect)) {
+        this.renderErrorsAndSuggestions();
+        errorsSection.style.display = "block";
+      } else {
+        errorsSection.style.display = "none";
+      }
     } else {
       // Rama: NO APROBÓ -> Mostrar resultados y sugerir estudiar más
       sound.playIncorrect();
@@ -888,18 +1004,21 @@ class MathApp {
       return;
     }
 
-    list.innerHTML = incorrects.map(item => `
+    list.innerHTML = incorrects.map(item => {
+      const fixed = this.fixedInReview.has(item.index);
+      return `
       <div class="error-item">
         <div class="error-item-question">❓ ${item.question}</div>
         <div class="error-item-answers">
           <span style="color: #dc2626;">❌ Tu respuesta: <strong>${item.selectedText}</strong></span>
           <span style="color: #16a34a;">✔️ Respuesta correcta: <strong>${item.correctText}</strong></span>
         </div>
-        <div class="error-item-suggestion">
-          💡 <strong>Sugerencia para recordar:</strong> ${item.hint}
-        </div>
+        ${fixed
+          ? `<div class="error-item-suggestion" style="color: #15803d;">✅ <strong>La acertaste en el repaso final:</strong> ¡ya la dominas!</div>`
+          : `<div class="error-item-suggestion">💡 <strong>Sugerencia para recordar:</strong> ${item.hint}</div>`}
       </div>
-    `).join("");
+    `;
+    }).join("");
   }
 
   // Efecto de Confeti con Canvas puro
