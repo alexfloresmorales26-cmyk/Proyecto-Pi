@@ -1,6 +1,21 @@
 # Proyecto-Pi: Matemática Básica (Primaria)
 
-Este proyecto está enfocado en el desarrollo del aprendizaje de las matemáticas básicas para niños de educación primaria,  **Proyecto Integrador (Equipo Isma_1)**.
+Este proyecto está enfocado en el desarrollo del aprendizaje de las matemáticas básicas para niños de educación primaria. **Proyecto Integrador (Equipo Isma_1)**.
+
+**🌐 Sitio en línea:** [https://mi-proyecto-wheat-five.vercel.app/](https://mi-proyecto-wheat-five.vercel.app/)
+
+---
+
+## 📋 Índice
+
+1. [¿Cómo abrir y usar la aplicación?](#-cómo-abrir-y-usar-la-aplicación)
+2. [Características principales](#-características-principales)
+3. [Temas de estudio](#-temas-de-estudio)
+4. [Diseño de interfaz](#-diseño-de-interfaz-página-10-del-documento)
+5. [Diagrama de flujo del juego](#-diagrama-de-flujo-página-9-del-documento)
+6. [Estructura del proyecto](#-estructura-del-proyecto)
+7. [Créditos](#-créditos)
+8. [Licencia](#-licencia-y-derechos-de-autor)
 
 ---
 
@@ -8,65 +23,118 @@ Este proyecto está enfocado en el desarrollo del aprendizaje de las matemática
 
 La aplicación está construida con tecnologías web estándar (HTML5, CSS3 y JavaScript ES6) con **cero dependencias externas**, por lo que funciona al 100% de manera local y offline.
 
-### Opción 1: Abrir directamente (Recomendado)
-- Simplemente haz doble clic en el archivo [`index.html`](file:///c:/Users/alexf/OneDrive/Desktop/Pi/index.html) para abrirlo en tu navegador favorito (Google Chrome, Microsoft Edge, Firefox, Safari) O Desde nuestra paguina wed https://mi-proyecto-wheat-five.vercel.app/ 
+### Opción 1: Abrir la página web (Recomendado)
 
-### Opción 2: Usar un servidor local con Python
+Visita el sitio en línea desplegado en Vercel: **[https://mi-proyecto-wheat-five.vercel.app/](https://mi-proyecto-wheat-five.vercel.app/)**
+
+### Opción 2: Abrir directamente en tu equipo
+
+Haz doble clic en el archivo `index.html` para abrirlo en tu navegador favorito (Google Chrome, Microsoft Edge, Firefox o Safari).
+
+### Opción 3: Usar un servidor local con Python
+
 Si prefieres servirla vía HTTP:
+
 ```bash
 python -m http.server 8000
 ```
+
 Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 
 ---
 
-## 🎨 Correspondencia con el Documento
+## ✨ Características principales
 
-### 1. Diseño de Interfaz (Página 10)
-- **Barra Superior**:
-  - Menú hamburguesa (☰) con acceso a los créditos de los 9 integrantes y ajustes de sonido.
-  - Insignia de estrella con **Nivel 1** y barra de experiencia dinámica.
-  - Avatar del estudiante con acceso a sus estadísticas y logros.
-- **Título**: Letras grandes y amigables **"MATEMATICA BASICA"**.
-- **Hero Card (Izquierda)**:
-  - Mascota dinosaurio verde amigable 🦕 con globo de pensamiento `"3+1"`.
-  - Saludo `"¡Hola, pequeño matematico! Aprende, practica y avanza."`.
-  - Botón `"Comenzar a aprender"`.
-  - Selector de grado escolar (*1º a 6º de Primaria*).
-- **Tarjetas de Temas (Derecha)**:
-  - 📏 **Mediciones** (Amarillo): Longitud, peso, tiempo, capacidad y conversiones.
-  - ➕ **Operaciones** (Verde): Sumas, restas, multiplicación, división y jerarquía de operaciones.
-  - 📐 **Geometría** (Morado): Figuras geométricas, cálculo interactivo de perímetro/área, ángulos y cuerpos 3D.
-  - 📊 **Estadística y Proporción** (Rosa/Salmón): Razones, porcentajes, regla de tres y gráficas.
-  - 🍕 **Cálculo Mental y Fracciones** (Celeste): Fracciones de un todo, equivalencias y decimales.
-  - 🧩 **Álgebra Divertida** (Naranja): Patrones, incógnitas y balanza de equilibrio ($x + 5 = 12$).
-- **Tarjeta Inferior "¿Sabías que...?"**:
-  - Bombilla luminosa 💡 con la curiosidad: *"La suma de los primeros 10 números naturales (1+2+3+...+10) es igual a 55"*, y botón para rotar más datos interesantes.
+- 👤 **Perfiles con avatar**: la sesión se guarda en `localStorage` (nombre, avatar, grado, nivel y avances).
+- 🎭 **12 avatares** para elegir, de dinosaurio a superestrella.
+- 👀 **Modo Invitado**: solo visualización; para jugar se necesita crear un perfil.
+- 🏫 **Selector de grado escolar** (1º a 6º de Primaria): ajusta el contexto de las estadísticas.
+- 🎯 **10 retos por tema**: preguntas interactivas con sonido y retroalimentación inmediata.
+- 🔒 **No avanzar hasta acertar**: al fallar, la opción se bloquea con una pista y puedes reintentar con el botón **🔁 Reintentar**. El puntaje se calcula con el primer intento de cada pregunta (aprobar requiere ≥ 70%).
+- 🔥 **Barra de racha estilo arcade**: estrellas ⭐ que marcan tus aciertos seguidos durante el reto.
+- 🏅 **Mejor racha guardada**: tu récord histórico de aciertos seguidos, visible en el Perfil y en el modal de Nivel.
+- 🎁 **Recompensas por nivel**: 7 insignias desbloqueables (desde 🥉 Medalla de Bronce hasta 🌟 Superestrella Matemática) con celebración de confeti y sonido.
+- 💡 **Consejos para aprender** en el inicio y **consejos de resolución** durante cada reto.
+- 📊 **Estadísticas por grado**: porcentaje de aciertos por grado escolar en el Perfil.
+- 🔊 **Efectos de sonido** generados con Web Audio API (sin archivos de audio externos).
 
 ---
 
-### 2. Diagrama de Flujo (Página 9)
+## 📚 Temas de estudio
+
+| Tema | Color | Contenido |
+|------|-------|-----------|
+| 📏 Mediciones | Amarillo | Longitud, peso, tiempo, capacidad y conversiones |
+| ➕ Operaciones | Verde | Sumas, restas, multiplicación, división y jerarquía de operaciones |
+| 📐 Geometría | Morado | Figuras, perímetro, área, ángulos y cuerpos 3D |
+| 📊 Estadística y Proporción | Rosa | Razones, porcentajes, regla de tres y gráficas |
+| 🍕 Cálculo Mental y Fracciones | Celeste | Fracciones, equivalencias y decimales |
+| 🧩 Introducción al Álgebra | Naranja | Patrones, incógnitas y balanza de equilibrio (x + 5 = 12) |
+
+Cada tema incluye una **lección interactiva** con simuladores (regla deslizante, reparto de manzanas, visor geométrico, rebanadas de pizza y balanza con incógnitas).
+
+---
+
+## 🎨 Diseño de Interfaz (Página 10 del documento)
+
+- **Barra Superior**:
+  - Menú hamburguesa (☰) con acceso a los créditos y la información del proyecto.
+  - Insignia de estrella con el **Nivel** actual y barra de experiencia dinámica.
+  - Avatar del estudiante con acceso a sus estadísticas y avances.
+- **Hero Card (Izquierda)**:
+  - Mascota dinosaurio verde amigable 🦕 con globo de pensamiento `"3+1"`.
+  - Saludo `"¡Hola, pequeño matematico! Aprende, practica y avanza."`.
+  - Carrusel rotativo de **consejos para aprender** 💡.
+  - Botón `"Comenzar a aprender"` y selector de grado escolar (*1º a 6º de Primaria*).
+- **Tarjetas de Temas (Derecha)**: las 6 tarjetas de color listadas arriba.
+- **Tarjeta Inferior `"¿Sabías que...?"`**: bombilla luminosa 💡 con datos curiosos rotativos (por ejemplo: *"La suma de los primeros 10 números naturales (1+2+3+...+10) es igual a 55"*).
+
+---
+
+## 🔀 Diagrama de Flujo (Página 9 del documento)
+
 La aplicación implementa con exactitud cada bifurcación del flujo:
+
 1. **Abrir aplicación** ➡️ Pregunta **"¿Ya eres usuario?"**:
    - *Sí* ➡️ Carga el perfil, nivel y avances guardados en `localStorage`.
-   - *No* ➡️ Permite registrar el nombre, grado escolar y elegir un avatar animado (o continuar en modo invitado).
+   - *No* ➡️ Permite registrar nombre, grado escolar y avatar (o continuar en Modo Invitado, solo visualización).
 2. **Mostrar temas de matemáticas** ➡️ Selección de tema con retroalimentación visual.
-3. **Lección interactiva** ➡️ Explicaciones paso a paso con vocabulario infantil y simuladores interactivos (regla deslizante, reparto de manzanas, visor geométrico, rebanadas de pizza y balanza con incógnitas).
-4. **Cuestionario o Reto práctico** ➡️ Preguntas interactivas con sonido, opciones múltiples ilustradas y feedback inmediato.
-5. **Verificar respuestas** ➡️ Bifurcación **¿Aprobó?** ($\ge 70\%$):
+3. **Lección interactiva** ➡️ Explicaciones paso a paso con vocabulario infantil y simuladores interactivos.
+4. **Cuestionario o Reto práctico** ➡️ 10 preguntas interactivas con sonido, opciones múltiples ilustradas y feedback inmediato. Si fallas, no avanzas hasta acertar (con pista y botón de reintento).
+5. **Verificar respuestas** ➡️ Bifurcación **¿Aprobó?** (≥ 70% del primer intento):
    - **SÍ APROBÓ**:
-     - Lanza animación de confeti festivo.
-     - Reproduce melodía triunfal con `Web Audio API`.
+     - Lanza animación de confeti festivo y melodía triunfal.
      - Otorga puntos de experiencia (+100 XP), sube de nivel y guarda el tema como completado.
+     - Desbloquea la **recompensa del nivel** alcanzado (insignia con celebración).
      - Pregunta: *"¿Deseas iniciar otro tema?"* (Sí ➡️ regresa al menú de temas / No ➡️ vuelve al inicio).
    - **NO APROBÓ**:
      - Mensaje motivador y cálido.
-     - **Mostrar errores y dar sugerencias**: Desglosa cada pregunta fallada, mostrando la respuesta del alumno (❌), la correcta (✔️) y una **sugerencia didáctica paso a paso**.
+     - **Mostrar errores y dar sugerencias**: desglosa cada pregunta fallada en el primer intento, mostrando tu respuesta (❌), la correcta (✔️) y una sugerencia didáctica paso a paso.
      - Pregunta: *"¿Intentar de nuevo?"* (Sí ➡️ reintentar reto o repasar lección / No ➡️ guardar intento y volver al inicio).
 
 ---
 
-## 👥 Créditos del Proyecto Integrador (Página 1)
+## 📁 Estructura del proyecto
+
+```
+Proyecto-Pi/
+├── index.html      # Vistas, modales y navegación (HTML5)
+├── css/
+│   └── styles.css  # Estilos globales y animaciones
+├── js/
+│   ├── data.js     # APP_DATA: temas, lecciones, retos, tips y recompensas
+│   ├── app.js      # Lógica de la aplicación (clase MathApp)
+│   └── audio.js    # Efectos de sonido (Web Audio API)
+├── assets/
+│   └── dino.png    # Mascota dinosaurio
+├── AGENTS.md       # Guía del repositorio para agentes de código
+├── LICENSE         # Licencia MIT
+└── README.md       # Documentación
+```
+
+---
+
+## 👥 Créditos
 
 **Proyecto Integrador** — Grupo: **Isma_1**
 
@@ -77,4 +145,3 @@ La aplicación implementa con exactitud cada bifurcación del flujo:
 Este proyecto está bajo la **Licencia MIT**. Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
 **Copyright (c) 2026 Proyecto Integrador**. Todos los derechos reservados.
-
