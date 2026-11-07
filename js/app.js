@@ -147,7 +147,7 @@ class MathApp {
         <div class="card-top">
           <div class="card-icon">${topic.icon}</div>
           <span class="card-status-badge">
-            ${isCompleted ? "⭐ Completado" : topic.badge}
+            ${isCompleted ? "✅ Superado" : topic.badge}
           </span>
         </div>
         <h4>${topic.title}</h4>
@@ -340,6 +340,21 @@ class MathApp {
       this.attachWidgetListeners(topic);
     }
 
+    // Si el reto ya fue superado: bloquear el cuestionario de este tema
+    const quizBtn = document.getElementById("btn-lesson-start-quiz");
+    if (quizBtn) {
+      const alreadyPassed = this.user.completedTopics.includes(topic.id);
+      if (alreadyPassed) {
+        quizBtn.disabled = true;
+        quizBtn.textContent = "✅ Reto Superado";
+        quizBtn.title = "Ya aprobaste este reto. ¡Elige otro tema para seguir avanzando!";
+      } else {
+        quizBtn.disabled = false;
+        quizBtn.textContent = "¡Hacer Cuestionario! 🎯";
+        quizBtn.title = "";
+      }
+    }
+
     this.showView("view-lesson");
   }
 
@@ -518,6 +533,13 @@ class MathApp {
   startQuiz() {
     if (!this.requireProfile()) return;
     if (!this.currentTopic) return;
+
+    // Protección adicional: un reto ya superado no se puede repetir
+    if (this.user.completedTopics.includes(this.currentTopic.id)) {
+      alert("✅ Ya superaste este reto. ¡Elige otro tema para seguir avanzando!");
+      return;
+    }
+
     sound.playClick();
     this.currentQuestionIndex = 0;
     this.quizAnswers = [];
