@@ -469,13 +469,14 @@ class MathApp {
     const scorePercent = Math.round((correctCount / total) * 100);
     const passed = scorePercent >= 70; // Criterio de aprobación del diagrama
 
-    // Guardar en el historial
+    // Guardar en el historial (con el grado escolar vigente al momento del intento)
     this.user.history.push({
       topicId: this.currentTopic.id,
       topicTitle: this.currentTopic.title,
       score: scorePercent,
       date: new Date().toLocaleDateString(),
-      passed: passed
+      passed: passed,
+      grade: this.user.grade
     });
 
     const iconEl = document.getElementById("results-status-icon");
@@ -781,6 +782,52 @@ class MathApp {
         `).join("");
       }
     }
+
+    this.renderGradeStats();
+  }
+
+  // Estadísticas de conocimiento: promedio de aciertos por grado escolar
+  renderGradeStats() {
+    const container = document.getElementById("profile-grade-stats");
+    if (!container) return;
+
+    const grades = ["1º Primaria", "2º Primaria", "3º Primaria", "4º Primaria", "5º Primaria", "6º Primaria"];
+
+    // Agrupar puntajes por grado (los intentos antiguos sin grado usan el actual)
+    const scoresByGrade = {};
+    this.user.history.forEach(h => {
+      const grade = h.grade || this.user.grade;
+      if (!scoresByGrade[grade]) scoresByGrade[grade] = [];
+      scoresByGrade[grade].push(h.score);
+    });
+
+    container.innerHTML = grades.map(g => {
+      const scores = scoresByGrade[g] || [];
+
+      // Grados sin intentos -> "Sin datos"
+      if (scores.length === 0) {
+        return `
+          <div class="grade-stat-item">
+            <span class="grade-stat-label">${g}</span>
+            <div class="grade-stat-bar">
+              <div class="grade-stat-fill" style="width: 0%; background: #cbd5e1;"></div>
+            </div>
+            <span class="grade-stat-value">Sin datos</span>
+          </div>`;
+      }
+
+      const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+      const color = avg >= 70 ? "#10b981" : avg >= 50 ? "#f59e0b" : "#ef4444";
+
+      return `
+        <div class="grade-stat-item">
+          <span class="grade-stat-label">${g}</span>
+          <div class="grade-stat-bar">
+            <div class="grade-stat-fill" style="width: ${avg}%; background: ${color};"></div>
+          </div>
+          <span class="grade-stat-value" style="color: ${color};">${avg}%</span>
+        </div>`;
+    }).join("");
   }
 }
 
