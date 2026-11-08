@@ -49,6 +49,32 @@ Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 - 🔥 **Racha de días**: cada día que practicas suma un día a tu racha 📅 (visible en el header, en tu Perfil y en el ranking). Si dejas de venir, la racha se reinicia.
 - 🏆 **Ranking global de jugadores**: los puntajes se guardan en una base de datos en la nube, así que todos los usuarios quedan registrados y compiten; mira el Top 10 en el menú ☰ (ver [Ranking global](#-ranking-global)).
 - 📱 **Diseño responsivo**: la app se adapta al celular (header compacto, textos grandes, botones anchos y tabla del ranking con scroll).
+- 🔒 **Privacidad por diseño**: por defecto el ranking muestra un **alias inventado** (nunca tu nombre real) y **tu grado escolar no sale del dispositivo**. Tienes interruptores para mostrar tu apodo, no aparecer en el ranking o **borrar tu registro de la nube** (ver [Política de Privacidad y Uso](#-política-de-privacidad-y-uso--política-de-privacidad-y-uso)).
+
+---
+
+## 🔒 Política de Privacidad y Uso
+
+Texto completo: **[POLITICA.md](POLITICA.md)** (v1.0 · 08-11-2026). También se puede leer desde la app: menú ☰ → **🔒 Privacidad y Uso**.
+
+**Resumen en 30 segundos:**
+
+| Pregunta | Respuesta |
+|----------|-----------|
+| ¿Guardan mi nombre real? | ❌ No, solo un alias inventado (🕶️) |
+| ¿Guardan mi grado escolar? | ❌ No, se queda en el dispositivo |
+| ¿Qué se envía al ranking? | Alias, avatar, nivel, XP, rachas y último puntaje |
+| ¿Hay publicidad, rastreo o analítica? | ❌ No |
+| ¿Necesito cuenta o contraseña? | ❌ No |
+| ¿Puedo borrarlo todo? | ✅ Sí: datos locales y registro en la nube |
+| ¿Funciona sin internet? | ✅ Sí (solo el ranking lo necesita) |
+
+**Controles disponibles en la app (☰ → 🔒 Privacidad y Uso):**
+- **👀 Mostrar mi apodo en el ranking** — desactivado por defecto.
+- **🙈 No aparecer en el ranking global** — no se envía nada a la nube.
+- **🗑️ Borrar mi registro del ranking** — eliminación real de tu fila en la nube.
+
+> ⚠️ El almacén del ranking es un servicio público de práctica **sin autenticación**; por eso la app recomienda usar un apodo inventado y nunca datos personales reales.
 
 ---
 
@@ -56,11 +82,12 @@ Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 
 Al terminar un reto (aprobado con **≥ 70%** del puntaje final), el perfil de la/el jugador se registra automáticamente en una base de datos en la nube compartida:
 
-- **Qué se guarda**: nombre, avatar, grado escolar, nivel, puntos de experiencia (XP), mejor racha de aciertos seguidos, **racha de días 📅**, retos superados y el puntaje del último intento.
-- **Dónde se ve**: barra del menú ☰ → "Proyecto Integrador" → botón **🏆 Ranking Global de Jugadores** (tabla Top 10 por XP con medallas 🥇🥈🥉, columna 📅 de días seguidos y tu fila resaltada).
+- **Qué se guarda**: **alias** (por defecto) o apodo (solo si el niño lo activa), avatar, nivel, puntos de experiencia (XP), mejor racha de aciertos seguidos, **racha de días 📅**, retos superados y el puntaje del último intento. **El grado escolar nunca se envía.**
+- **Dónde se ve**: barra del menú ☰ → "Proyecto Integrador" → botón **🏆 Ranking Global de Jugadores** (tabla Top 10 por XP con medallas 🥇🥈🥉, columna 📅 de días seguidos y tu fila resaltada; los alias llevan el distintivo 🕶️).
 - **Puntaje final**: cuenta los aciertos de la primera ronda **más** las preguntas que se repararon en el repaso, de modo que fallar y corregir no penaliza en el ranking.
 - **Modo Invitado**: no juega ni registra puntajes (solo explora).
 - **Modo Práctica**: los entrenamientos no se envían (no cuentan para el ranking).
+- **Privacidad**: interruptores y borrado del registro en ☰ → 🔒 Privacidad y Uso (ver [Política de Privacidad y Uso](#-política-de-privacidad-y-uso)).
 - La conexión a la base de datos vive en `js/firebase-config.js` (constante `CLOUD_DB`: endpoint y `objectId` de un almacén JSON público) y la lógica de envío/lectura en la sección "RANKING GLOBAL" de `js/app.js`.
 - ⚠️ Requiere conexión a internet (todo lo demás funciona sin conexión).
 
@@ -137,6 +164,7 @@ Proyecto-Pi/
 ├── assets/
 │   └── dino.png    # Mascota dinosaurio
 ├── AGENTS.md       # Guía del repositorio para agentes de código
+├── POLITICA.md     # Política de Privacidad y Uso (v1.0)
 ├── LICENSE         # Licencia MIT
 └── README.md       # Documentación
 ```

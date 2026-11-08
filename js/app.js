@@ -15,8 +15,13 @@
  *  5. RESULTADOS        -> evaluateQuizResults()  (XP, nivel, insignias)
  *  6. RANKING GLOBAL    -> submitScoreToRanking() / renderRanking()  (nube)
  *  7. MODO INVITADO     -> requireProfile()  (sin perfil no se juega)
+ *  8. PRIVACIDAD        -> openPrivacyModal() / deleteRankingRecord()
+ *                         (alias por defecto, no se envia el grado, borrado real)
  * ============================================================================
  */
+
+// URL del texto completo de la Politica de Privacidad y Uso (archivo POLITICA.md)
+const PRIVACY_POLICY_URL = "https://github.com/alexfloresmorales26-cmyk/Proyecto-Pi/blob/main/POLITICA.md";
 
 class MathApp {
   constructor() {
@@ -48,6 +53,9 @@ class MathApp {
     this.fixedInReview = new Set();   // índices de preguntas acertadas en el repaso
     this.autoAdvanceTimer = null;     // temporizador del salto automático tras fallar
     this.practiceMode = false;        // Modo Práctica: no da XP ni cuenta en el ranking
+
+    // PRIVACIDAD: alias publico (nunca el nombre real), interruptor y opt-out
+    this.rankingAlias = "";
 
     this.init();
   }
@@ -135,6 +143,11 @@ class MathApp {
         // Compatibilidad con perfiles anteriores a la racha de días
         if (this.user.dailyStreak === undefined) this.user.dailyStreak = 0;
         if (this.user.lastPracticed === undefined) this.user.lastPracticed = null;
+        // Compatibilidad con perfiles anteriores a la politica de privacidad
+        // (por defecto se muestra un alias, nunca el nombre real)
+        if (this.user.showNameInRanking === undefined) this.user.showNameInRanking = false;
+        if (this.user.rankingOptOut === undefined) this.user.rankingOptOut = false;
+        if (!this.user.rankingAlias) this.user.rankingAlias = this.buildRankingAlias();
       } catch (e) {
         console.error("Error al cargar usuario", e);
       }
@@ -145,6 +158,59 @@ class MathApp {
   saveUserData() {
     localStorage.setItem("matematica_basica_user", JSON.stringify(this.user));
     this.updateUserHeader();
+  }
+
+  // ==========================================================================
+  //  PRIVACIDAD Y USO: modal, interruptores y borrado del registro en la nube
+  // ==========================================================================
+
+  // Abrir el modal de privacidad y reflejar el estado actual
+  openPrivacyModal() {
+    const chkName = document.getElementById("chk-show-name-ranking");
+    const chkOptOut = document.getElementById("chk-ranking-optout");
+    if (chkName) chkName.checked = !!this.user.showNameInRanking;
+    if (chkOptOut) chkOptOut.checked = !!this.user.rankingOptOut;
+    this.updatePrivacyStatus();
+    this.openModal("modal-privacy");
+  }
+
+  // Refrescar el texto de estado del modal de privacidad
+  updatePrivacyStatus() {
+    const aliasLabel = document.getElementById("privacy-alias-label");
+    const statusText = document.getElementById("privacy-status-text");
+    if (aliasLabel) aliasLabel.textContent = this.user.rankingAlias || this.buildRankingAlias();
+    if (!statusText) return;
+
+    if (this.user.guest) {
+      statusText.textContent = "Modo Invitado: no se envía nada a la nube.";
+    } else if (this.user.rankingOptOut) {
+      statusText.textContent = "🚫 No apareces en el ranking: tus datos no salen de este dispositivo.";
+    } else if (this.user.showNameInRanking) {
+      statusText.textContent = `👀 En el ranking se muestra tu apodo "${this.user.name}".`;
+    } else {
+      statusText.textContent = `🕶️ En el ranking solo se ve tu alias "${this.user.rankingAlias || this.buildRankingAlias()}".`;
+    }
+  }
+
+  // Borrado del registro en la nube con doble confirmacion (pensado para niños)
+  async confirmDeleteRankingRecord() {
+    if (this.user.guest) {
+      alert("🔒 En Modo Invitado no hay ningún registro en el ranking.");
+      return;
+    }
+    const ok1 = confirm("☁️ ¿Quieres borrar tu registro del ranking global?\n\nSe eliminará tu fila de la nube (alias, avatar, nivel, XP y rachas).\nTus avances locales se conservan.");
+    if (!ok1) return;
+    const ok2 = confirm("⚠️ ¿Seguro? Esta acción no se puede deshacer.");
+    if (!ok2) return;
+
+    const ok = await this.deleteRankingRecord();
+    if (ok) {
+      alert("✅ Tu registro del ranking fue borrado. Tu perfil local sigue intacto.");
+      this.updatePrivacyStatus();
+      this.renderRanking();
+    } else {
+      alert("⚠️ No se pudo completar el borrado. Revisa tu conexión e inténtalo de nuevo.");
+    }
   }
 
   // ==========================================================================
@@ -169,16 +235,34 @@ class MathApp {
     return { players: (obj && obj.data && obj.data.players) || {} };
   }
 
+  // Alias publico para el ranking: NO es el nombre real del niño.
+  // Se genera a partir del identificador del dispositivo (ej. "Matemático 1F2A").
+  buildRankingAlias() {
+    const id = this.rankingUserId ? this.rankingUserId() : "000000";
+    const suffix = String(id).slice(-4).toUpperCase();
+    return `Matemático/a ${suffix}`;
+  }
+
+  // Nombre público que se envía al ranking: alias o apodo real según la preferencia
+  publicRankingName() {
+    return this.user.showNameInRanking ? this.user.name : (this.user.rankingAlias || this.buildRankingAlias());
+  }
+
   // Enviar el perfil y los puntos al ranking en la nube (se llama al aprobar un reto)
+  // PRIVACIDAD: por defecto se envía un ALIAS (no el nombre real) y NUNCA el grado escolar.
   async submitScoreToRanking(scorePercent) {
     if (!window.cloudConfigured || !this.user || this.user.guest) return;
+    if (this.user.rankingOptOut) return; // el niño pidió no aparecer en el ranking
+    this.lastScorePercent = scorePercent;
 
     try {
       const registry = await this.cloudGet();
       registry.players[this.rankingUserId()] = {
-        name: this.user.name,
+        name: this.publicRankingName(),
+        alias: this.user.rankingAlias || this.buildRankingAlias(),
+        isAlias: !this.user.showNameInRanking,
         avatar: this.user.avatar,
-        grade: this.user.grade,
+        // El grado escolar se queda SOLO en el dispositivo: no viaja a la nube
         level: this.user.level,
         xp: this.user.xp,
         bestStreak: this.user.bestStreak || 0,
@@ -195,6 +279,35 @@ class MathApp {
       });
     } catch (e) {
       console.warn("No se pudo enviar al ranking:", e);
+    }
+  }
+
+  // BORRAR MI REGISTRO DEL RANKING (derecho de supresión).
+  // La API permite DELETE del objeto completo, pero eso borraría el ranking entero,
+  // así que se lee, se quita SOLO mi fila y se vuelve a guardar el resto.
+  async deleteRankingRecord() {
+    if (!window.cloudConfigured) return false;
+    const myId = this.rankingUserId();
+    try {
+      const registry = await this.cloudGet();
+      if (!registry.players[myId]) {
+        // No habia registro: solo limpiamos el identificador local
+        localStorage.removeItem("matematica_basica_ranking_id");
+        return true;
+      }
+      delete registry.players[myId];
+      await fetch(`${CLOUD_DB.endpoint}/objects/${CLOUD_DB.objectId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: registry })
+      });
+      localStorage.removeItem("matematica_basica_ranking_id");
+      this.user.rankingAlias = this.buildRankingAlias();
+      this.saveUserData();
+      return true;
+    } catch (e) {
+      console.warn("No se pudo borrar el registro del ranking:", e);
+      return false;
     }
   }
 
@@ -239,7 +352,7 @@ class MathApp {
               ${players.map((p, i) => `
                 <tr class="${p.id === myId ? "me" : ""}">
                   <td>${medals[i] || (i + 1)}</td>
-                  <td>${p.avatar || "🦕"} ${p.name || "Anónimo"}</td>
+                  <td>${p.avatar || "🦕"} ${p.name || "Anónimo"} ${p.isAlias ? '<span title="Alias: no es el nombre real">🕶️</span>' : ""}</td>
                   <td>${p.level || 1}</td>
                   <td><strong>${p.xp || 0}</strong></td>
                   <td>${p.dayStreak ? `📅 ${p.dayStreak}` : "—"}</td>
@@ -1350,6 +1463,63 @@ class MathApp {
     document.getElementById("btn-refresh-ranking")?.addEventListener("click", () => {
       sound.playClick();
       this.renderRanking();
+    });
+
+    // ======================================================================
+    //  PRIVACIDAD Y USO (politica de privacidad)
+    // ======================================================================
+
+    // Abrir la politica desde el menu lateral
+    document.getElementById("btn-open-privacy-menu")?.addEventListener("click", () => {
+      this.openPrivacyModal();
+    });
+
+    // Abrir la politica desde el modal de cookies
+    document.getElementById("btn-cookies-open-privacy")?.addEventListener("click", () => {
+      this.closeModal("modal-cookies");
+      this.openPrivacyModal();
+    });
+
+    // Cerrar el modal de privacidad
+    document.getElementById("btn-privacy-close")?.addEventListener("click", () => {
+      this.closeModal("modal-privacy");
+    });
+
+    // Ver el texto completo de la politica (archivo POLITICA.md del repositorio)
+    document.getElementById("btn-open-policy")?.addEventListener("click", () => {
+      sound.playClick();
+      window.open(PRIVACY_POLICY_URL, "_blank", "noopener");
+    });
+
+    // Interruptor: mostrar el apodo real en el ranking
+    document.getElementById("chk-show-name-ranking")?.addEventListener("change", (e) => {
+      this.user.showNameInRanking = e.target.checked;
+      this.saveUserData();
+      this.updatePrivacyStatus();
+      // Si ya estamos en el ranking, actualizamos nuestra fila al instante
+      if (e.target.checked) {
+        this.submitScoreToRanking(this.lastScorePercent || 0);
+      }
+    });
+
+    // Interruptor: no aparecer en el ranking global
+    document.getElementById("chk-ranking-optout")?.addEventListener("change", (e) => {
+      this.user.rankingOptOut = e.target.checked;
+      this.saveUserData();
+      this.updatePrivacyStatus();
+      if (e.target.checked) {
+        // Si estaba en el ranking, se borra su fila de la nube
+        this.deleteRankingRecord().then(() => this.updatePrivacyStatus());
+      }
+    });
+
+    // Borrar mi registro del ranking (derecho de supresion)
+    document.getElementById("btn-delete-ranking-record")?.addEventListener("click", () => {
+      this.confirmDeleteRankingRecord();
+    });
+
+    document.getElementById("btn-cookies-delete-ranking")?.addEventListener("click", () => {
+      this.confirmDeleteRankingRecord();
     });
 
     document.getElementById("header-user-btn")?.addEventListener("click", () => {

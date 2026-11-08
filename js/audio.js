@@ -3,7 +3,8 @@
  * Diseñado especialmente para juegos educativos de niños de primaria.
  *
  * Uso: sound.playClick() | sound.playCorrect() | sound.playIncorrect() | sound.playVictory()
- * El interruptor de sonido vive en el modal de créditos (se guarda en localStorage).
+ * El interruptor de sonido vive en el modal de créditos. OJO: la preferencia NO se
+ * guarda en localStorage (se reinicia al recargar la página).
  */
 
 class SoundEffects {

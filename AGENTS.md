@@ -35,6 +35,14 @@ App educativa de matemáticas para primaria. **Sitio 100% estático**: HTML + CS
 - Racha de días: `user.dailyStreak` + `user.lastPracticed` (fecha local `YYYY-MM-DD`). Se marca al empezar un reto (`markPracticedToday()`): si se practica el día siguiente al último, la racha sube; si se dejan de pasar 1+ días, `refreshDailyStreak()` (se ejecuta en `init()`) la reinicia a 0. Se muestra en el header (`#header-day-streak`), en el Perfil (`profile-day-streak`), en Nivel (`level-stats-day-streak`) y se envía al ranking como `dayStreak` (columna 📅).
 - Modo Práctica: `startQuiz(true)` / `this.practiceMode`. No da XP, no guarda historial, no marca el tema como superado, no envía al ranking y permite repetir retos ya superados. Botón `#btn-lesson-practice`; insignia visible en el reto (`#practice-badge`). El botón "Reintentar" de resultados conserva el modo (`startQuiz(this.practiceMode)`).
 - Comentarios: el código se documenta en español. La cabecera de `js/app.js` y `js/data.js` tiene un MAPA con las secciones clave; las funciones importantes llevan comentario una línea arriba. Mantener ese estilo al editar.
+- Política de privacidad (obligatorio al tocar el ranking): el archivo `POLITICA.md` es la fuente de verdad (v1.0 · 08-11-2026). Reglas inviolables del ranking:
+  - **Nunca enviar `grade` (grado escolar) a la nube**: solo se guarda en el dispositivo.
+  - Por defecto se envía un **alias** (`user.rankingAlias`, tipo "Matemático/a 1F2A"), nunca el nombre real. El nombre real solo viaja si `user.showNameInRanking` está activo (interruptor "👀").
+  - `user.rankingOptOut` = true → no se envía nada (interruptor "🙈").
+  - `deleteRankingRecord()` borra de verdad la fila: `GET` → quitar SOLO la fila propia → `PATCH` del resto (un `DELETE` del objeto borraría el ranking entero).
+  - Campos nuevos del perfil: `rankingAlias`, `showNameInRanking` (false por defecto), `rankingOptOut` (false por defecto). Al cargar perfiles antiguos, se rellenan con esos valores por defecto.
+  - Textos de UI sobre privacidad: deben ser **veraces** (antes decía "no recopilamos datos personales" y sí se enviaba nombre y grado). No prometer "no se recopilan datos" sin matizar el ranking.
+  - Modal nuevo: `modal-privacy` (botones `btn-open-privacy-menu`, `btn-open-policy`, `btn-delete-ranking-record`, `chk-show-name-ranking`, `chk-ranking-optout`). El enlace al texto completo usa `PRIVACY_POLICY_URL` (arriba de `app.js`).
 
 ## Despliegue (Git + Vercel)
 

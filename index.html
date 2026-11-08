@@ -471,6 +471,9 @@
         <button class="btn-secondary" id="btn-open-cookies-menu" style="width: 100%; text-align: center;">
           <span>🍪 Configuración y Pestaña de Cookies</span>
         </button>
+        <button class="btn-secondary" id="btn-open-privacy-menu" style="width: 100%; text-align: center;">
+          <span>🔒 Privacidad y Uso</span>
+        </button>
       </div>
 
       <!-- TABLA DE RANKING GLOBAL (Firebase Realtime Database) -->
@@ -543,16 +546,107 @@
             Recuerda si prefieres tener los efectos sonoros activos o silenciados.
           </p>
         </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 14px; border-radius: 10px;">
+          <strong style="color: #0284c7; display: flex; align-items: center; gap: 6px;">
+            <span>🏆</span> Ranking Global (nube)
+          </strong>
+          <p style="font-size: 0.86rem; color: #475569; margin-top: 4px; line-height: 1.35;">
+            Al superar un reto se envía a un ranking público tu <strong>alias</strong> (un nombre
+            inventado), tu avatar, nivel, XP y rachas. <strong>No se envía tu nombre real ni tu grado
+            escolar.</strong> Puedes ocultarlo o borrarlo cuando quieras desde
+            <strong>🔒 Privacidad y Uso</strong>.
+          </p>
+        </div>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 10px;">
         <button class="btn-primary-blue" id="btn-cookies-accept-modal" style="width: 100%; text-align: center;">
           ¡Aceptar y Guardar Preferencias! 🍪
         </button>
+        <button class="btn-secondary" id="btn-cookies-open-privacy" style="width: 100%; text-align: center;">
+          🔒 Ver Privacidad y Uso
+        </button>
         <button class="btn-secondary" id="btn-cookies-clear-data" style="width: 100%; text-align: center; color: #dc2626; border-color: #fca5a5;">
           🗑️ Borrar cookies y reiniciar avances
         </button>
+        <button class="btn-secondary" id="btn-cookies-delete-ranking" style="width: 100%; text-align: center; color: #b91c1c; border-color: #fca5a5;">
+          ☁️ Borrar también mi registro del ranking
+        </button>
       </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 5: PRIVACIDAD Y USO (POLÍTICA DE PRIVACIDAD)
+       ========================================================================== -->
+  <div class="modal-overlay" id="modal-privacy">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="app.closeModal('modal-privacy')">✕</button>
+
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+        <span style="font-size: 2.2rem;">🔒</span>
+        <div>
+          <h3 class="modal-title" style="margin: 0; font-size: 1.4rem;">Privacidad y Uso</h3>
+          <span style="font-size: 0.85rem; color: #64748b; font-weight: 600;">Tus datos, tu decisión</span>
+        </div>
+      </div>
+
+      <!-- Resumen de lo que hace la app con los datos -->
+      <div style="background: #f0fdf4; border-left: 4px solid #22c55e; padding: 12px 14px; border-radius: 8px; font-size: 0.88rem; line-height: 1.45; color: #166534; margin-bottom: 16px;">
+        🛡️ <strong>Resumen:</strong> tu progreso (nivel, XP, racha, temas) se guarda
+        <strong>solo en este dispositivo</strong>. Si superas un reto, se envía a un ranking
+        público <strong>tu alias</strong> (un nombre inventado), tu avatar, nivel, XP y rachas.
+        <strong>No enviamos tu nombre real, tu grado escolar, ni ningún dato de contacto.</strong>
+        Sin publicidad, sin rastreo y sin analítica.
+      </div>
+
+      <!-- Interruptor: mostrar el apodo real -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 14px; border-radius: 10px; margin-bottom: 10px;">
+        <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-weight: 700; color: var(--text-navy); font-size: 0.95rem;">
+          <input type="checkbox" id="chk-show-name-ranking" style="width: 20px; height: 20px; margin-top: 2px; accent-color: #10b981;">
+          <span>👀 Mostrar mi apodo en el ranking<br>
+            <span style="font-weight: 600; font-size: 0.84rem; color: #64748b;">
+              Desactivado (recomendado): en el ranking solo se ve tu alias
+              <strong id="privacy-alias-label">Matemático/a</strong>. Si lo activas, aparecerá el
+              apodo que pusiste en tu perfil.
+            </span>
+          </span>
+        </label>
+      </div>
+
+      <!-- Interruptor: no aparecer en el ranking -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 14px; border-radius: 10px; margin-bottom: 16px;">
+        <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-weight: 700; color: var(--text-navy); font-size: 0.95rem;">
+          <input type="checkbox" id="chk-ranking-optout" style="width: 20px; height: 20px; margin-top: 2px; accent-color: #ef4444;">
+          <span>🙈 No aparecer en el ranking global<br>
+            <span style="font-weight: 600; font-size: 0.84rem; color: #64748b;">
+              Tu registro no se envía a la nube: solo Practicas y progresas en este dispositivo.
+            </span>
+          </span>
+        </label>
+      </div>
+
+      <!-- Estado del ranking y acciones -->
+      <div id="privacy-status-box" style="font-size: 0.85rem; color: #64748b; margin-bottom: 14px;">
+        Estado: <strong id="privacy-status-text">cargando...</strong>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <button class="btn-secondary" id="btn-delete-ranking-record" style="width: 100%; text-align: center; color: #dc2626; border-color: #fca5a5;">
+          🗑️ Borrar mi registro del ranking
+        </button>
+        <button class="btn-secondary" id="btn-open-policy" style="width: 100%; text-align: center;">
+          📄 Leer la política completa
+        </button>
+        <button class="btn-primary-blue" id="btn-privacy-close" style="width: 100%; text-align: center;">
+          Entendido ✅
+        </button>
+      </div>
+
+      <p style="font-size: 0.76rem; color: #94a3b8; text-align: center; margin-top: 14px; line-height: 1.4;">
+        Proyecto Integrador · Equipo Isma_1 · Política de Privacidad y Uso v1.0
+      </p>
     </div>
   </div>
 
@@ -564,7 +658,7 @@
       <div class="cookie-icon">🍪</div>
       <div class="cookie-text">
         <strong>Aviso de Cookies y Almacenamiento</strong>
-        <p>Utilizamos cookies locales para guardar tus estrellitas, nivel y temas aprobados. ¡No recopilamos datos personales!</p>
+        <p>Tu progreso (nivel, XP, racha y temas) se guarda solo en este dispositivo. Si superas un reto, tu <strong>alias</strong> (no tu nombre real) aparece en el ranking público. Sin publicidad ni rastreo.</p>
       </div>
     </div>
     <div class="cookie-banner-actions">
