@@ -338,15 +338,17 @@ body {
   float: right;
   clear: both;
   background: #ffffff;
-  border: 2px solid #ef4444;
+  border: 3px solid #ef4444;
   color: #b91c1c;
-  font-weight: 700;
-  font-size: 1rem;
-  padding: 10px 24px;
+  font-weight: 800;
+  font-size: 1.15rem;
+  padding: 14px 30px;
+  min-height: 52px;
   border-radius: var(--radius-pill);
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.28);
+  margin-top: 10px;
 }
 
 .btn-retry-question:hover {
@@ -1854,6 +1856,17 @@ body {
    RESPONSIVO PARA CELULAR (VISTA MANUAL DEL USUARIO EN SU TELEFONO)
    ========================================================================== */
 @media (max-width: 640px) {
+  /* Boton Reintentar: grande y ancho completo para pulsarlo facil con el dedo */
+  .btn-retry-question {
+    float: none;
+    display: block;
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 16px 24px;
+    min-height: 58px;
+    margin-top: 14px;
+  }
+
   /* Header compacto: nada se corta ni genera desplazamiento lateral */
   .top-header {
     padding: 8px 10px;
