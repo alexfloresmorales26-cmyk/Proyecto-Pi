@@ -8,7 +8,7 @@ Este proyecto está enfocado en el desarrollo del aprendizaje de las matemática
 
 ## 🚀 ¿Cómo abrir y usar la aplicación?
 
-La aplicación está construida con tecnologías web estándar (HTML5, CSS3 y JavaScript ES6) con **cero dependencias externas**, por lo que funciona al 100% de manera local y offline.
+La aplicación está construida con tecnologías web estándar (HTML5, CSS3 y JavaScript ES6) con **cero dependencias externas**, por lo que funciona al 100% de manera local y offline (solo el ranking global necesita internet).
 
 ### Opción 1: Abrir la página web (Recomendado)
 
@@ -36,7 +36,7 @@ Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 - 🎭 **12 avatares** para elegir, de dinosaurio a superestrella.
 - 👀 **Modo Invitado**: solo visualización; para jugar se necesita crear un perfil.
 - 🏫 **Selector de grado escolar** (1º a 6º de Primaria): ajusta el contexto de las estadísticas.
-- 🎯 **10 retos por tema**: preguntas interactivas con sonido y retroalimentación inmediata.
+- 🎯 **10 preguntas por tema**: retos interactivos con sonido y retroalimentación inmediata.
 - 📝 **Repaso automático de errores**: si fallas una pregunta, el reto salta solo a la siguiente (sin quedarte atascado) y al terminar te pide repasar **solo las que fallaste**; si las aciertas en el repaso, cuentan para tu puntaje final.
 - 🔥 **Barra de racha estilo arcade**: estrellas ⭐ que marcan tus aciertos seguidos durante el reto.
 - 🏅 **Mejor racha guardada**: tu récord histórico de aciertos seguidos, visible en el Perfil y en el modal de Nivel.
@@ -48,17 +48,21 @@ Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 - 🔊 **Efectos de sonido** generados con Web Audio API (sin archivos de audio externos).
 - 🔥 **Racha de días**: cada día que practicas suma un día a tu racha 📅 (visible en el header, en tu Perfil y en el ranking). Si dejas de venir, la racha se reinicia.
 - 🏆 **Ranking global de jugadores**: los puntajes se guardan en una base de datos en la nube, así que todos los usuarios quedan registrados y compiten; mira el Top 10 en el menú ☰ (ver [Ranking global](#-ranking-global)).
+- 📱 **Diseño responsivo**: la app se adapta al celular (header compacto, textos grandes, botones anchos y tabla del ranking con scroll).
 
 ---
 
 ## 🏆 Ranking global
 
-Al aprobar cualquier reto (≥ 70%), el perfil de la/el jugador se registra automáticamente en una base de datos en la nube compartida:
+Al terminar un reto (aprobado con **≥ 70%** del puntaje final), el perfil de la/el jugador se registra automáticamente en una base de datos en la nube compartida:
 
-- **Qué se guarda**: nombre, avatar, grado escolar, nivel, puntos de experiencia (XP), mejor racha de aciertos seguidos, retos superados y el puntaje del último intento.
-- **Dónde se ve**: barra del menú ☰ → "Proyecto Integrador" → botón **🏆 Ranking Global de Jugadores** (tabla Top 10 por XP con medallas 🥇🥈🥉 y tu fila resaltada).
+- **Qué se guarda**: nombre, avatar, grado escolar, nivel, puntos de experiencia (XP), mejor racha de aciertos seguidos, **racha de días 📅**, retos superados y el puntaje del último intento.
+- **Dónde se ve**: barra del menú ☰ → "Proyecto Integrador" → botón **🏆 Ranking Global de Jugadores** (tabla Top 10 por XP con medallas 🥇🥈🥉, columna 📅 de días seguidos y tu fila resaltada).
+- **Puntaje final**: cuenta los aciertos de la primera ronda **más** las preguntas que se repararon en el repaso, de modo que fallar y corregir no penaliza en el ranking.
 - **Modo Invitado**: no juega ni registra puntajes (solo explora).
-- La conexión a la base de datos vive en `js/firebase-config.js` (`CLOUD_DB`) y la lógica de envío/lectura en la sección "RANKING GLOBAL" de `js/app.js`.
+- **Modo Práctica**: los entrenamientos no se envían (no cuentan para el ranking).
+- La conexión a la base de datos vive en `js/firebase-config.js` (constante `CLOUD_DB`: endpoint y `objectId` de un almacén JSON público) y la lógica de envío/lectura en la sección "RANKING GLOBAL" de `js/app.js`.
+- ⚠️ Requiere conexión a internet (todo lo demás funciona sin conexión).
 
 ---
 
@@ -80,12 +84,12 @@ Cada tema incluye una **lección interactiva** con simuladores (regla deslizante
 ## 🎨 Diseño de Interfaz (Página 10 del documento)
 
 - **Barra Superior**:
-  - Menú hamburguesa (☰) con acceso a los créditos y la información del proyecto.
-  - Insignia de estrella con el **Nivel** actual y barra de experiencia dinámica.
+  - Menú hamburguesa (☰) con acceso a los créditos, la información del proyecto y el ranking global.
+  - Insignia de nivel 🔥 con la barra de experiencia dinámica y la insignia 📅 con la racha de días practicando.
   - Avatar del estudiante con acceso a sus estadísticas y avances.
 - **Hero Card (Izquierda)**:
   - Mascota dinosaurio verde amigable 🦕 con globo de pensamiento `"3+1"`.
-  - Saludo `"¡Hola, pequeño matematico! Aprende, practica y avanza."`.
+  - Saludo `"¡Hola, pequeño matematico!"` (dividido en varias líneas).
   - Carrusel rotativo de **consejos para aprender** 💡.
   - Botón `"Comenzar a aprender"` y selector de grado escolar (*1º a 6º de Primaria*).
 - **Tarjetas de Temas (Derecha)**: las 6 tarjetas de color listadas arriba.
@@ -102,16 +106,18 @@ La aplicación implementa con exactitud cada bifurcación del flujo:
    - *No* ➡️ Permite registrar nombre, grado escolar y avatar (o continuar en Modo Invitado, solo visualización).
 2. **Mostrar temas de matemáticas** ➡️ Selección de tema con retroalimentación visual.
 3. **Lección interactiva** ➡️ Explicaciones paso a paso con vocabulario infantil y simuladores interactivos.
-4. **Cuestionario o Reto práctico** ➡️ 10 preguntas interactivas con sonido, opciones múltiples ilustradas y feedback inmediato. Si fallas, no avanzas hasta acertar (con pista y botón de reintento).
-5. **Verificar respuestas** ➡️ Bifurcación **¿Aprobó?** (≥ 70% del primer intento):
+4. **Cuestionario o Reto práctico** ➡️ 10 preguntas interactivas con sonido, opciones múltiples ilustradas y feedback inmediato. Si fallas en la primera ronda, la pregunta se anota, muestra su pista y **el reto salta solo a la siguiente** (nunca te quedas atascado). Al terminar, se repasa **solo lo que fallaste** y ahí sí puedes reintentar hasta acertar.
+   - **🎓 Modo Práctica** (opcional): repite cualquier reto, incluso los ya superados, sin sumar XP, sin historial y sin enviar nada al ranking.
+5. **Verificar respuestas** ➡️ Bifurcación **¿Aprobó?** (≥ 70% del puntaje final: aciertos de la primera ronda + preguntas reparadas en el repaso):
    - **SÍ APROBÓ**:
      - Lanza animación de confeti festivo y melodía triunfal.
      - Otorga puntos de experiencia (+100 XP), sube de nivel y guarda el tema como completado.
      - Desbloquea la **recompensa del nivel** alcanzado (insignia con celebración).
+     - Envía el puntaje al **ranking global** (excepto en Modo Práctica).
      - Pregunta: *"¿Deseas iniciar otro tema?"* (Sí ➡️ regresa al menú de temas / No ➡️ vuelve al inicio).
    - **NO APROBÓ**:
      - Mensaje motivador y cálido.
-     - **Mostrar errores y dar sugerencias**: desglosa cada pregunta fallada en el primer intento, mostrando tu respuesta (❌), la correcta (✔️) y una sugerencia didáctica paso a paso.
+     - **Mostrar errores y dar sugerencias**: desglosa cada pregunta fallada en la primera ronda, mostrando tu respuesta (❌), la correcta (✔️) y una sugerencia didáctica; las que reparaste en el repaso aparecen marcadas en verde ✅.
      - Pregunta: *"¿Intentar de nuevo?"* (Sí ➡️ reintentar reto o repasar lección / No ➡️ guardar intento y volver al inicio).
 
 ---
@@ -122,11 +128,12 @@ La aplicación implementa con exactitud cada bifurcación del flujo:
 Proyecto-Pi/
 ├── index.html      # Vistas, modales y navegación (HTML5)
 ├── css/
-│   └── styles.css  # Estilos globales y animaciones
+│   └── styles.css  # Estilos globales, animaciones y bloque responsive (celular)
 ├── js/
 │   ├── data.js     # APP_DATA: temas, lecciones, retos, tips y recompensas
-│   ├── app.js      # Lógica de la aplicación (clase MathApp)
-│   └── audio.js    # Efectos de sonido (Web Audio API)
+│   ├── app.js      # Lógica de la aplicación (clase MathApp) — ver el MAPA al inicio
+│   ├── audio.js    # Efectos de sonido (Web Audio API)
+│   └── firebase-config.js  # CLOUD_DB: conexión con la base de datos en la nube (ranking)
 ├── assets/
 │   └── dino.png    # Mascota dinosaurio
 ├── AGENTS.md       # Guía del repositorio para agentes de código

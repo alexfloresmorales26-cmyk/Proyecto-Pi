@@ -12,22 +12,25 @@ App educativa de matemáticas para primaria. **Sitio 100% estático**: HTML + CS
 - `js/data.js` — `APP_DATA`: temas (lecciones y cuestionarios), `funFacts`, `studyTips`, datos del proyecto. La UI carga todo desde aquí; no duplicar contenido en HTML.
 - `js/app.js` — clase `MathApp` (`app`, global): render, navegación de vistas (`showView`), cuestionarios, persistencia. Patrón de listeners: `document.getElementById("id")?.addEventListener(...)` dentro de `setupEventListeners()`.
 - `js/audio.js` — efectos de sonido vía `sound.playClick()` / `playCorrect()` / `playVictory()`.
-- `css/styles.css` — estilos globales; pasar por hover/clic en badges clickeables.
+- `js/firebase-config.js` — constante `CLOUD_DB` (endpoint + `objectId`) de la base de datos en la nube usada por el ranking. El nombre del archivo es histórico (antes se planeó Firebase); migrar a Firebase/Supabase es cambiar aquí y la sección RANKING GLOBAL de `app.js`.
+- `css/styles.css` — estilos globales; pasar por hover/clic en badges clickeables. Al final hay un bloque `@media (max-width: 640px)` con los ajustes de celular (texto legible, botones anchos, tabla del ranking con scroll) y otro para `420px`.
 
 ## Convenciones y datos
 
 - Todo el texto de UI va en español. Los `<h2>/<h3>` del HTML omiten acentos ("matematico", "Sabias que"); los textos en `data.js` sí suelen llevar acentos — imitar el estilo del archivo editado.
 - Mensajes de commit cortos y en español. El usuario también habla español.
 - Sesión del usuario en `localStorage` (si se agregan dimensiones de almacenamiento nuevo, documentarlo y ajustar el modal de Cookies):
-  - `matematica_basica_user` (perfil: name, avatar, grade, level, xp, guest, completedTopics, history, rewards)
+  - `matematica_basica_user` (perfil: name, avatar, grade, level, xp, guest, completedTopics, history, rewards, bestStreak, dailyStreak, lastPracticed)
   - `matematica_basica_visited`
   - `matematica_basica_cookies_accepted`
+  - `matematica_basica_ranking_id` — identificador estable del jugador para su fila en el ranking (no es perfil, no se borra al limpiar datos)
 - Recompensas por nivel: tabla `APP_DATA.levelRewards` (nivel ≥ 2, `id`, `icon`, `name`). `user.rewards` guarda los `id`; `checkLevelUp()` desbloquea y muestra `modal-level-reward`. Cargar perfiles antiguos con `rewards = []` por defecto.
 - Ranking global: base de datos en la nube en `js/firebase-config.js` (`CLOUD_DB`, objeto de restful-api.dev con `data.players`). Al aprobar un reto se registra al jugador (`submitScoreToRanking`, invitados no); la tabla se lee en `renderRanking()` y se muestra en `modal-menu-credits`. La API es de práctica: puede limpiar datos a largo plazo; si hay que migrar (Firebase/Supabase), cambiar `CLOUD_DB` y la sección RANKING GLOBAL de app.js.
 - Historial de cuestionarios (`user.history[]`): guardar también `grade` del usuario en el momento del intento. Los intentos previos a esta convención no lo traen.
-- Reglas de barra de progreso: aprobar un cuestionario requiere **>= 70%** y otorga **+100 XP**; nivel = `floor(xp / 100) + 1`. Los retos tienen **10 preguntas por tema** (7 aciertos aprueban); el motor usa `topic.quiz.length`, así que agregar/editar preguntas solo cambia `js/data.js`. Consejos de resolución del quiz: array `quizTips` en `data.js`, renderizados en `#quiz-tips` (misma mecánica de los tips del hero).
+- Reglas de barra de progreso: aprobar un cuestionario requiere **>= 70%** del puntaje final y otorga **+100 XP**; nivel = `floor(xp / 100) + 1`. Los retos tienen **10 preguntas por tema** (el motor usa `topic.quiz.length`, así que agregar/editar preguntas solo cambia `js/data.js`). Consejos de resolución del quiz: array `quizTips` en `data.js`, renderizados en `#quiz-tips` (misma mecánica de los tips del hero).
 - Info extra de apartados: cada `keyPoint` puede tener la propiedad `extra` (dato curioso). Se muestra en un tooltip `.keypoint-tip` al hover (escritorio) o al tocar la tarjeta (celular alterna la clase `open`; el listener se agrega al re-render de la lección). Al agregar apartados nuevos, incluir `extra` para no dejar la tarjeta sin tooltip.
-- Mecánica de reintento en el quiz: si el niño falla, esa opción queda bloqueada (roja) y NO avanza hasta acertar. El puntaje se calcula solo con el **primer intento** de cada pregunta (`quizAnswers` guarda un registro por pregunta, el primero).
+- Mecánica del quiz (IMPORTANTE, cambiada en 2026-11-07): la ronda 1 tiene las 10 preguntas; al fallar, la opción se marca en rojo, se muestra la pista y **el reto salta solo** a la siguiente (2.2 s, `autoAdvanceTimer`); la pregunta fallada se guarda en `reviewQueue`. Al terminar la ronda 1, si hubo fallos, se muestra el aviso "¡Hora del repaso!" y se repasan **solo esas preguntas** (ahí sí se bloquea la opción y se reintenta hasta acertar; `fixedInReview` guarda las reparadas). El **puntaje final = aciertos de la ronda 1 + preguntas reparadas en el repaso** (`evaluateQuizResults`), así que fallar y corregir no penaliza. `quizAnswers` guarda un registro por pregunta (el primer intento de la ronda 1).
+- Estados del quiz: `quizPhase` ("round1" | "review"), `reviewPos` (posición dentro del repaso), `reviewQueue` (índices fallados), `fixedInReview` (Set de índices reparados).
 - Mejor racha: `user.bestStreak` (aciertos seguidos, se rompe al fallar) se guarda en `localStorage` en cuanto se rompe el récord; se muestra en el modal de Perfil y de Nivel (`profile-best-streak`, `level-stats-streak`).
 - Racha de días: `user.dailyStreak` + `user.lastPracticed` (fecha local `YYYY-MM-DD`). Se marca al empezar un reto (`markPracticedToday()`): si se practica el día siguiente al último, la racha sube; si se dejan de pasar 1+ días, `refreshDailyStreak()` (se ejecuta en `init()`) la reinicia a 0. Se muestra en el header (`#header-day-streak`), en el Perfil (`profile-day-streak`), en Nivel (`level-stats-day-streak`) y se envía al ranking como `dayStreak` (columna 📅).
 - Modo Práctica: `startQuiz(true)` / `this.practiceMode`. No da XP, no guarda historial, no marca el tema como superado, no envía al ranking y permite repetir retos ya superados. Botón `#btn-lesson-practice`; insignia visible en el reto (`#practice-badge`). El botón "Reintentar" de resultados conserva el modo (`startQuiz(this.practiceMode)`).
@@ -36,14 +39,15 @@ App educativa de matemáticas para primaria. **Sitio 100% estático**: HTML + CS
 ## Despliegue (Git + Vercel)
 
 - Remoto: `https://github.com/alexfloresmorales26-cmyk/Proyecto-Pi.git`, rama `main`.
-- **Cada push a `main` despliega automáticamente en Vercel** (proyecto "prende-jugando", cuenta `alejandro-0456`). Considerar los pushes como despliegues.
+- **Cada push a `main` despliega automáticamente en Vercel** (proyecto "aprende-jugando", cuenta `alejandro-0456`). Considerar los pushes como despliegues.
 - URL en vivo que usa el usuario: `https://mi-proyecto-wheat-five.vercel.app/` (el dominio `aprende-jugando.vercel.app` y el de dashboard dan 404 para el público).
 - Proyecto Vercel: **`aprende-jugando`** (equipo `alejandro-0456`); los despliegues traen "Deployment Protection" habilitado, así que las URLs de deployment directo exigen SSO.
 - ⚠️ Desdoblamiento en caliente observado (2026-11-07): ocasionalmente el dominio en vivo queda anclado a un despliegue anterior aunque el push a `main` complete; si tras ~10 min no refleja un cambio, pedir al usuario "Promote to Production" en `https://vercel.com/alejandro-0456/aprende-jugando/deployments` — no hay forma de arreglarlo desde el código.
 - `gh` CLI está en `~/.local/bin/gh` y autenticado como `alexfloresmorales26-cmyk`; el push HTTPS ya usa esas credenciales.
-- Verificar un despliegue así (esperar ~45s tras el push):
-  1. `gh api repos/alexfloresmorales26-cmyk/Proyecto-Pi/commits/<sha>/status --jq '.state'`
-  2. `curl -s https://mi-proyecto-wheat-five.vercel.app/ | grep <texto-nuevo>` — la caché de borde de Vercel puede servir la versión anterior durante minutos; comparar `last-modified` / cabecera `age` antes de asumir que algo falló.
+- Verificar un despliegue así (esperar **~240 s / 4 min** tras el push; con 45 s el build suele seguir en curso):
+  1. `gh api repos/alexfloresmorales26-cmyk/Proyecto-Pi/commits/<sha>/status --jq '.state'` → debe dar `success`
+  2. `curl -s "https://mi-proyecto-wheat-five.vercel.app/js/app.js?z=$(date +%s)" | grep <texto-nuevo>` — el parámetro `?z=` evita la caché de borde; comparar también la cabecera `last-modified`
+  3. Si el dominio sigue anclado a un build viejo: commit vacío (`git commit --allow-empty -m "Reactivar despliegue"` + push), esperar 4 min y volver a verificar. Este fix ya resolvió el problema dos veces.
 
 ## Gotchas
 
