@@ -1,6 +1,6 @@
 # Proyecto-Pi: Matemática Básica (Primaria)
 
-Este proyecto está enfocado en el desarrollo del aprendizaje de las matemáticas básicas para niños de educación primaria. **Proyecto Integrador (Equipo Isma_1)**.
+Este proyecto ayuda a que niños y niñas de primaria aprendan matemáticas básicas. **Proyecto Integrador (Equipo Isma_1)**.
 
 **🌐 Sitio en línea:** [https://mi-proyecto-wheat-five.vercel.app/](https://mi-proyecto-wheat-five.vercel.app/)
 
@@ -8,7 +8,7 @@ Este proyecto está enfocado en el desarrollo del aprendizaje de las matemática
 
 ## 🚀 ¿Cómo abrir y usar la aplicación?
 
-La aplicación está construida con tecnologías web estándar (HTML5, CSS3 y JavaScript ES6) con **cero dependencias externas**, por lo que funciona al 100% de manera local y offline (solo el ranking global necesita internet).
+La aplicación está hecha con HTML, CSS y JavaScript, sin instalar nada y sin librerías externas. Funciona sin conexión: solo el ranking global necesita internet.
 
 ### Opción 1: Abrir la página web (Recomendado)
 
@@ -33,8 +33,8 @@ Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 ## ✨ Características principales
 
 - 👤 **Perfiles con avatar**: la sesión se guarda en `localStorage` (nombre, avatar, grado, nivel y avances).
-- 🎭 **12 avatares** para elegir, de dinosaurio a superestrella.
-- 👀 **Modo Invitado**: solo visualización; para jugar se necesita crear un perfil.
+- 🎭 **12 avatares** para elegir, de dinosaurio a estrella ⭐.
+- 🚶 **Modo Invitado**: solo permite mirar; para jugar hay que crear un perfil.
 - 🏫 **Selector de grado escolar** (1º a 6º de Primaria): ajusta el contexto de las estadísticas.
 - 🎯 **10 preguntas por tema**: retos interactivos con sonido y retroalimentación inmediata.
 - 📝 **Repaso automático de errores**: si fallas una pregunta, el reto salta solo a la siguiente (sin quedarte atascado) y al terminar te pide repasar **solo las que fallaste**; si las aciertas en el repaso, cuentan para tu puntaje final.
@@ -47,9 +47,9 @@ Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 - 📊 **Estadísticas por grado**: porcentaje de aciertos por grado escolar en el Perfil.
 - 🔊 **Efectos de sonido** generados con Web Audio API (sin archivos de audio externos).
 - 🔥 **Racha de días**: cada día que practicas suma un día a tu racha 📅 (visible en el header, en tu Perfil y en el ranking). Si dejas de venir, la racha se reinicia.
-- 🏆 **Ranking global de jugadores**: los puntajes se guardan en una base de datos en la nube, así que todos los usuarios quedan registrados y compiten; mira el Top 10 en el menú ☰ (ver [Ranking global](#-ranking-global)).
+- 🏆 **Ranking global de jugadores**: los puntajes se guardan en una base de datos en la nube, así que cada quien aparece con un alias y compite con los demás; mira el Top 10 en el menú ☰ (ver [Ranking global](#-ranking-global)).
 - 📱 **Diseño responsivo**: la app se adapta al celular (header compacto, textos grandes, botones anchos y tabla del ranking con scroll).
-- 🔒 **Privacidad por diseño**: por defecto el ranking muestra un **alias inventado** (nunca tu nombre real) y **tu grado escolar no sale del dispositivo**. Tienes interruptores para mostrar tu apodo, no aparecer en el ranking o **borrar tu registro de la nube** (ver [Política de Privacidad y Uso](#-política-de-privacidad-y-uso--política-de-privacidad-y-uso)).
+- 🔒 **Privacidad por diseño**: por defecto el ranking muestra un **alias inventado** (nunca tu nombre real) y **tu grado escolar no sale del dispositivo**. Tienes interruptores para mostrar tu apodo, no aparecer en el ranking o **borrar tu registro de la nube** (ver [Política de Privacidad y Uso](#-política-de-privacidad-y-uso)).
 
 ---
 
@@ -80,7 +80,7 @@ Texto completo: **[POLITICA.md](POLITICA.md)** (v1.0 · 08-11-2026). También se
 
 ## 🏆 Ranking global
 
-Al terminar un reto (aprobado con **≥ 70%** del puntaje final), el perfil de la/el jugador se registra automáticamente en una base de datos en la nube compartida:
+Al terminar un reto (aprobado con **≥ 70%** del puntaje final), el perfil del jugador se registra automáticamente en una base de datos en la nube compartida:
 
 - **Qué se guarda**: **alias** (por defecto) o apodo (solo si el niño lo activa), avatar, nivel, puntos de experiencia (XP), mejor racha de aciertos seguidos, **racha de días 📅**, retos superados y el puntaje del último intento. **El grado escolar nunca se envía.**
 - **Dónde se ve**: barra del menú ☰ → "Proyecto Integrador" → botón **🏆 Ranking Global de Jugadores** (tabla Top 10 por XP con medallas 🥇🥈🥉, columna 📅 de días seguidos y tu fila resaltada; los alias llevan el distintivo 🕶️).
@@ -120,13 +120,13 @@ Cada tema incluye una **lección interactiva** con simuladores (regla deslizante
   - Carrusel rotativo de **consejos para aprender** 💡.
   - Botón `"Comenzar a aprender"` y selector de grado escolar (*1º a 6º de Primaria*).
 - **Tarjetas de Temas (Derecha)**: las 6 tarjetas de color listadas arriba.
-- **Tarjeta Inferior `"¿Sabías que...?"`**: bombilla luminosa 💡 con datos curiosos rotativos (por ejemplo: *"La suma de los primeros 10 números naturales (1+2+3+...+10) es igual a 55"*).
+- **Tarjeta Inferior `"¿Sabias que...?"`**: bombilla luminosa 💡 con datos curiosos rotativos (por ejemplo: *"La suma de los primeros 10 números naturales (1+2+3+...+10) es igual a 55"*).
 
 ---
 
 ## 🔀 Diagrama de Flujo (Página 9 del documento)
 
-La aplicación implementa con exactitud cada bifurcación del flujo:
+La aplicación sigue el flujo del diagrama paso a paso:
 
 1. **Abrir aplicación** ➡️ Pregunta **"¿Ya eres usuario?"**:
    - *Sí* ➡️ Carga el perfil, nivel y avances guardados en `localStorage`.
@@ -181,4 +181,4 @@ Proyecto-Pi/
 
 Este proyecto está bajo la **Licencia MIT**. Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
-**Copyright (c) 2026 Proyecto Integrador**. Todos los derechos reservados.
+**Copyright (c) 2026 Proyecto Integrador**. Licencia MIT: puedes usar, modificar y compartir el proyecto siempre que cites la autoría.

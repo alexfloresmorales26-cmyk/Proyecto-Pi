@@ -20,7 +20,7 @@
  * ============================================================================
  */
 
-// URL del texto completo de la Politica de Privacidad y Uso (archivo POLITICA.md)
+// URL del texto completo de la Política de Privacidad y Uso (archivo POLITICA.md)
 const PRIVACY_POLICY_URL = "https://github.com/alexfloresmorales26-cmyk/Proyecto-Pi/blob/main/POLITICA.md";
 
 class MathApp {
@@ -54,7 +54,7 @@ class MathApp {
     this.autoAdvanceTimer = null;     // temporizador del salto automático tras fallar
     this.practiceMode = false;        // Modo Práctica: no da XP ni cuenta en el ranking
 
-    // PRIVACIDAD: alias publico (nunca el nombre real), interruptor y opt-out
+    // PRIVACIDAD: alias público (nunca el nombre real), interruptor y opt-out
     this.rankingAlias = "";
 
     this.init();
@@ -77,10 +77,10 @@ class MathApp {
   }
 
   // ==========================================================================
-  //  RACHA DE DIAS: dias consecutivos de practica (se reinicia si dejas de venir)
+  //  RACHA DE DÍAS: días consecutivos de práctica (se reinicia si dejas de venir)
   // ==========================================================================
 
-  // Fecha local "YYYY-MM-DD" (sin horas, para comparar solo dias)
+  // Fecha local "YYYY-MM-DD" (sin horas, para comparar solo días)
   todayKey() {
     const d = new Date();
     const m = String(d.getMonth() + 1).padStart(2, "0");
@@ -88,14 +88,14 @@ class MathApp {
     return `${d.getFullYear()}-${m}-${day}`;
   }
 
-  // Diferencia en dias entre fecha guardada (YYYY-MM-DD) y hoy
+  // Diferencia en días entre fecha guardada (YYYY-MM-DD) y hoy
   daysBetween(prevKey) {
     const prev = new Date(`${prevKey}T00:00:00`);
     const now = new Date(`${this.todayKey()}T00:00:00`);
     return Math.round((now - prev) / 86400000);
   }
 
-  // Marcar que el niño practico hoy: sube o mantiene la racha de dias
+  // Marcar que el niño practicó hoy: sube o mantiene la racha de días
   markPracticedToday() {
     const today = this.todayKey();
     if (this.user.lastPracticed === today) return; // ya sumo hoy
@@ -105,7 +105,7 @@ class MathApp {
       // Vino ayer y hoy: la racha crece
       this.user.dailyStreak = (this.user.dailyStreak || 0) + 1;
     } else {
-      // Primer dia o dejo de venir 1+ dias: la racha se reinicia
+      // Primer día o dejo de venir 1+ días: la racha se reinicia
       this.user.dailyStreak = 1;
     }
     this.user.lastPracticed = today;
@@ -118,7 +118,7 @@ class MathApp {
     if (!this.user.lastPracticed) return; // nunca ha practicado: racha empieza al practicar
     const gap = this.daysBetween(this.user.lastPracticed);
     if (gap > 1) {
-      this.user.dailyStreak = 0; // se rompio la racha de dias
+      this.user.dailyStreak = 0; // se rompió la racha de días
       this.user.lastPracticed = null;
       this.saveUserData();
     }
@@ -143,7 +143,7 @@ class MathApp {
         // Compatibilidad con perfiles anteriores a la racha de días
         if (this.user.dailyStreak === undefined) this.user.dailyStreak = 0;
         if (this.user.lastPracticed === undefined) this.user.lastPracticed = null;
-        // Compatibilidad con perfiles anteriores a la politica de privacidad
+        // Compatibilidad con perfiles anteriores a la política de privacidad
         // (por defecto se muestra un alias, nunca el nombre real)
         if (this.user.showNameInRanking === undefined) this.user.showNameInRanking = false;
         if (this.user.rankingOptOut === undefined) this.user.rankingOptOut = false;
@@ -235,7 +235,7 @@ class MathApp {
     return { players: (obj && obj.data && obj.data.players) || {} };
   }
 
-  // Alias publico para el ranking: NO es el nombre real del niño.
+  // Alias público para el ranking: NO es el nombre real del niño.
   // Se genera a partir del identificador del dispositivo (ej. "Matemático 1F2A").
   buildRankingAlias() {
     const id = this.rankingUserId ? this.rankingUserId() : "000000";
@@ -549,7 +549,7 @@ class MathApp {
 
     const streak = this.quizStreak || 0;
 
-    // Numero de racha junto a la llama
+    // Número de racha junto a la llama
     const countEl = document.getElementById("streak-count");
     if (countEl) countEl.textContent = streak;
     const shown = Math.min(streak, 5);
@@ -778,7 +778,7 @@ class MathApp {
     }
   }
 
-  // Conectar los controles del widget interactivo segun el tema (regla, pizza, figuras...)
+  // Conectar los controles del widget interactivo según el tema (regla, pizza, figuras...)
   attachWidgetListeners(topic) {
     if (topic.id === "medicion") {
       const slider = document.getElementById("ruler-slider");
@@ -889,7 +889,7 @@ class MathApp {
     this.reviewPos = 0;
     this.fixedInReview = new Set();
 
-    // La racha de dias se marca al empezar a practicar (no en resultados,
+    // La racha de días se marca al empezar a practicar (no en resultados,
     // para premiar aunque abandone) 
     this.markPracticedToday();
     // Asegurar que el aviso de repaso esté oculto al iniciar
@@ -1041,7 +1041,7 @@ class MathApp {
         }
       });
 
-      // Guardar la mejor racha historicamente en el perfil
+      // Guardar la mejor racha históricamente en el perfil
       const isNewRecord = this.quizStreak > (this.user.bestStreak || 0);
       if (isNewRecord) {
         this.user.bestStreak = this.quizStreak;
@@ -1053,10 +1053,10 @@ class MathApp {
 
       feedbackBox.className = "quiz-feedback-box correct show";
       if (isReview) {
-        feedbackBox.innerHTML = `<strong>¡Reparado! ✅</strong> ${q.explanation} <em>Ya la dominas: cuenta para tu puntaje final.</em>`;
+        feedbackBox.innerHTML = `<strong>¡Reparado! ✅</strong> ${q.explanation} <em>Ya la sabes: cuenta para tu puntaje final.</em>`;
       } else {
         feedbackBox.innerHTML = isFirstAttempt
-          ? `<strong>¡Excelente trabajo! 🎉</strong> ${q.explanation}`
+          ? `<strong>¡Muy bien! 🎉</strong> ${q.explanation}`
           : `<strong>¡Ahora sí lo logras! 🎉</strong> ${q.explanation}`;
       }
       if (isNewRecord) {
@@ -1198,12 +1198,12 @@ class MathApp {
       iconEl.textContent = "🏆";
       titleEl.textContent = this.practiceMode
         ? "¡Entrenamiento completado! 🎓"
-        : "¡Felicidades, Aprobaste con Éxito!";
+        : "¡Felicidades! ¡Aprobaste!";
       msgEl.textContent = this.practiceMode
-        ? `¡Buen trabajo! Repasaste el tema de ${this.currentTopic.title} (${scorePercent}%). En Modo Práctica no suman XP ni Affects al ranking: ¡entrena con libertad!`
-        : `¡Excelente esfuerzo! Has demostrado que dominas el tema de ${this.currentTopic.title}.` +
+        ? `¡Buen trabajo! Repasaste el tema de ${this.currentTopic.title} (${scorePercent}%). En Modo Práctica no suman XP ni cuentan para el ranking: ¡entrena con libertad!`
+        : `¡Buen trabajo! Ya te sabes el tema de ${this.currentTopic.title}.` +
           (reviewedFixed > 0
-            ? ` Repasaste ${reviewedFixed} ${reviewedFixed === 1 ? "pregunta" : "preguntas"} y ahora las dominas todas.`
+            ? ` Repasaste ${reviewedFixed} ${reviewedFixed === 1 ? "pregunta" : "preguntas"} y ahora las sabes todas.`
             : " ¡Y todo a la primera!") +
           ` Sumaste +100 XP a tu perfil.`;
 
@@ -1224,7 +1224,7 @@ class MathApp {
         const levelBanner = document.getElementById("level-up-banner");
         if (levelBanner) {
           if (this.user.level > previousLevel) {
-            levelBanner.textContent = `🌟 ¡Subiste al Nivel ${this.user.level}! Súmale +100 XP y mira tu insignia de nivel arriba 🔥`;
+            levelBanner.textContent = `🌟 ¡Subiste al Nivel ${this.user.level}! Sumaste +100 XP y desbloqueaste una insignia nueva.`;
             levelBanner.style.display = "inline-block";
           } else {
             levelBanner.style.display = "none";
@@ -1260,7 +1260,7 @@ class MathApp {
       titleEl.textContent = "¡Buen intento! Cada error te ayuda a aprender";
       msgEl.textContent = this.practiceMode
         ? `Obtuviste ${scorePercent}% en este entrenamiento. Repasa los errores y vuelve a intentarlo cuando quieras: en Modo Práctica no pierdes nada.`
-        : `Obtuviste ${scorePercent}%. Para aprobar necesitas al menos un 70%. Te sugerimos revisar los errores y consejos didácticos a continuación antes de reintentar.`;
+        : `Obtuviste ${scorePercent}%. Para aprobar necesitas al menos un 70%. Mira los errores y los consejos que te dejamos abajo, y vuelve a intentarlo cuando quieras.`;
 
       // Si no aprobo, no hay subida de nivel: ocultar el banner
       const levelBanner = document.getElementById("level-up-banner");
@@ -1453,7 +1453,7 @@ class MathApp {
       this.showView("view-dashboard");
     });
 
-    // Header buttons (Menu hamburguesa, Perfil)
+    // Header buttons (Menú hamburguesa, Perfil)
     document.getElementById("btn-hamburger-menu")?.addEventListener("click", () => {
       this.openModal("modal-menu-credits");
       this.renderRanking();
@@ -1466,15 +1466,15 @@ class MathApp {
     });
 
     // ======================================================================
-    //  PRIVACIDAD Y USO (politica de privacidad)
+    //  PRIVACIDAD Y USO (política de privacidad)
     // ======================================================================
 
-    // Abrir la politica desde el menu lateral
+    // Abrir la política desde el menú lateral
     document.getElementById("btn-open-privacy-menu")?.addEventListener("click", () => {
       this.openPrivacyModal();
     });
 
-    // Abrir la politica desde el modal de cookies
+    // Abrir la política desde el modal de cookies
     document.getElementById("btn-cookies-open-privacy")?.addEventListener("click", () => {
       this.closeModal("modal-cookies");
       this.openPrivacyModal();
@@ -1485,7 +1485,7 @@ class MathApp {
       this.closeModal("modal-privacy");
     });
 
-    // Ver el texto completo de la politica (archivo POLITICA.md del repositorio)
+    // Ver el texto completo de la política (archivo POLITICA.md del repositorio)
     document.getElementById("btn-open-policy")?.addEventListener("click", () => {
       sound.playClick();
       window.open(PRIVACY_POLICY_URL, "_blank", "noopener");
@@ -1513,7 +1513,7 @@ class MathApp {
       }
     });
 
-    // Borrar mi registro del ranking (derecho de supresion)
+    // Borrar mi registro del ranking (derecho de supresión)
     document.getElementById("btn-delete-ranking-record")?.addEventListener("click", () => {
       this.confirmDeleteRankingRecord();
     });
@@ -1609,7 +1609,7 @@ class MathApp {
       sound.playClick();
     });
 
-    // Pestaña y Banner de Cookies
+    // Política y Banner de Cookies
     document.getElementById("btn-cookie-accept")?.addEventListener("click", () => {
       this.acceptCookies();
     });
@@ -1633,7 +1633,7 @@ class MathApp {
     });
   }
 
-  // MODAL PERFIL: datos del niño, racha, racha de dias e ultimos intentos
+  // MODAL PERFIL: datos del niño, racha, racha de días e últimos intentos
   renderProfileStats() {
     document.getElementById("profile-display-avatar").textContent = this.user.avatar;
     document.getElementById("profile-display-name").textContent = this.user.name;

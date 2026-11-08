@@ -14,12 +14,12 @@
 
 ### 1. ¿Quién es responsable de los datos?
 
-El responsable es el **Proyecto Integrador**, equipo **Isma_1**, que desarrollo y mantiene esta aplicación educativa como un proyecto escolar.
+El responsable es el **Proyecto Integrador**, equipo **Isma_1**, que desarrolló y mantiene esta aplicación educativa como un proyecto escolar.
 Si algún día el proyecto cambia de equipo o de plataforma, esta política se actualizará con la nueva información.
 
 ### 2. ¿Qué es la aplicación y para quién?
 
-- Es una **aplicación web educativa** de matemáticas para **niños y niñas de primaria** (1º a 6º grado).
+- Es una **aplicación web educativa** de matemáticas para **niños y niñas de primaria** (1.º a 6.º de Primaria).
 - Funciona en el navegador (computadora, tablet o celular) y **no requiere cuenta, contraseña ni correo electrónico**.
 - Todos los textos están en español y la app **no muestra publicidad** ni contenido para adultos.
 
@@ -35,7 +35,7 @@ Si algún día el proyecto cambia de equipo o de plataforma, esta política se a
 | Historial de intentos (tema, puntaje, fecha) | En tu dispositivo | Mostrarte tus últimos intentos | ❌ No |
 | **Alias inventado** (por ejemplo "Matemático/a 1F2A") | En la nube (ranking) | Mostrar tu posición en la tabla | ✅ Sí (es un alias, no tu nombre real) |
 | Avatar, nivel, XP, rachas y último puntaje | En la nube (ranking) | Construir la tabla de mejores jugadores | ✅ Sí (son datos de juego) |
-| Identificador aleatorio del dispositivo | En tu navegador | Reconocer tu fila en el ranking | ❌ No (no es tu nombre) |
+| Identificador aleatorio del dispositivo | En tu navegador (almacenamiento local) | Reconocer tu fila en el ranking | ❌ No se muestra en la tabla (es una clave, no tu nombre) |
 
 **En resumen:** en la nube solo hay **datos de juego** (alias, avatar, nivel, XP, rachas y puntaje). **Nunca** se envían tu nombre real, tu grado escolar, tu correo, tu teléfono ni tu ubicación.
 
@@ -46,7 +46,7 @@ Si algún día el proyecto cambia de equipo o de plataforma, esta política se a
 - ❌ Cookies de rastreo publicitario
 - ❌ Analítica, perfiles de comportamiento o publicidad de terceros
 - ❌ Redes sociales, rastreadores de píxeles ni SDKs de terceros
-- ❌ Información de tus notas,teachers, colegio ni familia
+- ❌ Información de tus notas, docentes, colegio ni familia
 
 ### 5. ¿Dónde se almacenan los datos?
 
@@ -57,8 +57,8 @@ Si algún día el proyecto cambia de equipo o de plataforma, esta política se a
 
 - La tabla de mejores jugadores es **visible para cualquiera** que abra la aplicación.
 - Cada fila muestra un **alias inventado** y datos de juego, **no tu nombre real**.
-- El almacén utilizado es un servicio público de práctica **sin autenticación**: por eso, de forma responsable, **recomendamos usar un apodo inventado** y no datos personales reales. Para eliminar cualquier dato tuyo, usa el botón **"🗑️ Borrar mi registro del ranking"**.
-- Este proyecto es escolar y **no tiene ánimo de lucro**; el almacén puede limpiarse, pausarse o dejar de estar disponible en cualquier momento (en ese caso, el ranking quedaría vacío, pero el resto de la app seguiría funcionando).
+- El almacén utilizado es un servicio público de práctica **sin autenticación**: por eso **recomendamos usar un apodo inventado** y no datos personales reales. Para eliminar cualquier dato tuyo, usa el botón **"🗑️ Borrar mi registro del ranking"**.
+- Este proyecto es escolar y **no tiene ánimo de lucro**; el almacén puede limpiarse o dejar de estar disponible en cualquier momento (en ese caso, el ranking quedaría vacío, pero el resto de la app seguiría funcionando).
 
 ### 7. 🧒 Menores de edad
 
@@ -91,8 +91,8 @@ No. **No vendemos, alquilamos ni cedemos datos.** El único tercero implicado es
 ### 11. ¿Cómo se protegen los datos?
 
 - No hay contraseñas ni cuentas: el acceso al perfil depende del dispositivo, por lo que **no compartas el mismo navegador con desconocidos**.
-- Los datos viajan por internet **sin cifrado adicional** (la web es pública y estática). Por eso no deben incluirse datos sensibles reales.
-- El código fuente es abierto (licencia MIT) y **no contiene claves ni secretos**: cualquiera puede ver cómo funciona, lo cual permite auditar que no se recopila información personal.
+- Los datos viajan por internet con el cifrado que da el navegador (HTTPS), pero el ranking es una tabla pública: por eso nunca deben incluirse datos sensibles reales.
+- El código fuente es abierto (licencia MIT) y **no contiene claves ni secretos**: cualquiera puede ver cómo funciona, lo cual permite auditar que no se envían datos personales reales.
 
 ### 12. ¿Puede cambiar esta política?
 
@@ -117,7 +117,7 @@ La aplicación es un **proyecto educativo escolar sin ánimo de lucro**. Puedes 
 
 - El apodo que eliges aparece en el ranking **solo si activas** "👀 Mostrar mi apodo en el ranking".
 - Usa un apodo **apropiado** (no insultos, no datos de otras personas, no información real de terceros).
-- No utilices la aplicación para **suplantar** a otro jugador ni para atribuirte achievements ajenos.
+- No utilices la aplicación para **suplantar** a otro jugador ni para atribuirte logros ajenos.
 
 ### 3. Conducta aceptable
 
