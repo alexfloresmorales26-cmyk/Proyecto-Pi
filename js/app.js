@@ -230,21 +230,23 @@ class MathApp {
       const medals = ["🥇", "🥈", "🥉"];
 
       container.innerHTML = `
-        <table class="ranking-table">
-          <thead>
-            <tr><th>#</th><th>Jugador</th><th>Nivel</th><th>XP</th><th>📅</th></tr>
-          </thead>
-          <tbody>
-            ${players.map((p, i) => `
-              <tr class="${p.id === myId ? "me" : ""}">
-                <td>${medals[i] || (i + 1)}</td>
-                <td>${p.avatar || "🦕"} ${p.name || "Anónimo"}</td>
-                <td>${p.level || 1}</td>
-                <td><strong>${p.xp || 0}</strong></td>
-                <td>${p.dayStreak ? `📅 ${p.dayStreak}` : "—"}</td>
-              </tr>`).join("")}
-          </tbody>
-        </table>`;
+        <div class="ranking-table-wrap">
+          <table class="ranking-table">
+            <thead>
+              <tr><th>#</th><th>Jugador</th><th>Nivel</th><th>XP</th><th>📅</th></tr>
+            </thead>
+            <tbody>
+              ${players.map((p, i) => `
+                <tr class="${p.id === myId ? "me" : ""}">
+                  <td>${medals[i] || (i + 1)}</td>
+                  <td>${p.avatar || "🦕"} ${p.name || "Anónimo"}</td>
+                  <td>${p.level || 1}</td>
+                  <td><strong>${p.xp || 0}</strong></td>
+                  <td>${p.dayStreak ? `📅 ${p.dayStreak}` : "—"}</td>
+                </tr>`).join("")}
+            </tbody>
+          </table>
+        </div>`;
     } catch (e) {
       container.innerHTML = `
         <p style="font-size: 0.85rem; color: #b91c1c; text-align: center; padding: 8px 0;">

@@ -399,6 +399,13 @@ body {
   font-size: 0.86rem;
 }
 
+/* Si la tabla no cabe (celulares muy angostos) se desliza sin romper el modal */
+.ranking-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .ranking-table th {
   font-size: 0.72rem;
   text-transform: uppercase;
@@ -1856,6 +1863,137 @@ body {
    RESPONSIVO PARA CELULAR (VISTA MANUAL DEL USUARIO EN SU TELEFONO)
    ========================================================================== */
 @media (max-width: 640px) {
+  /* ---------------------------------------------------------------
+     LEGIBILIDAD EN CELULAR: que todo el texto se lea completo
+     (sin cortes, sin scroll lateral y con botones bien grandes)
+     --------------------------------------------------------------- */
+
+  /* Insignia de Modo Practica: ocupa su propia linea y no se corta */
+  .practice-badge {
+    display: block;
+    width: fit-content;
+    margin-left: 0;
+    margin-top: 8px;
+    font-size: 0.78rem;
+    padding: 5px 12px;
+  }
+
+  /* Botones de la leccion a ancho completo para leerlos bien */
+  #btn-lesson-start-quiz,
+  #btn-lesson-practice {
+    width: 100%;
+    padding: 14px 16px !important;
+    font-size: 1rem !important;
+  }
+
+  /* Titulo de la pregunta: mas compacto pero legible */
+  .question-title {
+    font-size: 1.18rem;
+    line-height: 1.4;
+  }
+
+  /* Opciones: texto comodo de leer y area de toque amplia */
+  .option-btn {
+    padding: 14px 16px;
+    font-size: 1rem;
+  }
+
+  /* Caja de retroalimentacion: envuelve el texto largo sin cortarlo */
+  .quiz-feedback-box {
+    font-size: 0.96rem;
+    line-height: 1.5;
+    padding: 14px 14px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* Racha de dias compacta en el header */
+  .day-streak-badge {
+    padding: 4px 9px;
+    font-size: 0.78rem;
+    flex-shrink: 0;
+  }
+
+  /* Boton del aviso de repaso a ancho completo */
+  #btn-start-review {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1rem;
+  }
+
+  /* Tarjetas de la leccion: tipografia legible */
+  .keypoint-item h5 {
+    font-size: 1rem;
+  }
+
+  .keypoint-item p {
+    font-size: 0.92rem;
+  }
+
+  .keypoint-tip {
+    font-size: 0.86rem;
+  }
+
+  .keypoint-formula {
+    font-size: 0.82rem;
+  }
+
+  /* Tabla del ranking compacta: las 5 columnas caben sin cortarse */
+  .ranking-table {
+    font-size: 0.74rem;
+  }
+
+  .ranking-table th {
+    font-size: 0.62rem;
+    padding: 4px 3px;
+    letter-spacing: 0;
+  }
+
+  .ranking-table td {
+    padding: 6px 3px;
+  }
+
+  /* Texto del aviso de repaso */
+  .review-intro-text {
+    font-size: 0.92rem;
+  }
+
+  /* Pantalla de resultados: titulos y mensajes legibles */
+  .results-title {
+    font-size: 1.25rem;
+  }
+
+  .results-message {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  /* Lista de errores: sin textos apretados */
+  .error-item {
+    padding: 12px;
+  }
+
+  .error-item-question {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .error-item-answers,
+  .error-item-suggestion {
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  /* Modales: titulos y subtitulos que no se cortan */
+  .modal-title {
+    font-size: 1.3rem;
+  }
+
+  .modal-subtitle {
+    font-size: 0.88rem;
+    margin-bottom: 18px;
+  }
+
   /* Boton Reintentar: grande y ancho completo para pulsarlo facil con el dedo */
   .btn-retry-question {
     float: none;
