@@ -30,7 +30,7 @@ class MathApp {
       avatar: "🦕",
       grade: "1º Primaria",
       level: 1,
-      xp: 40,
+      xp: 40, // XP inicial al crear el perfil (se suman +100 al aprobar el primer reto)
       guest: false,
       bestStreak: 0,
       completedTopics: [],
@@ -373,6 +373,18 @@ class MathApp {
   checkFirstVisit() {
     const hasVisited = localStorage.getItem("matematica_basica_visited");
     if (!hasVisited) {
+      // Precargar el grado actual en el selector antes de abrir el modal
+      const gradeSelect = document.getElementById('select-student-grade');
+      if (gradeSelect && this.user.grade) {
+        // Seleccionar la opción que corresponda al grado actual
+        const options = gradeSelect.options;
+        for (let i = 0; i < options.length; i++) {
+          if (options[i].value === this.user.grade) {
+            options.selectedIndex = i;
+            break;
+          }
+        }
+      }
       this.openModal("modal-user-welcome");
     }
   }
@@ -518,6 +530,31 @@ class MathApp {
   // Rotación automática de los consejos del hero cada 9 segundos
   startTipsRotation() {
     setInterval(() => this.nextHeroTip(), 9000);
+  }
+
+  // Establecer la forma (cuadrado/rectángulo) en el laboratorio de geometría
+  setShape(shape) {
+    const visual = document.getElementById('shape-visual-box');
+    const sideVal = document.getElementById('shape-side-val');
+    const periVal = document.getElementById('shape-peri-val');
+    const areaVal = document.getElementById('shape-area-val');
+    const btnSquare = document.getElementById('btn-shape-square');
+    const btnRect = document.getElementById('btn-shape-rect');
+    if (shape === 'square') {
+      visual.textContent = '4 cm';
+      sideVal.textContent = '4';
+      periVal.textContent = '16 cm';
+      areaVal.textContent = '16 cm²';
+      btnSquare.classList.add('active');
+      btnRect.classList.remove('active');
+    } else if (shape === 'rect') {
+      visual.textContent = 'Rectángulo';
+      sideVal.textContent = '5';
+      periVal.textContent = '18 cm';
+      areaVal.textContent = '25 cm²';
+      btnSquare.classList.remove('active');
+      btnRect.classList.add('active');
+    }
   }
 
   // Consejos de resolución en la vista de quiz
@@ -721,8 +758,8 @@ class MathApp {
         return `
           <div class="widget-title">📐 Calculadora Visual de Perímetro y Área</div>
           <div style="display:flex; justify-content:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
-            <button class="btn-secondary active" id="btn-shape-square" style="padding:6px 12px;">Cuadrado</button>
-            <button class="btn-secondary" id="btn-shape-rect" style="padding:6px 12px;">Rectángulo</button>
+            <button class="btn-secondary active" id="btn-shape-square" style="padding:6px 12px;" onclick="app.setShape('square')">Cuadrado</button>
+            <button class="btn-secondary" id="btn-shape-rect" style="padding:6px 12px;" onclick="app.setShape('rect')">Rectángulo</button>
           </div>
           <div id="shape-visual-box" style="width: 100px; height: 100px; background: #e9d5ff; border: 3px solid #8b5cf6; margin: 0 auto 14px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #5b21b6; transition: all 0.3s;">
             4 cm
@@ -741,7 +778,7 @@ class MathApp {
             <div style="font-size: 4rem;">🍕</div>
             <div style="text-align: left;">
               <p style="font-size: 1.2rem; font-weight: 800; color: #0284c7;" id="fraction-text">1/2 de la pizza = 0.5 (Mitad)</p>
-              <p style="color: #475569; font-weight: 600;">Es equivalente a <strong>2/4</strong> y <strong>4/8</strong>.</p>
+              <p style="color: #475569; font-weight: 600;" id="fraction-equiv">Es equivalente a <strong>2/4</strong> y <strong>4/8</strong>.</p>
             </div>
           </div>
           <div style="margin-top: 16px; display: flex; justify-content: center; gap: 10px;">
@@ -850,12 +887,41 @@ class MathApp {
     if (text) {
       text.textContent = `${fraction} de la pizza = ${decimal} (${label})`;
     }
+    // Update equivalence text per fraction
+    const equiv = document.getElementById("fraction-equiv");
+    if (equiv) {
+      switch(fraction) {
+        case "1/2":
+          equiv.textContent = "Es equivalente a 2/4 y 4/8";
+          break;
+        case "1/4":
+          equiv.textContent = "Es equivalente a 2/8";
+          break;
+        case "3/4":
+          equiv.textContent = "Es equivalente a 6/8";
+          break;
+        default:
+          equiv.textContent = "";
+      }
+    }
   }
 
   // Bloqueo Modo Invitado: puede ver todas las opciones, pero jugar requiere perfil
   requireProfile() {
     if (this.user.guest) {
       alert("👀 Estás en Modo Invitado: puedes ver todas las opciones, pero para jugar debes crear tu perfil.");
+      // Precargar el grado actual en el selector antes de abrir el modal
+      const gradeSelect = document.getElementById('select-student-grade');
+      if (gradeSelect && this.user.grade) {
+        // Seleccionar la opción que corresponda al grado actual
+        const options = gradeSelect.options;
+        for (let i = 0; i < options.length; i++) {
+          if (options[i].value === this.user.grade) {
+            options.selectedIndex = i;
+            break;
+          }
+        }
+      }
       this.openModal("modal-user-welcome");
       return false;
     }
@@ -1554,6 +1620,21 @@ class MathApp {
 
     // Selector de grado escolar
     document.getElementById("dashboard-grade-btn")?.addEventListener("click", () => {
+      // Precargar el grado actual en el selector antes de abrir el modal
+      const gradeSelect = document.getElementById('select-student-grade');
+      if (gradeSelect && this.user.grade) {
+        // Seleccionar la opción que corresponda al grado actual
+        const options = gradeSelect.options;
+        for (let i = 0; i < options.length; i++) {
+          if (options[i].value === this.user.grade) {
+            options.selectedIndex = i;
+            break;
+          }
+        }
+      } else if (gradeSelect) {
+        // Si no hay grado guardado, mantener el seleccionado actual (no resetear)
+        // El grado actual ya está reflejado en el span dashboard-grade-text
+      }
       this.openModal("modal-user-welcome");
     });
 
