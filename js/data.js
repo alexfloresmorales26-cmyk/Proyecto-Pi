@@ -199,6 +199,19 @@ const APP_DATA = {
         }
       ]
     },
+      dailyRecommendations: [
+        '💡 Consejo diario: Mide objetos de tu casa con una regla o una balanza.',
+        '💡 Convierte unidades: ¿Cuántos gramos pesa tu bolsa de azúcar? ¿Cuántos mililitros tiene tu botella?',
+        '💡 Observa la hora: ¿Cuántos minutos tardas en caminar a la escuela?',
+      ],
+      autoComments: [
+        '📏 Medir es comparar algo con una unidad conocida.',
+        '⚖️ Para objetos ligeros usamos gramos; para pesados, kilogramos.',
+        '🥛 Los líquidos se miden en litros y mililitros.',
+        '⏱️ El tiempo se mide en segundos, minutos y horas.',
+        '💡 Tu regla escolar mide 30 cm. ¿Cuántos cm mide tu lápiz?',
+        '💡 Consejo: mide objetos de tu casa para practicar.',
+      ],
     {
       id: "operaciones",
       title: "Operaciones",
@@ -323,6 +336,19 @@ const APP_DATA = {
         }
       ]
     },
+      dailyRecommendations: [
+        '💡 Consejo diario: Suma los números de matrícula de los autos que ves en la calle.',
+        '💡 Practica las tablas de multiplicar mientras esperas el autobús.',
+        '💡 Si tienes 3 manzanas y comes 1, ¿cuántas quedan?',
+      ],
+      autoComments: [
+        '➕ La suma junta cantidades: 3 + 2 = 5.',
+        '➖ La resta quita: si tienes 6 y comes 2, te quedan 4.',
+        '✖️ La multiplicación es suma repetida: 3 × 4 = 12.',
+        '➗ La división reparte en partes iguales: 10 ÷ 2 = 5.',
+        '💡 Practica las tablas de multiplicar mientras esperas el autobús.',
+        '💡 El símbolo × significa "veces" y ÷ significa "repartir".',
+      ],
     {
       id: "geometria",
       title: "Geometría",
@@ -447,6 +473,19 @@ const APP_DATA = {
         }
       ]
     },
+      dailyRecommendations: [
+        '💡 Consejo diario: Busca objetos cuadrados en tu casa: ventanas, sobres, fichas.',
+        '💡 Cuenta los lados de los muebles: ¿Cuántos lados tiene la mesa?',
+        '💡 Observa los ángulos: ¿Es agudo, recto u obtuso el abrir la puerta?',
+      ],
+      autoComments: [
+        '🔺 Los triángulos tienen 3 lados; los cuadrados, 4 lados iguales.',
+        '📐 Un ángulo recto mide exactamente 90°, como la esquina de un libro.',
+        '🟦 El perímetro es la suma de todos los lados de una figura.',
+        '🟩 El área es el espacio que ocupa una figura por dentro.',
+        '💡 Busca cuadrados y triángulos en las ventanas de tu casa.',
+        '💡 Un círculo no tiene lados ni esquinas. ¡Es completamente redondo!',
+      ],
     {
       id: "estadistica",
       title: "Estadística y Proporción",
@@ -571,6 +610,19 @@ const APP_DATA = {
         }
       ]
     },
+      dailyRecommendations: [
+        '💡 Consejo diario: Haz una encuesta familiar: "¿Cuál es tu fruta favorita?"',
+        '💡 Crea una gráfica de barras con tus calificaciones de la semana.',
+        '💡 Observa el clima: ¿Llovió más días esta semana?',
+      ],
+      autoComments: [
+        '📊 La estadística organiza datos para entenderlos mejor.',
+        '📈 Una gráfica de barras compara cantidades de forma visual.',
+        '🔢 El promedio se calcula sumando y dividiendo entre cuántos son.',
+        '📋 Una encuesta recopila información preguntando a las personas.',
+        '💡 Pregunta a tu familia su fruta favorita y haz una gráfica.',
+        '💡 50% significa la mitad, y 25% un cuarto del total.',
+      ],
     {
       id: "calculo-mental",
       title: "Cálculo Mental y Fracciones",
@@ -695,6 +747,19 @@ const APP_DATA = {
         }
       ]
     },
+      dailyRecommendations: [
+        '💡 Consejo diario: Suma los dígitos de tu número de teléfono mentalmente.',
+        '💡 Multiplica rápidamente: ¿Cuánto es 4 × 5? ¿6 × 3? Practica con el reloj.',
+        '💡 Resta la cantidad de comidas que faltan para el próximo día festivo.',
+      ],
+      autoComments: [
+        '🧠 El cálculo mental es hacer cuentas sin lápiz ni calculadora.',
+        '🍕 Las fracciones representan partes de un todo: 1/2 es la mitad.',
+        '🔢 Fracciones equivalentes: 1/2 = 2/4 = 4/8.',
+        '⚡ Truco: para sumar 9, suma 10 y resta 1.',
+        '💡 Suma los dígitos de tu teléfono mentalmente.',
+        '💡 75% = 3/4, es decir, tres cuartas partes del total.',
+      ],
     {
       id: "algebra",
       title: "Introducción al Álgebra",
@@ -809,6 +874,19 @@ const APP_DATA = {
           hint: "Reemplaza la x por su valor: 5 + 3.",
           explanation: "¡Exacto! Si x = 5, entonces x + 3 = 5 + 3 = 8."
         },
+      dailyRecommendations: [
+        '💡 Consejo diario: Busca patrones: ¿Cuál es el siguiente número: 2, 4, 6, 8...?',
+        '💡 Resuelve incógnitas: "Si tengo x manzanas y como 2, me quedan 4. ¿Cuántas tenía?"',
+        '💡 Observa sucesiones en la naturaleza: filas de árboles, escalones.',
+      ],
+      autoComments: [
+        '🧩 El álgebra usa letras para representar números desconocidos.',
+        '⚖️ Una ecuación es como una balanza: ambos lados deben estar equilibrados.',
+        '🔍 Si x + 5 = 12, quitamos 5 de ambos lados: x = 7.',
+        '🔢 Los patrones son sucesiones: 2, 4, 6, 8... ¡sigue el 10!',
+        '💡 Busca patrones en escaleras, filas de árboles y pétalos de flores.',
+        '💡 La letra x es la incógnita más famosa de las matemáticas.',
+      ],
         {
           id: "alg10",
           question: "Si 3 × x = 15, ¿cuál es el valor de x?",

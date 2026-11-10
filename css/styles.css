@@ -3386,3 +3386,58 @@ body {
   }
 }
 
+
+/* -----------------------------------------------------------------------
+   COMENTARIOS AUTOMÁTICOS DE LOS LABORATORIOS
+   Reemplazan a los controles interactivos (regla, manzanas, figuras...).
+   Rotan solos cada 5 segundos desde app.js (renderAutoComment).
+   ----------------------------------------------------------------------- */
+.auto-comments-box {
+  background: #ffffff;
+  border: 2px dashed #7dd3fc;
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.auto-comment-text {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-navy);
+  text-align: center;
+  line-height: 1.5;
+  margin: 0;
+  transition: opacity 0.22s ease;
+  min-height: 48px;
+}
+
+.auto-comment-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.auto-comment-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.auto-comment-dot.active {
+  background: var(--primary-blue);
+  transform: scale(1.25);
+}
+
+/* Ajuste para tarjetas de tema con tip diario */
+.topic-daily-tip {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: #64748b;
+}
