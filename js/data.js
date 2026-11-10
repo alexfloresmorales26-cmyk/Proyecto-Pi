@@ -115,6 +115,8 @@ const APP_DATA = {
           }
         ],
         interactiveType: "measurement-tool"
+      dailyRecommendations: ['💡 Consejo diario: Mide objetos de tu casa con una regla o una balanza. 💡 Convierte unidades: gramos/mililitros. 💡 Observa la hora: minutos y segundos.'],
+
       },
       quiz: [
         {
@@ -239,6 +241,8 @@ const APP_DATA = {
           }
         ],
         interactiveType: "operations-tool"
+      dailyRecommendations: ['💡 Suma matrículas de autos. 💡 Practica tablas de multiplicar. 💡 Si tienes 3 manzanas y comes 1, cuántas quedan.'],
+
       },
       quiz: [
         {
@@ -363,6 +367,8 @@ const APP_DATA = {
           }
         ],
         interactiveType: "geometry-tool"
+      dailyRecommendations: ['💡 Busca objetos cuadrados en casa. 💡 Cuenta lados de muebles. 💡 Observa ángulos de la puerta.'],
+
       },
       quiz: [
         {
@@ -487,6 +493,8 @@ const APP_DATA = {
           }
         ],
         interactiveType: "stats-tool"
+      dailyRecommendations: ['💡 Haz una encuesta familiar. 💡 Crea una gráfica de barras. 💡 Observa el clima semanal.'],
+
       },
       quiz: [
         {
@@ -611,6 +619,8 @@ const APP_DATA = {
           }
         ],
         interactiveType: "fraction-tool"
+      dailyRecommendations: ['💡 Suma dígitos de teléfono mentalmente. 💡 Resta comidas para próximo día festivo. 💡 Multiplica: 4×5, 6×3 con el reloj.'],
+
       },
       quiz: [
         {
@@ -735,6 +745,8 @@ const APP_DATA = {
           }
         ],
         interactiveType: "algebra-tool"
+      dailyRecommendations: ['💡 Busca patrones: 2,4,6,8... 💡 Resuelve incógnitas: si como 2 me quedan 4, ¿cuántas tenía? 💡 Observa sucesiones en la naturaleza.'],
+
       },
       quiz: [
         {

@@ -478,7 +478,7 @@ class MathApp {
           </span>
         </div>
         <h4>${topic.title}</h4>
-        <p>${topic.subtitle}</p>
+        <p>${topic.subtitle}</p><div class="topic-daily-tip" style="margin-top: 8px; font-size: 0.8rem; color: #64748b;">💡 Consejo diario</div>
       `;
 
       card.addEventListener("click", () => {
@@ -679,6 +679,16 @@ class MathApp {
 
     if (lessonTitle) lessonTitle.textContent = `${topic.icon} ${topic.title}`;
     if (lessonIntro) lessonIntro.textContent = topic.lesson.intro;
+
+    // Mostrar recomendaciones diarias
+    const dailyRecsArea = document.getElementById("lesson-daily-recs");
+    if (dailyRecsArea && topic.dailyRecommendations) {
+      // Rotar o mostrar el primer tip diario
+      dailyRecsArea.innerHTML = topic.dailyRecommendations.map((rec, i) => 
+        `<p style="font-size: 0.85rem; color: #64748b; margin: 4px 0;">${rec}</p>`
+      ).join("");
+      dailyRecsArea.style.display = "block";
+    }
 
     // Renderizar puntos clave (cada tarjeta revela un dato extra al hover o al tocar)
     if (keypointsContainer) {
