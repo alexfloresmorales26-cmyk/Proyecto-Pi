@@ -664,6 +664,10 @@ class MathApp {
       target.classList.add("active");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+    // Renderizar temas al mostrar el dashboard
+    if (viewId === "view-dashboard") {
+      this.renderTopics();
+    }
   }
 
   // Abrir lección interactiva (Paso 4 del diagrama)
