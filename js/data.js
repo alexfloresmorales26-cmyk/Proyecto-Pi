@@ -660,14 +660,6 @@ const APP_DATA = {
         '💡 Consejo: suma los dígitos de tu teléfono o matrícula mentalmente.',
         '💡 Dato: 75% = 3/4, es decir, tres cuartas partes del total.'
       ],
-      autoComments: [
-        '🧠 El cálculo mental es hacer cuentas sin lápiz ni calculadora.',
-        '🍕 Las fracciones representan partes de un todo: 1/2 es la mitad.',
-        '🔢 Fracciones equivalentes: 1/2 = 2/4 = 4/8, ¡representan lo mismo!',
-        '⚡ Truco: para sumar 9, suma 10 y resta 1. Ejemplo: 15 + 9 = 25 - 1 = 24.',
-        '💡 Consejo: suma los dígitos de tu teléfono o matrícula mentalmente.',
-        '💡 Dato: 75% = 3/4, es decir, tres cuartas partes del total.'
-      ],
 
       },
       quiz: [
