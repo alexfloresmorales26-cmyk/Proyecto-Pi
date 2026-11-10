@@ -57,10 +57,6 @@ class MathApp {
     // PRIVACIDAD: alias público (nunca el nombre real), interruptor y opt-out
     this.rankingAlias = "";
 
-    // Comentarios automáticos de los laboratorios (rotan cada 5 segundos)
-    this.autoCommentInterval = null;
-    this.autoCommentIndex = 0;
-
     this.init();
   }
 
@@ -483,9 +479,6 @@ class MathApp {
         </div>
         <h4>${topic.title}</h4>
         <p>${topic.subtitle}</p>
-        <div class="topic-daily-tip" style="margin-top: 8px; font-size: 0.8rem; color: #64748b;">
-          💡 ${topic.dailyRecommendations ? topic.dailyRecommendations[0] : 'Consejo diario'}
-        </div>
       `;
 
       card.addEventListener("click", () => {
@@ -537,6 +530,31 @@ class MathApp {
   // Rotación automática de los consejos del hero cada 9 segundos
   startTipsRotation() {
     setInterval(() => this.nextHeroTip(), 9000);
+  }
+
+  // Establecer la forma (cuadrado/rectángulo) en el laboratorio de geometría
+  setShape(shape) {
+    const visual = document.getElementById('shape-visual-box');
+    const sideVal = document.getElementById('shape-side-val');
+    const periVal = document.getElementById('shape-peri-val');
+    const areaVal = document.getElementById('shape-area-val');
+    const btnSquare = document.getElementById('btn-shape-square');
+    const btnRect = document.getElementById('btn-shape-rect');
+    if (shape === 'square') {
+      visual.textContent = '4 cm';
+      sideVal.textContent = '4';
+      periVal.textContent = '16 cm';
+      areaVal.textContent = '16 cm²';
+      btnSquare.classList.add('active');
+      btnRect.classList.remove('active');
+    } else if (shape === 'rect') {
+      visual.textContent = 'Rectángulo';
+      sideVal.textContent = '5';
+      periVal.textContent = '18 cm';
+      areaVal.textContent = '25 cm²';
+      btnSquare.classList.remove('active');
+      btnRect.classList.add('active');
+    }
   }
 
   // Consejos de resolución en la vista de quiz
@@ -646,11 +664,6 @@ class MathApp {
       target.classList.add("active");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-    // Detener la rotación de comentarios automáticos al salir de la lección
-    if (viewId !== "view-lesson" && this.autoCommentInterval) {
-      clearInterval(this.autoCommentInterval);
-      this.autoCommentInterval = null;
-    }
   }
 
   // Abrir lección interactiva (Paso 4 del diagrama)
@@ -666,15 +679,6 @@ class MathApp {
 
     if (lessonTitle) lessonTitle.textContent = `${topic.icon} ${topic.title}`;
     if (lessonIntro) lessonIntro.textContent = topic.lesson.intro;
-
-    // Mostrar recomendaciones diarias
-    const dailyRecsArea = document.getElementById("lesson-daily-recs");
-    if (dailyRecsArea && topic.dailyRecommendations) {
-      dailyRecsArea.innerHTML = topic.dailyRecommendations.map((rec, i) => 
-        `<p style="font-size: 0.85rem; color: #64748b; margin: 4px 0;">${rec}</p>`
-      ).join("");
-      dailyRecsArea.style.display = "block";
-    }
 
     // Renderizar puntos clave (cada tarjeta revela un dato extra al hover o al tocar)
     if (keypointsContainer) {
@@ -724,66 +728,182 @@ class MathApp {
 
   // Generador de Widgets Interactivos Didácticos
   getInteractiveWidgetHTML(topic) {
-    // COMENTARIOS AUTOMÁTICOS por tema: rotan solos cada 5 segundos.
-    // Reemplazan a los antiguos controles interactivos (regla, manzanas, figuras...).
-    const comments = topic.autoComments || [];
-    if (comments.length === 0) {
-      return `
-        <div class="widget-title">💬 Comentarios automáticos</div>
-        <p>Lee con atención cada ejemplo para aplicar tus habilidades en el cuestionario interactivo.</p>
-      `;
+    switch (topic.id) {
+      case "medicion":
+        return `
+          <div class="widget-title">📏 Mini-Laboratorio: Mide el lápiz con la regla</div>
+          <div class="ruler-interactive">
+            <div id="measured-object" style="font-size: 3rem; transform: scaleX(1); transition: all 0.2s;">✏️</div>
+            <div class="ruler-ticks">
+              <span>0 cm</span><span>2 cm</span><span>4 cm</span><span>6 cm</span><span>8 cm</span><span>10 cm</span><span>12 cm</span>
+            </div>
+            <input type="range" id="ruler-slider" class="ruler-slider" min="2" max="12" value="6" step="1">
+            <p><strong>Longitud del lápiz:</strong> <span id="ruler-value-text" style="color:#0284c7; font-size:1.2rem;">6 centímetros</span> (<span id="ruler-mm-text">60 mm</span>)</p>
+          </div>
+        `;
+      case "operaciones":
+        return `
+          <div class="widget-title">🍎 Repartir manzanas (Multiplicación y División)</div>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 16px; margin: 12px 0;">
+            <button class="btn-secondary" id="btn-calc-sub" style="padding: 6px 14px;">-</button>
+            <span id="apple-count-display" style="font-size: 1.5rem; font-weight: 800; color: #15803d;">6 Manzanas</span>
+            <button class="btn-secondary" id="btn-calc-add" style="padding: 6px 14px;">+</button>
+          </div>
+          <div id="apples-visual-area" style="font-size: 2rem; min-height: 48px; letter-spacing: 4px;">🍎🍎🍎🍎🍎🍎</div>
+          <p style="margin-top: 10px; font-weight: 700; color: #166534;" id="division-explanation">
+            Si las repartimos entre 2 niños, ¡a cada uno le tocan 3 manzanas! (6 ÷ 2 = 3)
+          </p>
+        `;
+      case "geometria":
+        return `
+          <div class="widget-title">📐 Calculadora Visual de Perímetro y Área</div>
+          <div style="display:flex; justify-content:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
+            <button class="btn-secondary active" id="btn-shape-square" style="padding:6px 12px;" onclick="app.setShape('square')">Cuadrado</button>
+            <button class="btn-secondary" id="btn-shape-rect" style="padding:6px 12px;" onclick="app.setShape('rect')">Rectángulo</button>
+          </div>
+          <div id="shape-visual-box" style="width: 100px; height: 100px; background: #e9d5ff; border: 3px solid #8b5cf6; margin: 0 auto 14px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #5b21b6; transition: all 0.3s;">
+            4 cm
+          </div>
+          <input type="range" id="shape-slider" class="ruler-slider" min="2" max="10" value="4">
+          <p style="margin-top: 10px; font-weight: 700;">
+            Lado: <span id="shape-side-val">4</span> cm | 
+            <span style="color: #0284c7;">Perímetro (4 lados): <strong id="shape-peri-val">16 cm</strong></span> | 
+            <span style="color: #10b981;">Área: <strong id="shape-area-val">16 cm²</strong></span>
+          </p>
+        `;
+      case "calculo-mental":
+        return `
+          <div class="widget-title">🍕 Rebanadas de Pizza y Fracciones Equivalentes</div>
+          <div class="pizza-container">
+            <div style="font-size: 4rem;">🍕</div>
+            <div style="text-align: left;">
+              <p style="font-size: 1.2rem; font-weight: 800; color: #0284c7;" id="fraction-text">1/2 de la pizza = 0.5 (Mitad)</p>
+              <p style="color: #475569; font-weight: 600;" id="fraction-equiv">Es equivalente a <strong>2/4</strong> y <strong>4/8</strong>.</p>
+            </div>
+          </div>
+          <div style="margin-top: 16px; display: flex; justify-content: center; gap: 10px;">
+            <button class="btn-secondary" onclick="app.setFractionDisplay('1/4', 0.25, 'Un cuarto')">1/4 (25%)</button>
+            <button class="btn-secondary" onclick="app.setFractionDisplay('1/2', 0.5, 'La mitad')">1/2 (50%)</button>
+            <button class="btn-secondary" onclick="app.setFractionDisplay('3/4', 0.75, 'Tres cuartos')">3/4 (75%)</button>
+          </div>
+        `;
+      case "algebra":
+        return `
+          <div class="widget-title">⚖️ La Balanza del Álgebra: Descubre el secreto de x</div>
+          <p style="color: #475569; margin-bottom: 12px; font-weight: 600;">Ecuación: <strong>x + 5 = 12</strong></p>
+          <div class="balance-container">
+            <div class="mystery-box" id="mystery-box-x">x</div>
+            <span>+</span>
+            <span style="background: #fef08a; padding: 10px 16px; border-radius: 12px; border: 2px solid #eab308;">5</span>
+            <span style="font-size: 2rem;">=</span>
+            <span style="background: #bbf7d0; padding: 10px 16px; border-radius: 12px; border: 2px solid #22c55e;">12</span>
+          </div>
+          <div style="margin-top: 18px;">
+            <button class="btn-primary-blue" id="btn-reveal-x" style="padding: 8px 18px; font-size: 0.95rem;">
+              🔍 Restar 5 a ambos lados para descubrir x
+            </button>
+            <p id="algebra-reveal-text" style="margin-top: 10px; font-weight: 800; color: #166534; display: none;">
+              ¡Genial! x = 12 - 5 = <strong>7</strong>. Comprobación: 7 + 5 = 12 ✔️
+            </p>
+          </div>
+        `;
+      default:
+        return `
+          <div class="widget-title">📊 Reto de Pensamiento Matemático</div>
+          <p>Lee con atención cada ejemplo para aplicar tus habilidades en el cuestionario interactivo.</p>
+        `;
     }
-
-    return `
-      <div class="widget-title">💬 Comentarios automáticos: ${topic.title}</div>
-      <div class="auto-comments-box" aria-live="polite">
-        <p class="auto-comment-text" id="auto-comment-text">${comments[0]}</p>
-        <div class="auto-comment-dots" id="auto-comment-dots" role="status" aria-label="Progreso de comentarios">
-          ${comments.map((_, i) => `<span class="auto-comment-dot${i === 0 ? " active" : ""}"></span>`).join("")}
-        </div>
-      </div>
-    `;
   }
 
-  // Rotar los comentarios automáticos del laboratorio (se llaman solos cada 5 s)
-  renderAutoComment() {
-    const comments = this.currentTopic && this.currentTopic.autoComments ? this.currentTopic.autoComments : [];
-    const text = document.getElementById("auto-comment-text");
-    const dots = document.getElementById("auto-comment-dots");
-    if (!text || comments.length === 0) return;
+  // Conectar los controles del widget interactivo según el tema (regla, pizza, figuras...)
+  attachWidgetListeners(topic) {
+    if (topic.id === "medicion") {
+      const slider = document.getElementById("ruler-slider");
+      const valText = document.getElementById("ruler-value-text");
+      const mmText = document.getElementById("ruler-mm-text");
+      const obj = document.getElementById("measured-object");
+      if (slider) {
+        slider.addEventListener("input", (e) => {
+          const val = e.target.value;
+          valText.textContent = `${val} centímetros`;
+          mmText.textContent = `${val * 10} mm`;
+          obj.style.transform = `scaleX(${0.5 + val * 0.1})`;
+        });
+      }
+    } else if (topic.id === "operaciones") {
+      let apples = 6;
+      const display = document.getElementById("apple-count-display");
+      const visual = document.getElementById("apples-visual-area");
+      const expl = document.getElementById("division-explanation");
 
-    // Animación suave: desvanecer, cambiar texto y volver a aparecer
-    text.style.opacity = "0";
-    setTimeout(() => {
-      text.textContent = comments[this.autoCommentIndex];
-      text.style.opacity = "1";
-    }, 220);
+      const updateApples = () => {
+        display.textContent = `${apples} Manzanas`;
+        visual.textContent = "🍎".repeat(apples);
+        expl.textContent = `Si las repartimos entre 2 niños, ¡a cada uno le tocan ${apples / 2} manzanas! (${apples} ÷ 2 = ${apples / 2})`;
+      };
 
-    if (dots) {
-      dots.querySelectorAll(".auto-comment-dot").forEach((d, i) => {
-        d.classList.toggle("active", i === this.autoCommentIndex);
+      document.getElementById("btn-calc-sub")?.addEventListener("click", () => {
+        if (apples > 2) { apples -= 2; updateApples(); sound.playClick(); }
+      });
+      document.getElementById("btn-calc-add")?.addEventListener("click", () => {
+        if (apples < 12) { apples += 2; updateApples(); sound.playClick(); }
+      });
+    } else if (topic.id === "geometria") {
+      const slider = document.getElementById("shape-slider");
+      const box = document.getElementById("shape-visual-box");
+      const sideVal = document.getElementById("shape-side-val");
+      const periVal = document.getElementById("shape-peri-val");
+      const areaVal = document.getElementById("shape-area-val");
+
+      if (slider) {
+        slider.addEventListener("input", (e) => {
+          const s = parseInt(e.target.value);
+          box.style.width = `${s * 20}px`;
+          box.style.height = `${s * 20}px`;
+          box.textContent = `${s} cm`;
+          sideVal.textContent = s;
+          periVal.textContent = `${s * 4} cm`;
+          areaVal.textContent = `${s * s} cm²`;
+        });
+      }
+    } else if (topic.id === "algebra") {
+      const btnReveal = document.getElementById("btn-reveal-x");
+      const textReveal = document.getElementById("algebra-reveal-text");
+      const boxX = document.getElementById("mystery-box-x");
+
+      btnReveal?.addEventListener("click", () => {
+        sound.playCorrect();
+        boxX.textContent = "7";
+        boxX.style.background = "#22c55e";
+        textReveal.style.display = "block";
       });
     }
   }
 
-  // Iniciar la rotación automática de comentarios del laboratorio
-  attachWidgetListeners(topic) {
-    // Detener la rotación anterior (si venimos de otro tema)
-    if (this.autoCommentInterval) {
-      clearInterval(this.autoCommentInterval);
-      this.autoCommentInterval = null;
+  // Widget de fracciones: cambiar la equivalencia que se muestra
+  setFractionDisplay(fraction, decimal, label) {
+    sound.playClick();
+    const text = document.getElementById("fraction-text");
+    if (text) {
+      text.textContent = `${fraction} de la pizza = ${decimal} (${label})`;
     }
-
-    const comments = topic.autoComments || [];
-    if (comments.length === 0) return;
-
-    this.autoCommentIndex = 0;
-
-    // Los comentarios rotan solos cada 5 segundos
-    this.autoCommentInterval = setInterval(() => {
-      this.autoCommentIndex = (this.autoCommentIndex + 1) % comments.length;
-      this.renderAutoComment();
-    }, 5000);
+    // Update equivalence text per fraction
+    const equiv = document.getElementById("fraction-equiv");
+    if (equiv) {
+      switch(fraction) {
+        case "1/2":
+          equiv.textContent = "Es equivalente a 2/4 y 4/8";
+          break;
+        case "1/4":
+          equiv.textContent = "Es equivalente a 2/8";
+          break;
+        case "3/4":
+          equiv.textContent = "Es equivalente a 6/8";
+          break;
+        default:
+          equiv.textContent = "";
+      }
+    }
   }
 
   // Bloqueo Modo Invitado: puede ver todas las opciones, pero jugar requiere perfil
@@ -1031,12 +1151,30 @@ class MathApp {
         });
 
         const mensajesAliento = [
-        "¡Ánimo! Sigue intentando, lo vas a lograr.",
-        "¡Tú puedes! Prueba con otra respuesta.",
-        "¡No te rindas! Cada intento te acerca más a la respuesta correcta.",
-        "¡Vamos! Intenta de nuevo, seguro aciertas la próxima."
-      ];
-      const aliento = mensajesAliento[Math.floor(Math.random() * mensajesAliento.length)];
+          "¡Ánimo! Sigue intentando, lo vas a lograr.",
+          "¡Tú puedes! Prueba con otra respuesta.",
+          "¡No te rindas! Cada intento te acerca más a la respuesta correcta.",
+          "¡Vamos! Intenta de nuevo, seguro aciertas la próxima."
+        ];
+        const aliento = mensajesAliento[Math.floor(Math.random() * mensajesAliento.length)];
+        feedbackBox.className = "quiz-feedback-box incorrect show";
+        feedbackBox.innerHTML = `<strong>¡Casi lo logras! 💡</strong> Pista: ${q.hint}<br><em> ${aliento}</em><button class="btn-retry-question" id="btn-retry-question">🔁 Reintentar pregunta</button>`;
+
+        const retryBtn = feedbackBox.querySelector("#btn-retry-question");
+        retryBtn?.addEventListener("click", () => {
+          sound.playClick();
+          this.renderCurrentQuestion();
+        });
+
+        nextBtn.style.display = "none";
+        return;
+      }
+
+      // Ronda 1: se anota como fallada y salta automáticamente (sin atascarse)
+      this.reviewQueue.push(qIndex);
+      buttons.forEach(b => { b.disabled = true; });
+      buttons[selectedIdx]?.classList.add("incorrect");
+
       const mensajesAlientoRonda1 = [
         "¡Ánimo! No importa, seguimos con la siguiente.",
         "¡Tú puedes! La repasaremos al final.",
@@ -1045,7 +1183,453 @@ class MathApp {
       ];
       const alientoR1 = mensajesAlientoRonda1[Math.floor(Math.random() * mensajesAlientoRonda1.length)];
       feedbackBox.className = "quiz-feedback-box incorrect show";
-      feedbackBox.innerHTML = `<strong>¡Casi lo logras! 💡</strong> Pista: ${q.hint}<br><em>📝 Quedó anotada: la volverás a ver en el repaso final. ${alientoR1}</em>;`
+      feedbackBox.innerHTML = `<strong>¡Casi lo logras! 💡</strong> Pista: ${q.hint}<br><em>📝 Quedó anotada: la volverás a ver en el repaso final. ${alientoR1}</em>`;
+
+      nextBtn.style.display = "none";
+
+      // Salto automático: espera un momento para leer la pista y avanza
+      clearTimeout(this.autoAdvanceTimer);
+      const expectedIndex = this.currentQuestionIndex;
+      this.autoAdvanceTimer = setTimeout(() => {
+        this.autoAdvanceTimer = null;
+        const quizView = document.getElementById("view-quiz");
+        if (this.quizPhase === "round1" &&
+            this.currentQuestionIndex === expectedIndex &&
+            quizView?.classList.contains("active")) {
+          this.nextQuestion();
+        }
+      }, 2200);
+    }
+  }
+
+  nextQuestion() {
+    sound.playClick();
+    clearTimeout(this.autoAdvanceTimer);
+    this.autoAdvanceTimer = null;
+
+    if (this.quizPhase === "review") {
+      this.reviewPos++;
+      if (this.reviewPos >= this.reviewQueue.length) {
+        this.evaluateQuizResults();
+      } else {
+        this.renderCurrentQuestion();
+      }
+      return;
+    }
+
+    this.currentQuestionIndex++;
+    if (this.currentQuestionIndex < this.currentTopic.quiz.length) {
+      this.renderCurrentQuestion();
+    } else if (this.reviewQueue.length > 0) {
+      // Terminó la ronda 1 y hubo fallos: mostrar aviso y pasar al repaso
+      this.quizPhase = "review";
+      this.reviewPos = 0;
+      this.showReviewIntro();
+    } else {
+      this.evaluateQuizResults();
+    }
+  }
+
+  // ¿Aprobó? Evaluación y Ramas del Diagrama de Flujo
+  // Puntaje final: aciertos de la ronda 1 + preguntas reparadas en el repaso.
+  evaluateQuizResults() {
+    clearTimeout(this.autoAdvanceTimer);
+    this.autoAdvanceTimer = null;
+    // Ocultar aviso de repaso si estuviera visible
+    const banner = document.getElementById("review-intro-banner");
+    const card = document.getElementById("quiz-question-card");
+    if (banner) banner.style.display = "none";
+    if (card) card.style.display = "block";
+
+    const total = this.quizAnswers.length;
+    const round1Correct = this.quizAnswers.filter(a => a.isCorrect).length;
+    const reviewedFixed = this.fixedInReview.size;
+    const correctCount = Math.min(round1Correct + reviewedFixed, total);
+    const scorePercent = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+    const passed = scorePercent >= 70; // Criterio de aprobación del diagrama
+
+    // MODO PRÁCTICA: no cuenta para nada (ni historial, ni XP, ni ranking)
+    if (!this.practiceMode) {
+      // Guardar en el historial (con el grado escolar vigente al momento del intento)
+      this.user.history.push({
+        topicId: this.currentTopic.id,
+        topicTitle: this.currentTopic.title,
+        score: scorePercent,
+        date: new Date().toLocaleDateString(),
+        passed: passed,
+        grade: this.user.grade
+      });
+    }
+
+    const iconEl = document.getElementById("results-status-icon");
+    const titleEl = document.getElementById("results-status-title");
+    const scoreEl = document.getElementById("results-score-percent");
+    const msgEl = document.getElementById("results-status-message");
+    const approvedActions = document.getElementById("results-approved-actions");
+    const failedActions = document.getElementById("results-failed-actions");
+    const errorsSection = document.getElementById("errors-breakdown-section");
+
+    scoreEl.textContent = `${scorePercent}% (${correctCount} de ${total})`;
+
+    if (passed) {
+      // Rama: SÍ APROBÓ
+      sound.playVictory();
+      this.launchConfetti();
+      iconEl.textContent = "🏆";
+      titleEl.textContent = this.practiceMode
+        ? "¡Entrenamiento completado! 🎓"
+        : "¡Felicidades! ¡Aprobaste!";
+      msgEl.textContent = this.practiceMode
+        ? `¡Buen trabajo! Repasaste el tema de ${this.currentTopic.title} (${scorePercent}%). En Modo Práctica no suman XP ni cuentan para el ranking: ¡entrena con libertad!`
+        : `¡Buen trabajo! Ya te sabes el tema de ${this.currentTopic.title}.` +
+          (reviewedFixed > 0
+            ? ` Repasaste ${reviewedFixed} ${reviewedFixed === 1 ? "pregunta" : "preguntas"} y ahora las sabes todas.`
+            : " ¡Y todo a la primera!") +
+          ` Sumaste +100 XP a tu perfil.`;
+
+      // En Modo Práctica NO se otorgan XP, nivel ni insignias (solo entrenamiento)
+      if (!this.practiceMode) {
+        // Otorgar recompensas: XP, nivel e insignias desbloqueadas
+        const previousLevel = this.user.level;
+        this.user.xp += 100;
+        this.user.level = Math.floor(this.user.xp / 100) + 1;
+        this.checkLevelUp(previousLevel);
+        if (!this.user.completedTopics.includes(this.currentTopic.id)) {
+          this.user.completedTopics.push(this.currentTopic.id);
+        }
+        this.saveUserData();
+        this.renderTopics();
+
+        // Mostrar en pantalla a qué nivel se llego tras subir
+        const levelBanner = document.getElementById("level-up-banner");
+        if (levelBanner) {
+          if (this.user.level > previousLevel) {
+            levelBanner.textContent = `🌟 ¡Subiste al Nivel ${this.user.level}! Sumaste +100 XP y desbloqueaste una insignia nueva.`;
+            levelBanner.style.display = "inline-block";
+          } else {
+            levelBanner.style.display = "none";
+          }
+        }
+
+        // Refrescar la barra de nivel del header ahora mismo
+        this.updateUserHeader();
+
+        // Publicar puntaje en el ranking global (nube), si esta configurado
+        this.submitScoreToRanking(scorePercent);
+      } else {
+        // En práctica: ocultar banner de nivel y refrescar el header sin cambios
+        const levelBanner = document.getElementById("level-up-banner");
+        if (levelBanner) levelBanner.style.display = "none";
+        this.updateUserHeader();
+      }
+
+      approvedActions.style.display = "flex";
+      failedActions.style.display = "none";
+
+      // Si hubo fallos en la ronda 1, mostrar el resumen (ya reparados en el repaso)
+      if (this.quizAnswers.some(a => !a.isCorrect)) {
+        this.renderErrorsAndSuggestions();
+        errorsSection.style.display = "block";
+      } else {
+        errorsSection.style.display = "none";
+      }
+    } else {
+      // Rama: NO APROBÓ -> Mostrar resultados y sugerir estudiar más
+      sound.playIncorrect();
+      iconEl.textContent = "🌱";
+      titleEl.textContent = "¡Buen intento! Cada error te ayuda a aprender";
+      msgEl.textContent = this.practiceMode
+        ? `Obtuviste ${scorePercent}% en este entrenamiento. Repasa los errores y vuelve a intentarlo cuando quieras: en Modo Práctica no pierdes nada.`
+        : `Obtuviste ${scorePercent}%. Para aprobar necesitas al menos un 70%. Mira los errores y los consejos que te dejamos abajo, y vuelve a intentarlo cuando quieras.`;
+
+      // Si no aprobo, no hay subida de nivel: ocultar el banner
+      const levelBanner = document.getElementById("level-up-banner");
+      if (levelBanner) levelBanner.style.display = "none";
+
+      this.saveUserData();
+
+      approvedActions.style.display = "none";
+      failedActions.style.display = "flex";
+
+      // Mostrar errores y dar sugerencias (diagrama de flujo)
+      this.renderErrorsAndSuggestions();
+      errorsSection.style.display = "block";
+    }
+
+    this.showView("view-results");
+  }
+
+  renderErrorsAndSuggestions() {
+    const list = document.getElementById("errors-list-container");
+    const incorrects = this.quizAnswers.filter(a => !a.isCorrect);
+
+    if (incorrects.length === 0) {
+      list.innerHTML = "<p>¡No tuviste ningún error!</p>";
+      return;
+    }
+
+    list.innerHTML = incorrects.map(item => {
+      const fixed = this.fixedInReview.has(item.index);
+      return `
+      <div class="error-item">
+        <div class="error-item-question">❓ ${item.question}</div>
+        <div class="error-item-answers">
+          <span style="color: #dc2626;">❌ Tu respuesta: <strong>${item.selectedText}</strong></span>
+          <span style="color: #16a34a;">✔️ Respuesta correcta: <strong>${item.correctText}</strong></span>
+        </div>
+        ${fixed
+          ? `<div class="error-item-suggestion" style="color: #15803d;">✅ <strong>La acertaste en el repaso final:</strong> ¡ya la dominas!</div>`
+          : `<div class="error-item-suggestion">💡 <strong>Sugerencia para recordar:</strong> ${item.hint}</div>`}
+      </div>
+    `;
+    }).join("");
+  }
+
+  // Efecto de Confeti con Canvas puro
+  launchConfetti() {
+    const canvas = document.getElementById("confetti-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = [];
+    const colors = ["#f59e0b", "#10b981", "#3b82f6", "#ec4899", "#8b5cf6", "#f43f5e"];
+
+    for (let i = 0; i < 90; i++) {
+      pieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        size: Math.random() * 8 + 6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speed: Math.random() * 5 + 3,
+        angle: Math.random() * 360,
+        spin: Math.random() * 10 - 5
+      });
+    }
+
+    let frame = 0;
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pieces.forEach(p => {
+        p.y += p.speed;
+        p.angle += p.spin;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.angle * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        ctx.restore();
+      });
+
+      frame++;
+      if (frame < 180) {
+        requestAnimationFrame(render);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    };
+    render();
+  }
+
+  // Modales
+  openModal(modalId) {
+    sound.playClick();
+    const modal = document.getElementById(modalId);
+    if (modal) modal.classList.add("active");
+  }
+
+  // Cerrar un modal
+  closeModal(modalId) {
+    sound.playClick();
+    const modal = document.getElementById(modalId);
+    if (modal) modal.classList.remove("active");
+  }
+
+  // Configuración de listeners generales
+  setupEventListeners() {
+    // Botón de siguiente curiosidad
+    document.getElementById("btn-next-fact")?.addEventListener("click", () => this.nextFunFact());
+
+    // Consejo del hero: clic o teclado para avanzar
+    const heroTips = document.getElementById("hero-tips");
+    heroTips?.addEventListener("click", () => this.nextHeroTip(true));
+    heroTips?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        this.nextHeroTip(true);
+      }
+    });
+
+    // Consejo de resolución del quiz: clic o teclado para avanzar
+    const quizTips = document.getElementById("quiz-tips");
+    quizTips?.addEventListener("click", () => this.nextQuizTip(true));
+    quizTips?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        this.nextQuizTip(true);
+      }
+    });
+
+    // Botón comenzar a aprender del Hero
+    document.getElementById("btn-hero-start")?.addEventListener("click", () => {
+      sound.playClick();
+      // Abre el primer tema disponible o el que no esté completado
+      const firstUncompleted = APP_DATA.topics.find(t => !this.user.completedTopics.includes(t.id)) || APP_DATA.topics[0];
+      this.openTopicLesson(firstUncompleted.id);
+    });
+
+    // Botones de lección y cuestionario
+    document.getElementById("btn-lesson-back")?.addEventListener("click", () => {
+      sound.playClick();
+      this.showView("view-dashboard");
+    });
+
+    document.getElementById("btn-lesson-start-quiz")?.addEventListener("click", () => {
+      this.startQuiz(false);
+    });
+
+    // Modo Práctica: mismo reto pero sin XP, sin ranking y sin bloquearse
+    document.getElementById("btn-lesson-practice")?.addEventListener("click", () => {
+      this.startQuiz(true);
+    });
+
+    document.getElementById("quiz-next-btn")?.addEventListener("click", () => {
+      this.nextQuestion();
+    });
+
+    document.getElementById("btn-quiz-abandon")?.addEventListener("click", () => {
+      if (confirm("¿Quieres salir del cuestionario? Tu progreso en este intento no se guardará.")) {
+        sound.playClick();
+        this.showView("view-dashboard");
+      }
+    });
+
+    // Acciones de Resultados
+    document.getElementById("btn-another-topic")?.addEventListener("click", () => {
+      sound.playClick();
+      this.showView("view-dashboard");
+      document.getElementById("topics-section-container")?.scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("btn-results-home")?.addEventListener("click", () => {
+      sound.playClick();
+      this.showView("view-dashboard");
+    });
+
+    document.getElementById("btn-retry-quiz")?.addEventListener("click", () => {
+      sound.playClick();
+      // Mantiene el modo (práctica o reto real) en el que se terminó el intento
+      this.startQuiz(this.practiceMode);
+    });
+
+    document.getElementById("btn-study-lesson-again")?.addEventListener("click", () => {
+      sound.playClick();
+      this.openTopicLesson(this.currentTopic.id);
+    });
+
+    document.getElementById("btn-save-attempt-home")?.addEventListener("click", () => {
+      sound.playClick();
+      this.showView("view-dashboard");
+    });
+
+    // Header buttons (Menú hamburguesa, Perfil)
+    document.getElementById("btn-hamburger-menu")?.addEventListener("click", () => {
+      this.openModal("modal-menu-credits");
+      this.renderRanking();
+    });
+
+    // Boton de actualizar el ranking global
+    document.getElementById("btn-refresh-ranking")?.addEventListener("click", () => {
+      sound.playClick();
+      this.renderRanking();
+    });
+
+    // ======================================================================
+    //  PRIVACIDAD Y USO (política de privacidad)
+    // ======================================================================
+
+    // Abrir la política desde el menú lateral
+    document.getElementById("btn-open-privacy-menu")?.addEventListener("click", () => {
+      this.openPrivacyModal();
+    });
+
+    // Abrir la política desde el modal de cookies
+    document.getElementById("btn-cookies-open-privacy")?.addEventListener("click", () => {
+      this.closeModal("modal-cookies");
+      this.openPrivacyModal();
+    });
+
+    // Cerrar el modal de privacidad
+    document.getElementById("btn-privacy-close")?.addEventListener("click", () => {
+      this.closeModal("modal-privacy");
+    });
+
+    // Ver el texto completo de la política (archivo POLITICA.md del repositorio)
+    document.getElementById("btn-open-policy")?.addEventListener("click", () => {
+      sound.playClick();
+      window.open(PRIVACY_POLICY_URL, "_blank", "noopener");
+    });
+
+    // Interruptor: mostrar el apodo real en el ranking
+    document.getElementById("chk-show-name-ranking")?.addEventListener("change", (e) => {
+      this.user.showNameInRanking = e.target.checked;
+      this.saveUserData();
+      this.updatePrivacyStatus();
+      // Si ya estamos en el ranking, actualizamos nuestra fila al instante
+      if (e.target.checked) {
+        this.submitScoreToRanking(this.lastScorePercent || 0);
+      }
+    });
+
+    // Interruptor: no aparecer en el ranking global
+    document.getElementById("chk-ranking-optout")?.addEventListener("change", (e) => {
+      this.user.rankingOptOut = e.target.checked;
+      this.saveUserData();
+      this.updatePrivacyStatus();
+      if (e.target.checked) {
+        // Si estaba en el ranking, se borra su fila de la nube
+        this.deleteRankingRecord().then(() => this.updatePrivacyStatus());
+      }
+    });
+
+    // Borrar mi registro del ranking (derecho de supresión)
+    document.getElementById("btn-delete-ranking-record")?.addEventListener("click", () => {
+      this.confirmDeleteRankingRecord();
+    });
+
+    document.getElementById("btn-cookies-delete-ranking")?.addEventListener("click", () => {
+      this.confirmDeleteRankingRecord();
+    });
+
+    document.getElementById("header-user-btn")?.addEventListener("click", () => {
+      this.renderProfileStats();
+      this.openModal("modal-user-profile");
+    });
+
+    // Barra de Nivel (header) -> Estadísticas de conocimiento por grado
+    const openLevelStats = () => {
+      document.getElementById("level-stats-title").textContent = `Nivel ${this.user.level}`;
+      document.getElementById("level-stats-xp").textContent = `${this.user.xp} XP`;
+      document.getElementById("level-stats-topics").textContent = `${this.user.completedTopics.length} de ${APP_DATA.topics.length}`;
+      document.getElementById("level-stats-streak").textContent = `${this.user.bestStreak || 0} aciertos`;
+      const days = this.user.dailyStreak || 0;
+      const dayStreakEl = document.getElementById("level-stats-day-streak");
+      if (dayStreakEl) {
+        dayStreakEl.textContent = days > 0
+          ? `${days} ${days === 1 ? "día" : "días"} seguidos`
+          : "Aún no hay racha: practica hoy";
+      }
+      this.renderGradeStats("level-grade-stats");
+      this.renderRewards();
+      this.openModal("modal-level-stats");
+    };
+    document.getElementById("level-badge")?.addEventListener("click", openLevelStats);
+    document.getElementById("level-badge")?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openLevelStats();
+      }
     });
 
     // Selector de grado escolar
