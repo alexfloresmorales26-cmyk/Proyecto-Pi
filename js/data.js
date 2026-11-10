@@ -115,16 +115,6 @@ const APP_DATA = {
           }
         ],
         interactiveType: "measurement-tool"
-      dailyRecommendations: ['💡 Consejo diario: Mide objetos de tu casa con una regla o una balanza. 💡 Convierte unidades: gramos/mililitros. 💡 Observa la hora: minutos y segundos.'],
-      autoComments: [
-        '📏 Medir es comparar algo con una unidad conocida: con una regla medimos centímetros.',
-        '⚖️ Para objetos ligeros usamos gramos (g); para objetos pesados, kilogramos (kg).',
-        '🥛 Los líquidos se miden en litros (L) y mililitros (mL).',
-        '⏱️ El tiempo se mide en segundos, minutos y horas. ¡Un día tiene 24 horas!',
-        '💡 Tu regla escolar mide 30 cm. ¿Cuántos cm mide tu lápiz?',
-        '💡 Consejo: mide objetos de tu casa para practicar: un celular, una cuchara, tu cuaderno.'
-      ],
-
       },
       quiz: [
         {
@@ -249,16 +239,6 @@ const APP_DATA = {
           }
         ],
         interactiveType: "operations-tool"
-      dailyRecommendations: ['💡 Suma matrículas de autos. 💡 Practica tablas de multiplicar. 💡 Si tienes 3 manzanas y comes 1, cuántas quedan.'],
-      autoComments: [
-        '➕ La suma junta cantidades: 3 manzanas + 2 manzanas = 5 manzanas.',
-        '➖ La resta quita: si tienes 6 dulces y comes 2, te quedan 4.',
-        '✖️ La multiplicación es suma repetida: 3 × 4 = 3 + 3 + 3 + 3 = 12.',
-        '➗ La división reparte en partes iguales: 10 ÷ 2 = 5.',
-        '💡 Consejo: practica las tablas de multiplicar mientras esperas el autobús.',
-        '💡 Dato: el símbolo × significa "veces" y ÷ significa "repartir".'
-      ],
-
       },
       quiz: [
         {
@@ -383,16 +363,6 @@ const APP_DATA = {
           }
         ],
         interactiveType: "geometry-tool"
-      dailyRecommendations: ['💡 Busca objetos cuadrados en casa. 💡 Cuenta lados de muebles. 💡 Observa ángulos de la puerta.'],
-      autoComments: [
-        '🔺 Los triángulos tienen 3 lados; los cuadrados, 4 lados iguales.',
-        '📐 Un ángulo recto mide exactamente 90°, como la esquina de un libro.',
-        '🟦 El perímetro es la suma de todos los lados de una figura.',
-        '🟩 El área es el espacio que ocupa una figura por dentro.',
-        '💡 Consejo: busca cuadrados y triángulos en las ventanas de tu casa.',
-        '💡 Dato: un círculo no tiene lados ni esquinas. ¡Es completamente redondo!'
-      ],
-
       },
       quiz: [
         {
@@ -517,16 +487,6 @@ const APP_DATA = {
           }
         ],
         interactiveType: "stats-tool"
-      dailyRecommendations: ['💡 Haz una encuesta familiar. 💡 Crea una gráfica de barras. 💡 Observa el clima semanal.'],
-      autoComments: [
-        '📊 La estadística organiza datos para entenderlos mejor.',
-        '📈 Una gráfica de barras compara cantidades de forma visual.',
-        '🔢 El promedio se calcula sumando los datos y dividiendo entre cuántos son.',
-        '📋 Una encuesta recopila información preguntando a las personas.',
-        '💡 Consejo: pregunta a tu familia su fruta favorita y haz una gráfica de barras.',
-        '💡 Dato: 50% significa la mitad, y 25% un cuarto del total.'
-      ],
-
       },
       quiz: [
         {
@@ -651,16 +611,6 @@ const APP_DATA = {
           }
         ],
         interactiveType: "fraction-tool"
-      dailyRecommendations: ['💡 Suma dígitos de teléfono mentalmente. 💡 Resta comidas para próximo día festivo. 💡 Multiplica: 4×5, 6×3 con el reloj.'],
-      autoComments: [
-        '🧠 El cálculo mental es hacer cuentas sin lápiz ni calculadora.',
-        '🍕 Las fracciones representan partes de un todo: 1/2 es la mitad.',
-        '🔢 Fracciones equivalentes: 1/2 = 2/4 = 4/8, ¡representan lo mismo!',
-        '⚡ Truco: para sumar 9, suma 10 y resta 1. Ejemplo: 15 + 9 = 25 - 1 = 24.',
-        '💡 Consejo: suma los dígitos de tu teléfono o matrícula mentalmente.',
-        '💡 Dato: 75% = 3/4, es decir, tres cuartas partes del total.'
-      ],
-
       },
       quiz: [
         {
@@ -785,16 +735,6 @@ const APP_DATA = {
           }
         ],
         interactiveType: "algebra-tool"
-      dailyRecommendations: ['💡 Busca patrones: 2,4,6,8... 💡 Resuelve incógnitas: si como 2 me quedan 4, ¿cuántas tenía? 💡 Observa sucesiones en la naturaleza.'],
-      autoComments: [
-        '🧩 El álgebra usa letras para representar números desconocidos.',
-        '⚖️ Una ecuación es como una balanza: los dos lados deben estar equilibrados.',
-        '🔍 Si x + 5 = 12, quitamos 5 de ambos lados y descubrimos: x = 7.',
-        '🔢 Los patrones son sucesiones: 2, 4, 6, 8... ¡sigue el 10!',
-        '💡 Consejo: busca patrones en escaleras, filas de árboles y pétalos de flores.',
-        '💡 Dato: la letra x es la incógnita más famosa de las matemáticas.'
-      ],
-
       },
       quiz: [
         {
