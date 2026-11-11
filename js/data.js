@@ -745,8 +745,7 @@ const APP_DATA = {
           hint: "0.5 es la mitad de un entero. Dos mitades juntas forman...",
           explanation: "¡Correcto! 0.5 + 0.5 = 1. Dos mitades hacen un entero completo."
         }
-      ]
-    },
+      ],
       dailyRecommendations: [
         '💡 Consejo diario: Suma los dígitos de tu número de teléfono mentalmente.',
         '💡 Multiplica rápidamente: ¿Cuánto es 4 × 5? ¿6 × 3? Practica con el reloj.',
@@ -759,7 +758,8 @@ const APP_DATA = {
         '⚡ Truco: para sumar 9, suma 10 y resta 1.',
         '💡 Suma los dígitos de tu teléfono mentalmente.',
         '💡 75% = 3/4, es decir, tres cuartas partes del total.',
-      ],
+      ]
+    },
     {
       id: "algebra",
       title: "Introducción al Álgebra",
