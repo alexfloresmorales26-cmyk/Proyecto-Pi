@@ -1818,4 +1818,3 @@ let app;
 document.addEventListener("DOMContentLoaded", () => {
   app = new MathApp();
 });
-// Force rebuild mar 10 nov 2026 18:10:55 CST
