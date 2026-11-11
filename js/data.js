@@ -874,6 +874,15 @@ const APP_DATA = {
           hint: "Reemplaza la x por su valor: 5 + 3.",
           explanation: "¡Exacto! Si x = 5, entonces x + 3 = 5 + 3 = 8."
         },
+        {
+          id: "alg10",
+          question: "Si 3 × x = 15, ¿cuál es el valor de x?",
+          options: ["5", "3", "12", "18"],
+          correctIndex: 0,
+          hint: "Piensa en la tabla del 3: ¿por cuál número multiplicas 3 para obtener 15?",
+          explanation: "¡Muy bien! 3 × 5 = 15, entonces x = 5."
+        }
+      ],
       dailyRecommendations: [
         '💡 Consejo diario: Busca patrones: ¿Cuál es el siguiente número: 2, 4, 6, 8...?',
         '💡 Resuelve incógnitas: "Si tengo x manzanas y como 2, me quedan 4. ¿Cuántas tenía?"',
@@ -886,15 +895,6 @@ const APP_DATA = {
         '🔢 Los patrones son sucesiones: 2, 4, 6, 8... ¡sigue el 10!',
         '💡 Busca patrones en escaleras, filas de árboles y pétalos de flores.',
         '💡 La letra x es la incógnita más famosa de las matemáticas.',
-      ],
-        {
-          id: "alg10",
-          question: "Si 3 × x = 15, ¿cuál es el valor de x?",
-          options: ["5", "3", "12", "18"],
-          correctIndex: 0,
-          hint: "Piensa en la tabla del 3: ¿por cuál número multiplicas 3 para obtener 15?",
-          explanation: "¡Muy bien! 3 × 5 = 15, entonces x = 5."
-        }
       ]
     }
   ]
