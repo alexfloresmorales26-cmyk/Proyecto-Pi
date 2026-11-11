@@ -197,8 +197,7 @@ const APP_DATA = {
           hint: "Piensa en tu regla escolar: un lápiz cabe dentro de ella casi totalmente.",
           explanation: "¡Exacto! Un lápiz mide alrededor de 17 cm. Los metros y kilómetros son demasiado grandes."
         }
-      ]
-    },
+      ],
       dailyRecommendations: [
         '💡 Consejo diario: Mide objetos de tu casa con una regla o una balanza.',
         '💡 Convierte unidades: ¿Cuántos gramos pesa tu bolsa de azúcar? ¿Cuántos mililitros tiene tu botella?',
@@ -211,7 +210,8 @@ const APP_DATA = {
         '⏱️ El tiempo se mide en segundos, minutos y horas.',
         '💡 Tu regla escolar mide 30 cm. ¿Cuántos cm mide tu lápiz?',
         '💡 Consejo: mide objetos de tu casa para practicar.',
-      ],
+      ]
+    },
     {
       id: "operaciones",
       title: "Operaciones",
@@ -334,8 +334,7 @@ const APP_DATA = {
           hint: "La palabra 'regalas' significa que debes restar: 35 - 12.",
           explanation: "¡Muy bien! 35 - 12 = 23 estampas en tu colección."
         }
-      ]
-    },
+      ],
       dailyRecommendations: [
         '💡 Consejo diario: Suma los números de matrícula de los autos que ves en la calle.',
         '💡 Practica las tablas de multiplicar mientras esperas el autobús.',
@@ -348,7 +347,8 @@ const APP_DATA = {
         '➗ La división reparte en partes iguales: 10 ÷ 2 = 5.',
         '💡 Practica las tablas de multiplicar mientras esperas el autobús.',
         '💡 El símbolo × significa "veces" y ÷ significa "repartir".',
-      ],
+      ]
+    },
     {
       id: "geometria",
       title: "Geometría",
@@ -471,8 +471,7 @@ const APP_DATA = {
           hint: "Área = largo × ancho. Como todos los lados miden 3: 3 × 3.",
           explanation: "¡Muy bien! Área = 3 cm × 3 cm = 9 cm²."
         }
-      ]
-    },
+      ],
       dailyRecommendations: [
         '💡 Consejo diario: Busca objetos cuadrados en tu casa: ventanas, sobres, fichas.',
         '💡 Cuenta los lados de los muebles: ¿Cuántos lados tiene la mesa?',
@@ -485,7 +484,8 @@ const APP_DATA = {
         '🟩 El área es el espacio que ocupa una figura por dentro.',
         '💡 Busca cuadrados y triángulos en las ventanas de tu casa.',
         '💡 Un círculo no tiene lados ni esquinas. ¡Es completamente redondo!',
-      ],
+      ]
+    },
     {
       id: "estadistica",
       title: "Estadística y Proporción",
@@ -608,8 +608,7 @@ const APP_DATA = {
           hint: "La palabra 'cuántos más' indica una resta: 10 - 4.",
           explanation: "¡Muy bien! 10 - 4 = 6 niños más votaron por el perro."
         }
-      ]
-    },
+      ],
       dailyRecommendations: [
         '💡 Consejo diario: Haz una encuesta familiar: "¿Cuál es tu fruta favorita?"',
         '💡 Crea una gráfica de barras con tus calificaciones de la semana.',
@@ -622,7 +621,8 @@ const APP_DATA = {
         '📋 Una encuesta recopila información preguntando a las personas.',
         '💡 Pregunta a tu familia su fruta favorita y haz una gráfica.',
         '💡 50% significa la mitad, y 25% un cuarto del total.',
-      ],
+      ]
+    },
     {
       id: "calculo-mental",
       title: "Cálculo Mental y Fracciones",
