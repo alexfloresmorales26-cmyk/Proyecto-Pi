@@ -421,6 +421,35 @@ class MathApp {
     }
   }
 
+  // Animar la barra de XP de forma progresiva (de fromPercent a toPercent)
+  animateXPBar(fromPercent, toPercent, duration = 1000) {
+    const xpFillEl = document.getElementById("header-xp-fill");
+    if (!xpFillEl) return;
+
+    fromPercent = Math.max(0, Math.min(100, fromPercent));
+    toPercent = Math.max(0, Math.min(100, toPercent));
+
+    const startTime = performance.now();
+    const startValue = fromPercent;
+    const endValue = toPercent;
+    const diff = endValue - startValue;
+
+    if (diff === 0) {
+      xpFillEl.style.width = `${endValue}%`;
+      return;
+    }
+
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      const currentValue = startValue + diff * easeProgress;
+      xpFillEl.style.width = `${Math.round(currentValue)}%`;
+      if (progress < 1) requestAnimationFrame(animate);
+    };
+    requestAnimationFrame(animate);
+  }
+
   // Actualiza la barra superior con avatar, nivel y XP
   updateUserHeader() {
     const avatarEl = document.getElementById("header-avatar");
@@ -1154,6 +1183,7 @@ class MathApp {
           }
         });
 
+        feedbackBox.className = "quiz-feedback-box incorrect show";
         const mensajesAliento = [
           "¡Ánimo! Sigue intentando, lo vas a lograr.",
           "¡Tú puedes! Prueba con otra respuesta.",
@@ -1161,7 +1191,6 @@ class MathApp {
           "¡Vamos! Intenta de nuevo, seguro aciertas la próxima."
         ];
         const aliento = mensajesAliento[Math.floor(Math.random() * mensajesAliento.length)];
-        feedbackBox.className = "quiz-feedback-box incorrect show";
         feedbackBox.innerHTML = `<strong>¡Casi lo logras! 💡</strong> Pista: ${q.hint}<br><em> ${aliento}</em><button class="btn-retry-question" id="btn-retry-question">🔁 Reintentar pregunta</button>`;
 
         const retryBtn = feedbackBox.querySelector("#btn-retry-question");
@@ -1179,6 +1208,7 @@ class MathApp {
       buttons.forEach(b => { b.disabled = true; });
       buttons[selectedIdx]?.classList.add("incorrect");
 
+      feedbackBox.className = "quiz-feedback-box incorrect show";
       const mensajesAlientoRonda1 = [
         "¡Ánimo! No importa, seguimos con la siguiente.",
         "¡Tú puedes! La repasaremos al final.",
@@ -1186,7 +1216,6 @@ class MathApp {
         "¡Ánimo! La volveremos a ver en el repaso final."
       ];
       const alientoR1 = mensajesAlientoRonda1[Math.floor(Math.random() * mensajesAlientoRonda1.length)];
-      feedbackBox.className = "quiz-feedback-box incorrect show";
       feedbackBox.innerHTML = `<strong>¡Casi lo logras! 💡</strong> Pista: ${q.hint}<br><em>📝 Quedó anotada: la volverás a ver en el repaso final. ${alientoR1}</em>`;
 
       nextBtn.style.display = "none";
@@ -1295,7 +1324,9 @@ class MathApp {
       if (!this.practiceMode) {
         // Otorgar recompensas: XP, nivel e insignias desbloqueadas
         const previousLevel = this.user.level;
+        const oldXpPercent = Math.min(100, (this.user.xp % 100));
         this.user.xp += 100;
+        const newXpPercent = Math.min(100, (this.user.xp % 100));
         this.user.level = Math.floor(this.user.xp / 100) + 1;
         this.checkLevelUp(previousLevel);
         if (!this.user.completedTopics.includes(this.currentTopic.id)) {
@@ -1315,8 +1346,8 @@ class MathApp {
           }
         }
 
-        // Refrescar la barra de nivel del header ahora mismo
-        this.updateUserHeader();
+        // Animar la barra de XP de forma progresiva
+        this.animateXPBar(oldXpPercent, newXpPercent, 1200);
 
         // Publicar puntaje en el ranking global (nube), si esta configurado
         this.submitScoreToRanking(scorePercent);
